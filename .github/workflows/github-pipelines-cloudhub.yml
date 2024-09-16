@@ -18,7 +18,7 @@ jobs:
       - name: Set up Git identity
         run: |
           git config --global user.email "${{ secrets.GIT_EMAIL }}"
-          git config --global user.name "Ferielkraiem2000"  # Set your actual name here
+          git config --global user.name "Ferielkraiem2000"  # Use your GitHub username
 
       - name: Set up Git remote
         run: |
