@@ -1,61 +1,54 @@
-- name: Create and Execute the Script which updates the POM
-  env:
-    GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
-    GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
-    ANYPOINT_USERNAME: ${{ secrets.ANYPOINT_USERNAME }}
-    ANYPOINT_PASSWORD: ${{ secrets.ANYPOINT_PASSWORD }}
-    BUSINESS_GROUP: ${{ secrets.BUSINESS_GROUP }}
-    GIT_BRANCH: ${{ github.ref_name }}
-    GIT_REPO: ${{ secrets.GIT_REPO }}
-  run: |
-    git config --global user.email "${GIT_EMAIL}"
-    git remote add dev https://x-access-token:${GIT_TOKEN}@github.com/Ferielkraiem2000/${GIT_REPO}.git
+name: CI/CD Pipeline GitHub/CloudHub
 
-    cat << 'EOF' > update-pom.sh
-#!/bin/bash
+on: push
 
-ANYPOINT_USERNAME="${ANYPOINT_USERNAME}"
-ANYPOINT_PASSWORD="${ANYPOINT_PASSWORD}"
-BUSINESS_GROUP="${BUSINESS_GROUP}"
-PLUGIN_EXISTS=$(grep -c "<groupId>org.mule.tools.maven</groupId>" pom.xml)
+jobs:
+  update-pom:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-if [ "$PLUGIN_EXISTS" -eq 0 ]; then
-  CONFIGURATION=$(cat <<EOC
-<plugin>
-    <groupId>org.mule.tools.maven</groupId>
-    <artifactId>mule-maven-plugin</artifactId>
-    <version>${mule.maven.plugin.version}</version>
-    <extensions>true</extensions>
-    <configuration>
-      <cloudHubDeployment>
-        <uri>https://anypoint.mulesoft.com/</uri>
-        <muleVersion>4.7.0</muleVersion>
-        <username>${ANYPOINT_USERNAME}</username>
-        <password>${ANYPOINT_PASSWORD}</password>
-        <applicationName>${GIT_BRANCH}</applicationName>
-        <businessGroup>${BUSINESS_GROUP}</businessGroup>
-        <environment>${GIT_BRANCH}</environment>
-        <workers>1</workers>
-        <objectStoreV2>true</objectStoreV2>
-      </cloudHubDeployment>
-    </configuration>
-</plugin>
-EOC
-)
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'adopt'
 
-  echo "$CONFIGURATION" > temp-config.xml
-  sed -i "/<\/plugins>/r temp-config.xml" pom.xml
-  rm temp-config.xml
+      - name: Create and Execute the Script which updates the POM
+        env:
+          GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
+          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
+          ANYPOINT_USERNAME: ${{ secrets.ANYPOINT_USERNAME }}
+          ANYPOINT_PASSWORD: ${{ secrets.ANYPOINT_PASSWORD }}
+          BUSINESS_GROUP: ${{ secrets.BUSINESS_GROUP }}
+          GIT_BRANCH: ${{ github.ref_name }}
+          GIT_REPO: ${{ secrets.GIT_REPO }}
+        run: |
+          git config --global user.email "${GIT_EMAIL}"
+          git remote add dev https://x-access-token:${GIT_TOKEN}@github.com/Ferielkraiem2000/${GIT_REPO}.git
 
-  git add pom.xml
-  git commit -m "Update pom.xml with cloudHubDeployment configuration"
-  git push dev ${GIT_BRANCH}
-fi
-EOF
+          touch update-pom.sh
 
-    chmod +x update-pom.sh
-    ./update-pom.sh
+          echo '#!/bin/bash' > update-pom.sh
+          echo 'ANYPOINT_USERNAME="${ANYPOINT_USERNAME}"' >> update-pom.sh
+          echo 'ANYPOINT_PASSWORD="${ANYPOINT_PASSWORD}"' >> update-pom.sh
+          echo 'BUSINESS_GROUP="${BUSINESS_GROUP}"' >> update-pom.sh
+          echo 'PLUGIN_EXISTS=$(grep -c "<groupId>org.mule.tools.maven</groupId>" pom.xml)' >> update-pom.sh
+          echo 'if [ "$PLUGIN_EXISTS" -eq 0 ]; then' >> update-pom.sh
+          echo '  CONFIGURATION="<plugin>\n    <groupId>org.mule.tools.maven</groupId>\n    <artifactId>mule-maven-plugin</artifactId>\n    <version>${mule.maven.plugin.version}</version>\n    <extensions>true</extensions>\n    <configuration>\n      <cloudHubDeployment>\n        <uri>https://anypoint.mulesoft.com/</uri>\n        <muleVersion>4.7.0</muleVersion>\n        <username>${ANYPOINT_USERNAME}</username>\n        <password>${ANYPOINT_PASSWORD}</password>\n        <applicationName>${GIT_BRANCH}</applicationName>\n        <businessGroup>${BUSINESS_GROUP}</businessGroup>\n        <environment>${GIT_BRANCH}</environment>\n        <workers>1</workers>\n        <objectStoreV2>true</objectStoreV2>\n      </cloudHubDeployment>\n    </configuration>\n  </plugin>"' >> update-pom.sh
+          echo '  echo "$CONFIGURATION" > temp-config.xml' >> update-pom.sh
+          echo '  sed -i "/<\/plugins>/r temp-config.xml" pom.xml' >> update-pom.sh
+          echo '  rm temp-config.xml' >> update-pom.sh
+          echo '  git add pom.xml' >> update-pom.sh
+          echo '  git commit -m "Update pom.xml with cloudHubDeployment configuration"' >> update-pom.sh
+          echo '  git push dev ${GIT_BRANCH}' >> update-pom.sh
+          echo 'fi' >> update-pom.sh
 
+          chmod +x update-pom.sh
+          ls -la
+          cat update-pom.sh
+          ./update-pom.sh
 
   build:
     runs-on: ubuntu-latest
