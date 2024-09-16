@@ -26,8 +26,8 @@ jobs:
           GIT_REPO: ${{ secrets.GIT_REPO }}
         run: |
           git config --global user.email "${GIT_EMAIL}"
-          git remote add dev https://github.com/Ferielkraiem2000/${GIT_REPO}.git
-          git remote set-url dev https://Ferielkraiem2000:${GIT_TOKEN}@github.com/${GIT_REPO}.git
+          git remote add dev https://github.com/Ferielkraiem2000/pipeline_mulesoft_cloudhub.git
+          git remote set-url dev https://Ferielkraiem2000:${GIT_TOKEN}@github.com/pipeline_mulesoft_cloudhub.git
 
 
           touch update-pom.sh
