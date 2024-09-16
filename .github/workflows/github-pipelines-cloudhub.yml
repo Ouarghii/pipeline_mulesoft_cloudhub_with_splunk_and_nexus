@@ -15,6 +15,10 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
 
+      - name: Extract branch name
+        id: extract_branch
+        run: echo "BRANCH_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
+	
       - name: Create and Execute the Script which updates the POM
         env:
           GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
@@ -22,8 +26,9 @@ jobs:
           ANYPOINT_USERNAME: ${{ secrets.ANYPOINT_USERNAME }}
           ANYPOINT_PASSWORD: ${{ secrets.ANYPOINT_PASSWORD }}
           BUSINESS_GROUP: ${{ secrets.BUSINESS_GROUP }}
-          GIT_BRANCH: ${{ github.ref_name }}
+          GIT_BRANCH: ${{ env.BRANCH_NAME }} 
 	  GIT_REPO: ${{ secrets.GIT_REPO }}
+
         run: |
           git config --global user.email "${GIT_EMAIL}"
           git remote add dev https://x-access-token:${GIT_TOKEN}@github.com/Ferielkraiem2000/${GIT_REPO}.git
