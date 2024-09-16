@@ -14,10 +14,6 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
-
-      - name: Extract branch name
-        id: extract_branch
-        run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
 	
       - name: Create and Execute the Script which updates the POM
         env:
@@ -26,7 +22,7 @@ jobs:
           ANYPOINT_USERNAME: ${{ secrets.ANYPOINT_USERNAME }}
           ANYPOINT_PASSWORD: ${{ secrets.ANYPOINT_PASSWORD }}
           BUSINESS_GROUP: ${{ secrets.BUSINESS_GROUP }}
-          GIT_BRANCH: ${{ env.BRANCH_NAME }} 
+          GIT_BRANCH: $GITHUB_REF
 	  GIT_REPO: ${{ secrets.GIT_REPO }}
 
         run: |
@@ -47,7 +43,7 @@ jobs:
 
           echo '  git add pom.xml' >> update-pom.sh
           echo '  git commit -m "Update pom.xml with cloudHubDeployment configuration"' >> update-pom.sh
-          echo '  git push dev ${BITBUCKET_BRANCH}' >> update-pom.sh
+          echo '  git push dev ${GIT_BRANCH}' >> update-pom.sh
 
           echo 'fi' >> update-pom.sh
 
