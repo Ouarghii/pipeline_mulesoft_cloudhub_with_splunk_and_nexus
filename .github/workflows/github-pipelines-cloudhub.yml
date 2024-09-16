@@ -22,7 +22,7 @@ jobs:
           ANYPOINT_USERNAME: ${{ secrets.ANYPOINT_USERNAME }}
           ANYPOINT_PASSWORD: ${{ secrets.ANYPOINT_PASSWORD }}
           BUSINESS_GROUP: ${{ secrets.BUSINESS_GROUP }}
-          GIT_BRANCH: $GITHUB_REF
+          GIT_BRANCH: ${{ github.ref_name }}
           GIT_REPO: ${{ secrets.GIT_REPO }}
         run: |
           git config --global user.email "${GIT_EMAIL}"
@@ -36,13 +36,13 @@ jobs:
           echo 'BUSINESS_GROUP="${BUSINESS_GROUP}"' >> update-pom.sh
           echo 'PLUGIN_EXISTS=$(grep -c "<groupId>org.mule.tools.maven</groupId>" pom.xml)' >> update-pom.sh
           echo 'if [ "$PLUGIN_EXISTS" -eq 0 ]; then' >> update-pom.sh
-          echo '  CONFIGURATION="<plugin>\n<groupId>org.mule.tools.maven</groupId>\n<artifactId>mule-maven-plugin</artifactId>\n<version>${mule.maven.plugin.version}</version>\n<extensions>true</extensions>\n<configuration>\n<cloudHubDeployment>\n<uri>https://anypoint.mulesoft.com/</uri>\n<muleVersion>4.7.0</muleVersion>\n<username>${ANYPOINT_USERNAME}</username>\n<password>${ANYPOINT_PASSWORD}</password>\n<applicationName>${GIT_BRANCH}</applicationName>\n<businessGroup>${BUSINESS_GROUP}</businessGroup>\n<environment>${GIT_BRANCH}</environment>\n<workers>1</workers>\n<objectStoreV2>true</objectStoreV2>\n</cloudHubDeployment>\n</configuration>\n</plugin>"' >> update-pom.sh
-          echo '  sed -i "/<\/plugins>/i $CONFIGURATION" pom.xml' >> update-pom.sh
-
+          echo '  CONFIGURATION="<plugin>\n    <groupId>org.mule.tools.maven</groupId>\n    <artifactId>mule-maven-plugin</artifactId>\n    <version>${mule.maven.plugin.version}</version>\n    <extensions>true</extensions>\n    <configuration>\n      <cloudHubDeployment>\n        <uri>https://anypoint.mulesoft.com/</uri>\n        <muleVersion>4.7.0</muleVersion>\n        <username>${ANYPOINT_USERNAME}</username>\n        <password>${ANYPOINT_PASSWORD}</password>\n        <applicationName>${GIT_BRANCH}</applicationName>\n        <businessGroup>${BUSINESS_GROUP}</businessGroup>\n        <environment>${GIT_BRANCH}</environment>\n        <workers>1</workers>\n        <objectStoreV2>true</objectStoreV2>\n      </cloudHubDeployment>\n    </configuration>\n  </plugin>"' >> update-pom.sh
+          echo '  echo "$CONFIGURATION" > temp-config.xml' >> update-pom.sh
+          echo '  sed -i "/<\/plugins>/r temp-config.xml" pom.xml' >> update-pom.sh
+          echo '  rm temp-config.xml' >> update-pom.sh
           echo '  git add pom.xml' >> update-pom.sh
           echo '  git commit -m "Update pom.xml with cloudHubDeployment configuration"' >> update-pom.sh
           echo '  git push dev ${GIT_BRANCH}' >> update-pom.sh
-
           echo 'fi' >> update-pom.sh
 
           chmod +x update-pom.sh
