@@ -22,8 +22,8 @@ jobs:
 
       - name: Set up Git remote
         run: |
-          git remote add dev https://github.com/Ferielkraiem2000/pipeline_mulesoft_cloudhub.git || true
-          git remote set-url dev https://Ferielkraiem2000:${{ secrets.GIT_TOKEN }}@github.com/Ferielkraiem2000/pipeline_mulesoft_cloudhub.git
+          git remote add dev https://github.com/Ferielkraiem2000/pipeline_mulesoft_cloudhub.git
+          git remote set-url dev https://${{ secrets.GIT_TOKEN }}@github.com/Ferielkraiem2000/pipeline_mulesoft_cloudhub.git
 
       - name: Create and Execute the Script which updates the POM
         env:
