@@ -17,7 +17,7 @@ jobs:
 
       - name: Extract branch name
         id: extract_branch
-        run: echo "BRANCH_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
+        run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
 	
       - name: Create and Execute the Script which updates the POM
         env:
