@@ -15,7 +15,6 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
 
-	  
       - name: Create and Execute the Script which updates the POM
         env:
           GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
@@ -24,14 +23,12 @@ jobs:
           ANYPOINT_PASSWORD: ${{ secrets.ANYPOINT_PASSWORD }}
           BUSINESS_GROUP: ${{ secrets.BUSINESS_GROUP }}
           GIT_BRANCH: $GITHUB_REF
-	  GIT_REPO: ${{ secrets.GIT_REPO }}
-
+          GIT_REPO: ${{ secrets.GIT_REPO }}
         run: |
           git config --global user.email "${GIT_EMAIL}"
           git remote add dev https://x-access-token:${GIT_TOKEN}@github.com/Ferielkraiem2000/${GIT_REPO}.git
 
           touch update-pom.sh
-
 
           echo '#!/bin/bash' > update-pom.sh
           echo 'ANYPOINT_USERNAME="${ANYPOINT_USERNAME}"' >> update-pom.sh
