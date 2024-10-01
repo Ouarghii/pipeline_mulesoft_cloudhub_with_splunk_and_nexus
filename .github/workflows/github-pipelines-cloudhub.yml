@@ -1,5 +1,8 @@
 name: CI/CD Pipeline GitHub/CloudHub
 
+permissions:
+  contents: write  # Allows the workflow to push changes
+
 on: push
 jobs:
   update-pom:
