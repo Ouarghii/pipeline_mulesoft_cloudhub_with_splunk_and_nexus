@@ -1,7 +1,6 @@
 name: CI/CD Pipeline GitHub/CloudHub
 
 on: push
-
 jobs:
   update-pom:
     runs-on: ubuntu-latest
