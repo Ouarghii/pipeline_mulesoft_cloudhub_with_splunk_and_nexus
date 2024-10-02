@@ -128,16 +128,20 @@ jobs:
           
           touch update-projectPOM.sh
           echo '#!/bin/bash' > update-projectPOM.sh
-          echo 'echo "Updating project POM file..."' >> update-projectPOM.sh
-          echo 'cat << EOF > project_pom.xml' >> update-projectPOM.sh
-          echo '<?xml version="1.0" encoding="UTF-8"?>' >> update-projectPOM.sh
-          echo '<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/xsd/maven-4.0.0.xsd">' >> update-projectPOM.sh
-          echo 'EOF' >> update-projectPOM.sh
-
-          git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}
-          git add project_pom.xml update-projectPOM.sh
-          git commit -m "Update project POM file"
-          git push dev ${{ github.ref_name }}
-          
+          echo 'PARENT_GROUP_ID=$(grep -oPm1 "(?<=<groupId>)[^<]+" parent_pom.xml)' >> update-projectPOM.sh
+          echo 'PARENT_ARTIFACT_ID=$(grep -oPm1 "(?<=<artifactId>)[^<]+" parent_pom.xml)' >> update-projectPOM.sh
+          echo 'PARENT_VERSION=$(grep -oPm1 "(?<=<version>)[^<]+" parent_pom.xml)' >> update-projectPOM.sh
+          echo 'echo "The groupId is: $PARENT_GROUP_ID"' >> update-projectPOM.sh
+          echo 'echo "The artifactId is: $PARENT_ARTIFACT_ID"' >> update-projectPOM.sh
+          echo 'echo "The version is: $PARENT_VERSION"' >> update-projectPOM.sh
+          echo 'PARENT_EXISTS=$(grep -c "<parent>" pom.xml)' >> update-projectPOM.sh
+          echo 'if [ "$PARENT_EXISTS" -eq 0 ]; then' >> update-projectPOM.sh
+          echo '  PARENT_INCLUSION="<parent>\n<groupId>${PARENT_GROUP_ID}</groupId>\n<artifactId>${PARENT_ARTIFACT_ID}</artifactId>\n<version>${PARENT_VERSION}</version>\n<relativePath>./parent_pom.xml</relativePath>\n</parent>"' >> update-projectPOM.sh
+          echo '  sed -i "/<\/project>/i $PARENT_INCLUSION" pom.xml' >> update-projectPOM.sh
+          echo '  git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}' >> update-projectPOM.sh
+          echo '  git add pom.xml' >> update-projectPOM.sh
+          echo '  git commit -m "Update project POM to include Parent POM"' >> update-projectPOM.sh
+          echo '  git push dev ${{ github.ref_name }}' >> update-projectPOM.sh
+          echo 'fi' >> update-projectPOM.sh
           chmod +x update-projectPOM.sh
           ./update-projectPOM.sh
