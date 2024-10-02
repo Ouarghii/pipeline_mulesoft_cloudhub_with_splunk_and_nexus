@@ -145,3 +145,18 @@ jobs:
           echo 'fi' >> update-projectPOM.sh
           chmod +x update-projectPOM.sh
           ./update-projectPOM.sh
+          
+      - name: Build
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+        run: mvn clean package
+        
+      - name: Deploy to CloudHub
+        run: mvn deploy -DmuleDeploy -DskipTests
+
+            
+           
