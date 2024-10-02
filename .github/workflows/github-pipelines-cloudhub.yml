@@ -71,3 +71,53 @@ jobs:
           git add settings.xml
           git commit -m "Add Maven settings file" || echo "Nothing to commit"
           git push dev ${{ github.ref_name }}
+          
+      - name: Create and Update Parent POM File
+        run: |
+          GIT_EMAIL_USER=$(sed -n '/<id>github-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p' settings.xml)
+          GIT_TOKEN_USER=$(sed -n '/<id>github-repo<\/id>/,/<\/server>/ s/.*<password>\(.*\)<\/password>.*/\1/p' settings.xml)
+          git config --global user.email "${GIT_EMAIL_USER}"
+          git config --global user.name "Ferielkraiem2000" 
+          git remote add dev https://${{ secrets.GIT_TOKEN }}@github.com/Ferielkraiem2000/pipeline_mulesoft_cloudhub.git
+          git remote set-url dev https://${{ secrets.GIT_TOKEN }}@github.com/Ferielkraiem2000/pipeline_mulesoft_cloudhub.git
+    
+          touch update-parentPOM.sh
+          echo '#!/bin/bash' > update-parentPOM.sh
+          echo 'ANYPOINT_ID=$(sed -n "/<id>anypoint-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p" settings.xml)' >> update-parentPOM.sh
+          echo 'ANYPOINT_SECRET=$(sed -n "/<id>anypoint-repo<\/id>/,/<\/server>/ s/.*<password>\(.*\)<\/password>.*/\1/p" settings.xml)' >> update-parentPOM.sh
+          echo 'cat << EOF > parent_pom.xml' >> update-parentPOM.sh
+          echo '<?xml version="1.0" encoding="UTF-8"?>' >> update-parentPOM.sh
+          echo '<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">' >> update-parentPOM.sh
+          echo '  <modelVersion>4.0.0</modelVersion>' >> update-parentPOM.sh
+          echo '  <groupId>com.mycompany</groupId>' >> update-parentPOM.sh
+          echo '  <artifactId>parent-pom</artifactId>' >> update-parentPOM.sh
+          echo '  <version>1.0.0-SNAPSHOT</version>' >> update-parentPOM.sh
+          echo '  <packaging>pom</packaging>' >> update-parentPOM.sh
+          echo '  <name>parent-pom</name>' >> update-parentPOM.sh
+          echo '  <properties>' >> update-parentPOM.sh
+          echo '    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>' >> update-parentPOM.sh
+          echo '    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>' >> update-parentPOM.sh
+          echo '    <app.runtime>4.7.0</app.runtime>' >> update-parentPOM.sh
+          echo '    <mule.maven.plugin.version>4.2.0</mule.maven.plugin.version>' >> update-parentPOM.sh
+          echo '  </properties>' >> update-parentPOM.sh
+          echo '  <build>' >> update-parentPOM.sh
+          echo '    <plugins>' >> update-parentPOM.sh
+          echo '    </plugins>' >> update-parentPOM.sh
+          echo '  </build>' >> update-parentPOM.sh
+          echo '</project>' >> update-parentPOM.sh
+          echo 'EOF' >> update-parentPOM.sh
+          echo 'PLUGIN_EXISTS=$(grep -c "<groupId>org.mule.tools.maven</groupId>" parent_pom.xml)' >> update-parentPOM.sh
+          echo 'if [ "$PLUGIN_EXISTS" -eq 0 ]; then' >> update-parentPOM.sh
+          echo '  if [ "${{ github.ref_name }}" == "main" ] || [ "${{ github.ref_name }}" == "master" ]; then' >> update-parentPOM.sh
+          echo '    CONFIGURATION="<plugin>\n<groupId>org.mule.tools.maven</groupId>\n<artifactId>mule-maven-plugin</artifactId>\n<version>\${mule.maven.plugin.version}</version>\n<extensions>true</extensions>\n<configuration>\n<cloudHubDeployment>\n<uri>https://anypoint.mulesoft.com/</uri>\n<muleVersion>4.7.0</muleVersion>\n<connectedAppClientId>${{ANYPOINT_ID}}</connectedAppClientId>\n<connectedAppClientSecret>${{ANYPOINT_SECRET}}</connectedAppClientSecret>\n<connectedAppGrantType>client_credentials</connectedAppGrantType>\n<applicationName>${{secrets.APPLICATION_NAME}}</applicationName>\n<businessGroup>${{secrets.BUSINESS_GROUP}}</businessGroup>\n<environment>${{secrets.PRODUCTION_ENVIRONMENT}}</environment>\n<workers>1</workers>\n<objectStoreV2>true</objectStoreV2>\n</cloudHubDeployment>\n</configuration>\n</plugin>"' >> update-parentPOM.sh
+          echo '  else' >> update-parentPOM.sh
+          echo '    CONFIGURATION="<plugin>\n<groupId>org.mule.tools.maven</groupId>\n<artifactId>mule-maven-plugin</artifactId>\n<version>\${mule.maven.plugin.version}</version>\n<extensions>true</extensions>\n<configuration>\n<cloudHubDeployment>\n<uri>https://anypoint.mulesoft.com/</uri>\n<muleVersion>4.7.0</muleVersion>\n<connectedAppClientId>${{ANYPOINT_ID}}</connectedAppClientId>\n<connectedAppClientSecret>${{ANYPOINT_SECRET}}</connectedAppClientSecret>\n<connectedAppGrantType>client_credentials</connectedAppGrantType>\n<applicationName>${{ github.ref_name }}</applicationName>\n<businessGroup>${{secrets.BUSINESS_GROUP}}</businessGroup>\n<environment>${{ github.ref_name }}</environment>\n<workers>1</workers>\n<objectStoreV2>true</objectStoreV2>\n</cloudHubDeployment>\n</configuration>\n</plugin>"' >> update-parentPOM.sh
+          echo '  fi' >> update-parentPOM.sh
+          echo '  sed -i "/<\/plugins>/i $CONFIGURATION" parent_pom.xml' >> update-parentPOM.sh
+          echo '  git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}' >> update-parentPOM.sh 
+          echo '  git add parent_pom.xml update-parentPOM.sh' >> update-parentPOM.sh
+          echo '  git commit -m "Create and update Parent POM file"' >> update-parentPOM.sh
+          echo '  git push dev ${{ github.ref_name }}' >> update-parentPOM.sh
+          echo 'fi' >> update-parentPOM.sh
+          chmod +x update-parentPOM.sh
+          ./update-parentPOM.sh
