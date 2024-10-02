@@ -5,7 +5,7 @@ permissions:
 
 on: push
 jobs:
-  update-pom:
+  pipe-github-cloudhub:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -78,9 +78,6 @@ jobs:
           GIT_TOKEN_USER=$(sed -n '/<id>github-repo<\/id>/,/<\/server>/ s/.*<password>\(.*\)<\/password>.*/\1/p' settings.xml)
           git config --global user.email "${GIT_EMAIL_USER}"
           git config --global user.name "Ferielkraiem2000" 
-          git remote add dev https://${{ secrets.GIT_TOKEN }}@github.com/Ferielkraiem2000/pipeline_mulesoft_cloudhub.git
-          git remote set-url dev https://${{ secrets.GIT_TOKEN }}@github.com/Ferielkraiem2000/pipeline_mulesoft_cloudhub.git
-    
           touch update-parentPOM.sh
           echo '#!/bin/bash' > update-parentPOM.sh
           echo 'ANYPOINT_ID=$(sed -n "/<id>anypoint-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p" settings.xml)' >> update-parentPOM.sh
