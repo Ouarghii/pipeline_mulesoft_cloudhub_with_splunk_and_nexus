@@ -76,6 +76,7 @@ jobs:
 
   create-update-parent-pom:
     runs-on: ubuntu-latest
+    needs: create-settings  
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -136,6 +137,7 @@ jobs:
 
   update-project-pom:
      runs-on: ubuntu-latest
+     needs: create-settings  
      steps:
       - name: Set up Git identity
         run: |
