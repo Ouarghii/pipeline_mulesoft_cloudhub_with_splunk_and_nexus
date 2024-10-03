@@ -130,8 +130,7 @@ jobs:
         run: |
           git remote add dev https://${{ secrets.GIT_TOKEN }}@github.com/Ferielkraiem2000/pipeline_mulesoft_cloudhub.git
           git remote set-url dev https://${{ secrets.GIT_TOKEN }}@github.com/Ferielkraiem2000/pipeline_mulesoft_cloudhub.git
-          git fetch dev
-          git checkout -b dev || git checkout dev
+
       - name: Update Project POM File
         run: |
           PARENT_GROUP_ID=$(grep -oPm1 "(?<=<groupId>)[^<]+" parent_pom.xml)
