@@ -83,6 +83,8 @@ jobs:
 
       - name: Create and Update Parent POM File
         run: |
+          git remote add origin https://${{ secrets.GIT_TOKEN }}@github.com/Ferielkraiem2000/pipeline_mulesoft_cloudhub.git
+          git remote set-url origin https://${{ secrets.GIT_TOKEN }}@github.com/Ferielkraiem2000/pipeline_mulesoft_cloudhub.git
           ANYPOINT_ID=$(sed -n "/<id>anypoint-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p" settings.xml)
           ANYPOINT_SECRET=$(sed -n "/<id>anypoint-repo<\/id>/,/<\/server>/ s/.*<password>\(.*\)<\/password>.*/\1/p" settings.xml)
 
@@ -129,13 +131,17 @@ jobs:
         run: |
           git config --global user.email "${{ secrets.GIT_EMAIL }}"
           git config --global user.name "Ferielkraiem2000"
+          
 
       - name: Update Project POM File
         run: |
+          
           GIT_EMAIL_USER=$(sed -n '/<id>github-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p' settings.xml)
           GIT_TOKEN_USER=$(sed -n '/<id>github-repo<\/id>/,/<\/server>/ s/.*<password>\(.*\)<\/password>.*/\1/p' settings.xml)
           git config --global user.email "${GIT_EMAIL_USER}"
           git config --global user.name "Ferielkraiem2000"
+          git remote add origin https://${{ secrets.GIT_TOKEN }}@github.com/Ferielkraiem2000/pipeline_mulesoft_cloudhub.git
+          git remote set-url origin https://${{ secrets.GIT_TOKEN }}@github.com/Ferielkraiem2000/pipeline_mulesoft_cloudhub.git
 
           touch update-projectPOM.sh
           echo '#!/bin/bash' > update-projectPOM.sh
