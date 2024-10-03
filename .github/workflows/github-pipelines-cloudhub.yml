@@ -4,7 +4,6 @@ permissions:
   contents: write
 
 on: push
-
 jobs:
   create-settings-file:
     runs-on: ubuntu-latest
