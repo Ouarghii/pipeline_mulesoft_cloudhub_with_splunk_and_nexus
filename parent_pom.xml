@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.mycompany</groupId>
   <artifactId>parent-pom</artifactId>
@@ -16,6 +14,26 @@
   </properties>
   <build>
     <plugins>
+<plugin>
+<groupId>org.mule.tools.maven</groupId>
+<artifactId>mule-maven-plugin</artifactId>
+<version>${mule.maven.plugin.version}</version>
+<extensions>true</extensions>
+<configuration>
+<cloudHubDeployment>
+<uri>https://anypoint.mulesoft.com/</uri>
+<muleVersion>4.7.0</muleVersion>
+<connectedAppClientId>2d8f3cf145a84712a2c0931fcc441b9c</connectedAppClientId>
+<connectedAppClientSecret>F3713EA103474217bA817Afc71AE42F7</connectedAppClientSecret>
+<connectedAppGrantType>client_credentials</connectedAppGrantType>
+<applicationName>developer</applicationName>
+<businessGroup>ITMMA</businessGroup>
+<environment>developer</environment>
+<workers>1</workers>
+<objectStoreV2>true</objectStoreV2>
+</cloudHubDeployment>
+</configuration>
+</plugin>
     </plugins>
   </build>
 </project>
