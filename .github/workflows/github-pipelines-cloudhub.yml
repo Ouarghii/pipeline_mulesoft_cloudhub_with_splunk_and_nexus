@@ -83,8 +83,8 @@ jobs:
 
       - name: Create and Update Parent POM File
         run: |
-          git remote add origin https://${{ secrets.GIT_TOKEN }}@github.com/Ferielkraiem2000/pipeline_mulesoft_cloudhub.git
-          git remote set-url origin https://${{ secrets.GIT_TOKEN }}@github.com/Ferielkraiem2000/pipeline_mulesoft_cloudhub.git
+          git remote add dev https://${{ secrets.GIT_TOKEN }}@github.com/Ferielkraiem2000/pipeline_mulesoft_cloudhub.git
+          git remote set-url dev https://${{ secrets.GIT_TOKEN }}@github.com/Ferielkraiem2000/pipeline_mulesoft_cloudhub.git
           ANYPOINT_ID=$(sed -n "/<id>anypoint-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p" settings.xml)
           ANYPOINT_SECRET=$(sed -n "/<id>anypoint-repo<\/id>/,/<\/server>/ s/.*<password>\(.*\)<\/password>.*/\1/p" settings.xml)
 
@@ -120,7 +120,7 @@ jobs:
             sed -i "/<\/plugins>/i $CONFIGURATION" parent_pom.xml
             git add parent_pom.xml
             git commit -m "Create and update Parent POM file"
-            git push origin HEAD:${{ github.ref_name }}
+            git push dev HEAD:${{ github.ref_name }}
           fi
 
   update-project-pom:
