@@ -71,6 +71,7 @@ jobs:
           git add settings.xml
           git commit -m "Add Maven settings file" || echo "Nothing to commit"
           git push dev ${{ github.ref_name }}
+
           
       - name: Create and Update Parent POM File
         run: |
