@@ -11,24 +11,4 @@
       <password>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</password>
     </server>
   </servers>
-  <profiles>
-    <profile>
-      <id>anypoint-profile</id>
-      <properties>
-        <anypoint.clientId>2d8f3cf145a84712a2c0931fcc441b9c</anypoint.clientId>
-        <anypoint.clientSecret>F3713EA103474217bA817Afc71AE42F7</anypoint.clientSecret>
-      </properties>
-    </profile>
-    <profile>
-      <id>github-profile</id>
-      <properties>
-        <github.email>feriel.benkraiem@ensi-uma.tn</github.email>
-        <github.token>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</github.token>
-      </properties>
-    </profile>
-  </profiles>
-  <activeProfiles>
-    <activeProfile>anypoint-profile</activeProfile>
-    <activeProfile>github-profile</activeProfile>
-  </activeProfiles>
 </settings>
