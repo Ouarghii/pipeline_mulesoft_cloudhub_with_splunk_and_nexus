@@ -26,9 +26,9 @@
 <connectedAppClientId>2d8f3cf145a84712a2c0931fcc441b9c</connectedAppClientId>
 <connectedAppClientSecret>F3713EA103474217bA817Afc71AE42F7</connectedAppClientSecret>
 <connectedAppGrantType>client_credentials</connectedAppGrantType>
-<applicationName>developer</applicationName>
+<applicationName>DevOps</applicationName>
 <businessGroup>ITMMA</businessGroup>
-<environment>developer</environment>
+<environment>product</environment>
 <workers>1</workers>
 <objectStoreV2>true</objectStoreV2>
 </cloudHubDeployment>
