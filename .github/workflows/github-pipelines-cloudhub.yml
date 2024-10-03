@@ -84,8 +84,8 @@ jobs:
 
       - name: Set up Git remote
         run: |
-          git remote add dev https://${{ secrets.GIT_TOKEN }}@github.com/Ferielkraiem2000/pipeline_mulesoft_cloudhub.git
-          git remote set-url dev https://${{ secrets.GIT_TOKEN }}@github.com/Ferielkraiem2000/pipeline_mulesoft_cloudhub.git
+          git remote add devr https://${{ secrets.GIT_TOKEN }}@github.com/Ferielkraiem2000/pipeline_mulesoft_cloudhub.git
+          git remote set-url devr https://${{ secrets.GIT_TOKEN }}@github.com/Ferielkraiem2000/pipeline_mulesoft_cloudhub.git
       
       - name: Create and Update Parent POM File
         run: |
@@ -129,7 +129,7 @@ jobs:
           echo '  git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}' >> update-parentPOM.sh 
           echo '  git add parent_pom.xml update-parentPOM.sh' >> update-parentPOM.sh
           echo '  git commit -m "Create and update Parent POM file"' >> update-parentPOM.sh
-          echo '  git push dev ${{ github.ref_name }}' >> update-parentPOM.sh
+          echo '  git push devr ${{ github.ref_name }}' >> update-parentPOM.sh
           echo 'fi' >> update-parentPOM.sh
           chmod +x update-parentPOM.sh
           ./update-parentPOM.sh
@@ -144,8 +144,8 @@ jobs:
 
       - name: Set up Git remote
         run: |
-          git remote add dev https://${{ secrets.GIT_TOKEN }}@github.com/Ferielkraiem2000/pipeline_mulesoft_cloudhub.git
-          git remote set-url dev https://${{ secrets.GIT_TOKEN }}@github.com/Ferielkraiem2000/pipeline_mulesoft_cloudhub.git
+          git remote add devi https://${{ secrets.GIT_TOKEN }}@github.com/Ferielkraiem2000/pipeline_mulesoft_cloudhub.git
+          git remote set-url devi https://${{ secrets.GIT_TOKEN }}@github.com/Ferielkraiem2000/pipeline_mulesoft_cloudhub.git
       
       - name: Update Project POM File
         run: |
@@ -169,7 +169,7 @@ jobs:
           echo '  git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}' >> update-projectPOM.sh
           echo '  git add pom.xml' >> update-projectPOM.sh
           echo '  git commit -m "Update project POM to include Parent POM"' >> update-projectPOM.sh
-          echo '  git push dev ${{ github.ref_name }}' >> update-projectPOM.sh
+          echo '  git push devi ${{ github.ref_name }}' >> update-projectPOM.sh
           echo 'fi' >> update-projectPOM.sh
           chmod +x update-projectPOM.sh
           ./update-projectPOM.sh
