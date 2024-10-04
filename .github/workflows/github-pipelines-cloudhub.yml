@@ -195,7 +195,9 @@ jobs:
     needs: build
     steps:
       - name: Deploy to CloudHub
-        run: mvn deploy -DmuleDeploy -DskipTests
+        run: |
+          cd ..
+          mvn deploy -DmuleDeploy -DskipTests
 
             
            
