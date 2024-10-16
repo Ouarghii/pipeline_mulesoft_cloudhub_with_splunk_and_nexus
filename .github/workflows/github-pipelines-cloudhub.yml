@@ -166,29 +166,29 @@ jobs:
           echo "Build completed in ${BUILD_DURATION} seconds"
           
           # Send build duration to Prometheus
-          # curl -X POST https://working-cobra-early.ngrok-free.app/metrics \
-          # -H "Content-Type: application/json" \
-          # -d '{
-          #       "metric": "build_duration_seconds",
-          #       "value": "'${BUILD_DURATION}'",
-          #       "labels": {"job": "ci_build", "branch": "${{ github.ref_name }}"}
-          #     }' -v
-          curl -X OPTIONS https://working-cobra-early.ngrok-free.app/metrics
+          curl -X POST https://working-cobra-early.ngrok-free.app/metrics \
+          -H "Content-Type: application/json" \
+          -d '{
+                "metric": "build_duration_seconds",
+                "value": "'${BUILD_DURATION}'",
+                "labels": {"job": "ci_build", "branch": "${{ github.ref_name }}"}
+              }' -v
+          
 
       - name: Deploy to CloudHub
         id: deploy
         run: |
-          START_TIME=$(date +%s)
+          # START_TIME=$(date +%s)
           mvn deploy -DmuleDeploy -DskipTests
-          END_TIME=$(date +%s)
-          DEPLOY_DURATION=$((END_TIME - START_TIME))
+          # END_TIME=$(date +%s)
+          # DEPLOY_DURATION=$((END_TIME - START_TIME))
           
-          echo "Deploy completed in ${DEPLOY_DURATION} seconds"
+          # echo "Deploy completed in ${DEPLOY_DURATION} seconds"
           
-          # Send deploy duration to Prometheus
-          curl -X POST https://working-cobra-early.ngrok-free.app/metrics \
-          -H "Content-Type: application/json" \
-          -d '{
-                "metric": "deploy_duration_seconds",
-                "value": "'${DEPLOY_DURATION}'"
-              }'
+          # # Send deploy duration to Prometheus
+          # curl -X POST https://working-cobra-early.ngrok-free.app/metrics \
+          # -H "Content-Type: application/json" \
+          # -d '{
+          #       "metric": "deploy_duration_seconds",
+          #       "value": "'${DEPLOY_DURATION}'"
+          #     }'
