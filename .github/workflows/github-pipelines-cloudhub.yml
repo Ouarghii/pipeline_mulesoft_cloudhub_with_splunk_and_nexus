@@ -192,3 +192,38 @@ jobs:
           #       "metric": "deploy_duration_seconds",
           #       "value": "'${DEPLOY_DURATION}'"
           #     }'
+
+
+      # New Step to Retrieve Logs
+      - name: Get MuleSoft CloudHub Logs
+        run: |
+          # Define variables for the log retrieval
+          CLIENT_ID=${{ secrets.ANYPOINT_CLIENT_ID }}
+          CLIENT_SECRET=${{ secrets.ANYPOINT_CLIENT_SECRET }}
+          APP_NAME="your-mulesoft-app-name"
+          ENVIRONMENT="production"
+
+          # Retrieve the logs
+          curl -X GET "https://anypoint.mulesoft.com/cloudhub/api/v2/applications/${APP_NAME}/logs?worker=0&logLevel=INFO" \
+            -u $CLIENT_ID:$CLIENT_SECRET \
+            -H "Content-Type: application/json" \
+            -o mule-logs.json
+
+          # Extract relevant log data
+          cat mule-logs.json | jq '.data[].message' > formatted-logs.txt
+
+          # Send logs to Prometheus/Grafana
+          curl -X POST https://working-cobra-early.ngrok-free.app/api/v1/import \
+            -F 'log=@formatted-logs.txt'
+
+      # Optional: Send metrics to Prometheus
+      - name: Send Build Metrics to Prometheus
+        run: |
+          START_TIME=$(date +%s)
+          mvn clean package
+          END_TIME=$(date +%s)
+          BUILD_DURATION=$((END_TIME - START_TIME))
+          
+          # Send build duration to Prometheus
+          curl -X POST https://working-cobra-early.ngrok-free.app/metrics \
+            -d "build_duration_seconds{job='mule_deployment'} ${BUILD_DURATION}"
