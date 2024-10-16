@@ -24,8 +24,8 @@ jobs:
 
       - name: Set up Git remote
         run: |
-          git remote add dev https://${{ secrets.GIT_TOKEN }}@github.com/Ferielkraiem2000/pipeline_mulesoft_cloudhub.git
-          git remote set-url dev https://${{ secrets.GIT_TOKEN }}@github.com/Ferielkraiem2000/pipeline_mulesoft_cloudhub.git
+          git remote add dev https://${{ secrets.GIT_TOKEN }}@github.com/Ouarghii/integration_grafana_ci-cd_pipeline.git
+          git remote set-url dev https://${{ secrets.GIT_TOKEN }}@github.com/Ouarghii/integration_grafana_ci-cd_pipeline.git
           
       - name: Create and push Maven settings file
         run: |
@@ -78,7 +78,7 @@ jobs:
           GIT_EMAIL_USER=$(sed -n '/<id>github-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p' settings.xml)
           GIT_TOKEN_USER=$(sed -n '/<id>github-repo<\/id>/,/<\/server>/ s/.*<password>\(.*\)<\/password>.*/\1/p' settings.xml)
           git config --global user.email "${GIT_EMAIL_USER}"
-          git config --global user.name "Ferielkraiem2000" 
+       
           touch update-parentPOM.sh
           echo '#!/bin/bash' > update-parentPOM.sh
           echo 'ANYPOINT_ID=$(sed -n "/<id>anypoint-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p" settings.xml)' >> update-parentPOM.sh
@@ -125,7 +125,7 @@ jobs:
           GIT_EMAIL_USER=$(sed -n '/<id>github-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p' settings.xml)
           GIT_TOKEN_USER=$(sed -n '/<id>github-repo<\/id>/,/<\/server>/ s/.*<password>\(.*\)<\/password>.*/\1/p' settings.xml)
           git config --global user.email "${GIT_EMAIL_USER}"
-          git config --global user.name "Ferielkraiem2000" 
+         
           
           touch update-projectPOM.sh
           echo '#!/bin/bash' > update-projectPOM.sh
@@ -147,19 +147,47 @@ jobs:
           chmod +x update-projectPOM.sh
           ./update-projectPOM.sh
           
-      # - name: Cache Maven dependencies
-      #   uses: actions/cache@v3
-      #   with:
-      #     path: ~/.m2/repository
-      #     key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-maven-
+      - name: Cache Maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
 
       - name: Build
-        run: mvn clean package
+        id: build
+        run: |
+         START_TIME=$(date +%s)
+          mvn clean package
+          END_TIME=$(date +%s)
+          BUILD_DURATION=$((END_TIME - START_TIME))
+          
+          echo "Build completed in ${BUILD_DURATION} seconds"
+          
+          # Send build duration to Prometheus
+          curl -X POST https://working-cobra-early.ngrok-free.app/metrics \
+          -H "Content-Type: application/json" \
+          -d '{
+                "metric": "build_duration_seconds",
+                "value": "'${BUILD_DURATION}'"
+              }'
+
         
       - name: Deploy to CloudHub
-        run: mvn deploy -DmuleDeploy -DskipTests
-
-            
-           
+        id: deploy
+        run: |
+          START_TIME=$(date +%s)
+          mvn deploy -DmuleDeploy -DskipTests
+          END_TIME=$(date +%s)
+          DEPLOY_DURATION=$((END_TIME - START_TIME))
+          
+          echo "Deploy completed in ${DEPLOY_DURATION} seconds"
+          
+          # Send deploy duration to Prometheus
+          curl -X POST https://working-cobra-early.ngrok-free.app/metrics \
+          -H "Content-Type: application/json" \
+          -d '{
+                "metric": "deploy_duration_seconds",
+                "value": "'${DEPLOY_DURATION}'"
+              }'
