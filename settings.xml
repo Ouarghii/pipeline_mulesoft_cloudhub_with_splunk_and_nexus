@@ -1,0 +1,34 @@
+<settings>
+  <servers>
+    <server>
+      <id>anypoint-repo</id>
+      <username>aff4b2f770734aca84ee11654d5becd8</username>
+      <password>85bD7e7fE4EC482BB6818DF45499919f</password>
+    </server>
+    <server>
+      <id>github-repo</id>
+      <username>feriel.benkraiem@ensi-uma.tn</username>
+      <password>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</password>
+    </server>
+  </servers>
+  <profiles>
+    <profile>
+      <id>anypoint-profile</id>
+      <properties>
+        <anypoint.clientId>aff4b2f770734aca84ee11654d5becd8</anypoint.clientId>
+        <anypoint.clientSecret>85bD7e7fE4EC482BB6818DF45499919f</anypoint.clientSecret>
+      </properties>
+    </profile>
+    <profile>
+      <id>github-profile</id>
+      <properties>
+        <github.email>feriel.benkraiem@ensi-uma.tn</github.email>
+        <github.token>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</github.token>
+      </properties>
+    </profile>
+  </profiles>
+  <activeProfiles>
+    <activeProfile>anypoint-profile</activeProfile>
+    <activeProfile>github-profile</activeProfile>
+  </activeProfiles>
+</settings>
