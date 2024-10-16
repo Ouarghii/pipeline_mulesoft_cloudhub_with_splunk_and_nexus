@@ -172,7 +172,7 @@ jobs:
                 "metric": "build_duration_seconds",
                 "value": "'${BUILD_DURATION}'",
                 "labels": {"job": "ci_build", "branch": "${{ github.ref_name }}"}
-              }'
+              }' -v
       - name: Deploy to CloudHub
         id: deploy
         run: |
