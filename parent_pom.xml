@@ -23,8 +23,8 @@
 <cloudHubDeployment>
 <uri>https://anypoint.mulesoft.com/</uri>
 <muleVersion>4.7.0</muleVersion>
-<connectedAppClientId>2d8f3cf145a84712a2c0931fcc441b9c</connectedAppClientId>
-<connectedAppClientSecret>F3713EA103474217bA817Afc71AE42F7</connectedAppClientSecret>
+<connectedAppClientId>aff4b2f770734aca84ee11654d5becd8</connectedAppClientId>
+<connectedAppClientSecret>85bD7e7fE4EC482BB6818DF45499919f</connectedAppClientSecret>
 <connectedAppGrantType>client_credentials</connectedAppGrantType>
 <applicationName>developer</applicationName>
 <businessGroup>ITMMA</businessGroup>
