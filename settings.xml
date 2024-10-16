@@ -2,8 +2,8 @@
   <servers>
     <server>
       <id>anypoint-repo</id>
-      <username>2d8f3cf145a84712a2c0931fcc441b9c</username>
-      <password>F3713EA103474217bA817Afc71AE42F7</password>
+      <username>aff4b2f770734aca84ee11654d5becd8</username>
+      <password>85bD7e7fE4EC482BB6818DF45499919f</password>
     </server>
     <server>
       <id>github-repo</id>
@@ -15,8 +15,8 @@
     <profile>
       <id>anypoint-profile</id>
       <properties>
-        <anypoint.clientId>2d8f3cf145a84712a2c0931fcc441b9c</anypoint.clientId>
-        <anypoint.clientSecret>F3713EA103474217bA817Afc71AE42F7</anypoint.clientSecret>
+        <anypoint.clientId>aff4b2f770734aca84ee11654d5becd8</anypoint.clientId>
+        <anypoint.clientSecret>85bD7e7fE4EC482BB6818DF45499919f</anypoint.clientSecret>
       </properties>
     </profile>
     <profile>
