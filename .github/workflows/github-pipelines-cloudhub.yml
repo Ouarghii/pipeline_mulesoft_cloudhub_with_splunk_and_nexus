@@ -200,8 +200,8 @@ jobs:
           # Define variables for the log retrieval
           CLIENT_ID=${{ secrets.ANYPOINT_CLIENT_ID }}
           CLIENT_SECRET=${{ secrets.ANYPOINT_CLIENT_SECRET }}
-          APP_NAME="your-mulesoft-app-name"
-          ENVIRONMENT="production"
+          APP_NAME="devops"
+          ENVIRONMENT="developer"
 
           # Retrieve the logs
           curl -X GET "https://anypoint.mulesoft.com/cloudhub/api/v2/applications/${APP_NAME}/logs?worker=0&logLevel=INFO" \
