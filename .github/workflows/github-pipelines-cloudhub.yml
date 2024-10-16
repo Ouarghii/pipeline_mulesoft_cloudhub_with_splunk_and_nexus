@@ -166,13 +166,15 @@ jobs:
           echo "Build completed in ${BUILD_DURATION} seconds"
           
           # Send build duration to Prometheus
-          curl -X POST https://working-cobra-early.ngrok-free.app/metrics \
-          -H "Content-Type: application/json" \
-          -d '{
-                "metric": "build_duration_seconds",
-                "value": "'${BUILD_DURATION}'",
-                "labels": {"job": "ci_build", "branch": "${{ github.ref_name }}"}
-              }' -v
+          # curl -X POST https://working-cobra-early.ngrok-free.app/metrics \
+          # -H "Content-Type: application/json" \
+          # -d '{
+          #       "metric": "build_duration_seconds",
+          #       "value": "'${BUILD_DURATION}'",
+          #       "labels": {"job": "ci_build", "branch": "${{ github.ref_name }}"}
+          #     }' -v
+          curl -X OPTIONS https://working-cobra-early.ngrok-free.app/metrics
+
       - name: Deploy to CloudHub
         id: deploy
         run: |
