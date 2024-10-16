@@ -24,8 +24,8 @@ jobs:
 
       - name: Set up Git remote
         run: |
-          git remote add dev https://${{ secrets.GIT_TOKEN }}@github.com/Ouarghii/integration_grafana_ci-cd_pipeline.git
-          git remote set-url dev https://${{ secrets.GIT_TOKEN }}@github.com/Ouarghii/integration_grafana_ci-cd_pipeline.git
+          git remote add dev https://${{ secrets.GIT_TOKEN }}@github.com/Ferielkraiem2000/pipeline_mulesoft_cloudhub.git
+          git remote set-url dev https://${{ secrets.GIT_TOKEN }}@github.com/Ferielkraiem2000/pipeline_mulesoft_cloudhub.git
           
       - name: Create and push Maven settings file
         run: |
