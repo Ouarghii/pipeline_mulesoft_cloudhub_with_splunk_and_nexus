@@ -125,8 +125,7 @@ jobs:
       #     GIT_EMAIL_USER=$(sed -n '/<id>github-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p' settings.xml)
       #     GIT_TOKEN_USER=$(sed -n '/<id>github-repo<\/id>/,/<\/server>/ s/.*<password>\(.*\)<\/password>.*/\1/p' settings.xml)
       #     git config --global user.email "${GIT_EMAIL_USER}"
-         
-          
+
       #     touch update-projectPOM.sh
       #     echo '#!/bin/bash' > update-projectPOM.sh
       #     echo 'PARENT_GROUP_ID=$(grep -oPm1 "(?<=<groupId>)[^<]+" parent_pom.xml)' >> update-projectPOM.sh
