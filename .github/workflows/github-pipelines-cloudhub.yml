@@ -210,7 +210,6 @@ jobs:
           fi
 
 
-      # New Step to Retrieve Logs
       - name: Get MuleSoft CloudHub Logs
         run: |
           # Define variables for the log retrieval
@@ -220,17 +219,29 @@ jobs:
           ENVIRONMENT="developer"
 
           # Retrieve the logs
+          echo "Retrieving logs from CloudHub..."
           curl -X GET "https://anypoint.mulesoft.com/cloudhub/api/v2/applications/${APP_NAME}/logs?worker=0&logLevel=INFO" \
-            -u $CLIENT_ID:$CLIENT_SECRET \
+             -u $CLIENT_ID:$CLIENT_SECRET \
             -H "Content-Type: application/json" \
             -o mule-logs.json
 
-          # Extract relevant log data
-          cat mule-logs.json | jq '.data[].message' > formatted-logs.txt
+          # Check the output of the API response
+          echo "Logs retrieved: "
+          cat mule-logs.json
 
-          # Send logs to Prometheus/Grafana
-          curl -X POST https://working-cobra-early.ngrok-free.app/api/v1/import \
-            -F 'log=@formatted-logs.txt'
+          # Check if the JSON is valid and non-empty before attempting to extract data
+          if jq . < mule-logs.json > /dev/null 2>&1; then
+            echo "Valid JSON response, extracting logs..."
+             # Extract relevant log data
+            cat mule-logs.json | jq '.data[].message' > formatted-logs.txt
+          
+            # Send logs to Prometheus/Grafana
+            curl -X POST https://working-cobra-early.ngrok-free.app/api/v1/import \
+              -F 'log=@formatted-logs.txt'
+          else
+            echo "Invalid or empty JSON response from CloudHub logs API."
+            exit 1
+          fi
 
       # Optional: Send metrics to Prometheus
       - name: Send Build Metrics to Prometheus
