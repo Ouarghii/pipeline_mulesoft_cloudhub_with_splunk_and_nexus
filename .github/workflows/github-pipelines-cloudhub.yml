@@ -232,7 +232,7 @@ jobs:
           LOG_COUNT=$(jq '.logs | length' mule-logs.json)
 
           # Post the count to Prometheus Pushgateway
-          curl -X POST http://localhost:9091/metrics/job/ngrok_metrics \
+          curl -X POST https://intense-dory-notably.ngrok-free.app/metrics/job/ngrok_metrics \
             -F "log_count=${LOG_COUNT}"
 
           # To use the Prometheus text format, create a proper metric
