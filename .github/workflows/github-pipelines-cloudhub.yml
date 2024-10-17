@@ -213,41 +213,47 @@ jobs:
       - name: Get MuleSoft CloudHub Logs
         run: |
           # Define variables for the log retrieval
-          CLIENT_ID=${{ secrets.ANYPOINT_CLIENT_ID }}
-          CLIENT_SECRET=${{ secrets.ANYPOINT_CLIENT_SECRET }}
+          CLIENT_ID="${{ secrets.ANYPOINT_CLIENT_ID }}"
+          CLIENT_SECRET="${{ secrets.ANYPOINT_CLIENT_SECRET }}"
           APP_NAME="devops"
           ENVIRONMENT="developer"
+          BEARER_TOKEN="172e9aad-bcb7-407a-b5c7-b645b0836497"
+          ORG_ID="7ad879c6-b198-41d4-b976-e09aec855fdc"
+          ENV_ID="4c27de34-218f-4422-ba4f-51d72fadddfb"
 
-          # Fetch logs from CloudHub
+          # Fetch logs from CloudHub and handle errors
           curl -X GET "https://anypoint.mulesoft.com/cloudhub/api/v2/applications/develop/deployments/670fcd45c40ee0063dd68c50/logs" \
-            -H "Authorization: Bearer 172e9aad-bcb7-407a-b5c7-b645b0836497" \
-            -H "x-anypnt-org-id: 7ad879c6-b198-41d4-b976-e09aec855fdc" \
-            -H "X-ANYPNT-ENV-ID: 4c27de34-218f-4422-ba4f-51d72fadddfb" \
-            -o mule-logs.json
+            -H "Authorization: Bearer ${BEARER_TOKEN}" \
+            -H "x-anypnt-org-id: ${ORG_ID}" \
+            -H "X-ANYPNT-ENV-ID: ${ENV_ID}" \
+            -o mule-logs.json || echo "Error retrieving logs"
 
-          # Display the logs to check content
-          cat mule-logs.json
+          # Check if the logs file is not empty
+          if [ -s mule-logs.json ]; then
+            # Display the logs to check content
+            cat mule-logs.json
 
-          # Process logs (assuming you want to count occurrences of specific events in the logs)
-          LOG_COUNT=$(jq '.logs | length' mule-logs.json)
+            # Process logs (e.g., count log entries)
+            LOG_COUNT=$(jq '.data | length' mule-logs.json)
+            echo "Total logs count: ${LOG_COUNT}"
 
-          # Post the count to Prometheus Pushgateway
-          curl -X POST https://intense-dory-notably.ngrok-free.app/metrics/job/ngrok_metrics \
-            -F "mule_logs_total=${LOG_COUNT}"
+            # To use the Prometheus text format, create a metric file
+            echo "mule_logs_total{app_name=\"devops\", environment=\"developer\"} ${LOG_COUNT}" > metrics.txt
 
-          # To use the Prometheus text format, create a proper metric
-          echo "mule_logs_total{app_name=\"devops\", environment=\"developer\"} ${LOG_COUNT}" > metrics.txt
-          curl -X POST --data-binary @metrics.txt https://intense-dory-notably.ngrok-free.app/metrics/job/ngrok_metrics
+            # Post the metrics to Prometheus Pushgateway
+            curl -X POST --data-binary @metrics.txt https://intense-dory-notably.ngrok-free.app/metrics/job/ngrok_metrics
+          else
+            echo "No logs available to process"
+          fi
 
-
-      # Optional: Send metrics to Prometheus
+      # Optional: Send Build Metrics to Prometheus
       - name: Send Build Metrics to Prometheus
         run: |
           START_TIME=$(date +%s)
           mvn clean package
           END_TIME=$(date +%s)
           BUILD_DURATION=$((END_TIME - START_TIME))
+          echo "build_duration_seconds{app_name=\"devops\", environment=\"developer\"} ${BUILD_DURATION}" > build_metrics.txt
           
-          # Send build duration to Prometheus
-          curl -X POST https://working-cobra-early.ngrok-free.app/metrics \
-            -d "build_duration_seconds{job='mule_deployment'} ${BUILD_DURATION}"
+          # Post the build duration metric to Prometheus Pushgateway
+          curl -X POST --data-binary @build_metrics.txt https://intense-dory-notably.ngrok-free.app/metrics/job/build_duration
