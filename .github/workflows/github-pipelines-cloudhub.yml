@@ -233,27 +233,17 @@ jobs:
             # Display the logs to check content
             cat mule-logs.json
 
-            # Process logs (e.g., count log entries)
-            LOG_COUNT=$(jq '.data | length' mule-logs.json)
-            echo "Total logs count: ${LOG_COUNT}"
+            # Prepare the Prometheus metrics file
+            echo "mule_logs_total{app_name=\"devops\", environment=\"developer\"} $(jq '.data | length' mule-logs.json)" > metrics.txt
+            
+            # Extract each log entry and append to metrics.txt
+            jq -r '.data[] | "log_entry{app_name=\"devops\", environment=\"developer\", level=\"\(.level)\", timestamp=\"\(.timestamp)\"} \"\(.message)\""' mule-logs.json >> metrics.txt
 
-            # To use the Prometheus text format, create a metric file
-            echo "mule_logs_total{app_name=\"devops\", environment=\"developer\"} ${LOG_COUNT}" > metrics.txt
+            # Display the contents of metrics.txt for review
+            cat metrics.txt
 
             # Post the metrics to Prometheus Pushgateway
             curl -X POST --data-binary @metrics.txt https://intense-dory-notably.ngrok-free.app/metrics/job/ngrok_metrics
           else
             echo "No logs available to process"
           fi
-
-      # Optional: Send Build Metrics to Prometheus
-      - name: Send Build Metrics to Prometheus
-        run: |
-          START_TIME=$(date +%s)
-          mvn clean package
-          END_TIME=$(date +%s)
-          BUILD_DURATION=$((END_TIME - START_TIME))
-          echo "build_duration_seconds{app_name=\"devops\", environment=\"developer\"} ${BUILD_DURATION}" > build_metrics.txt
-          
-          # Post the build duration metric to Prometheus Pushgateway
-          curl -X POST --data-binary @build_metrics.txt https://intense-dory-notably.ngrok-free.app/metrics/job/build_duration
