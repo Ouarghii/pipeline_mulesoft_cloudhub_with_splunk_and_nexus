@@ -259,3 +259,12 @@ jobs:
           else
             echo "No logs available to process"
           fi
+
+      - name: Query Prometheus for Metrics
+        run: |
+          PROMETHEUS_URL="https://working-cobra-early.ngrok-free.app"
+          # Query Prometheus to confirm the Pushgateway metrics are scraped
+          curl -s "${PROMETHEUS_URL}/api/v1/query?query=mule_logs_total" || echo "Prometheus query failed"
+          
+          # Optionally, you can output the query result to check for metrics in Prometheus
+          curl -s "${PROMETHEUS_URL}/api/v1/query?query=mule_logs_total" | jq
