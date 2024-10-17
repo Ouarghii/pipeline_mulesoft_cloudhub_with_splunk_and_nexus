@@ -260,6 +260,7 @@ jobs:
             echo "No logs available to process"
           fi
 
+
       - name: Query Prometheus for Metrics
         run: |
           PROMETHEUS_URL="https://working-cobra-early.ngrok-free.app"
