@@ -233,11 +233,12 @@ jobs:
 
           # Post the count to Prometheus Pushgateway
           curl -X POST https://intense-dory-notably.ngrok-free.app/metrics/job/ngrok_metrics \
-            -F "log_count=${LOG_COUNT}"
+            -F "mule_logs_total=${LOG_COUNT}"
 
           # To use the Prometheus text format, create a proper metric
           echo "mule_logs_total{app_name=\"devops\", environment=\"developer\"} ${LOG_COUNT}" > metrics.txt
           curl -X POST --data-binary @metrics.txt https://intense-dory-notably.ngrok-free.app/metrics/job/ngrok_metrics
+
 
       # Optional: Send metrics to Prometheus
       - name: Send Build Metrics to Prometheus
