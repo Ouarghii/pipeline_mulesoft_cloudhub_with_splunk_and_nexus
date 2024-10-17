@@ -218,14 +218,27 @@ jobs:
           APP_NAME="devops"
           ENVIRONMENT="developer"
 
+          # Fetch logs from CloudHub
           curl -X GET "https://anypoint.mulesoft.com/cloudhub/api/v2/applications/develop/deployments/670fcd45c40ee0063dd68c50/logs" \
             -H "Authorization: Bearer 172e9aad-bcb7-407a-b5c7-b645b0836497" \
             -H "x-anypnt-org-id: 7ad879c6-b198-41d4-b976-e09aec855fdc" \
             -H "X-ANYPNT-ENV-ID: 4c27de34-218f-4422-ba4f-51d72fadddfb" \
             -o mule-logs.json
+
+          # Display the logs to check content
           cat mule-logs.json
-          curl -X POST https://working-cobra-early.ngrok-free.app/ \
-              -F 'log=@mule-logs.json'
+
+          # Process logs (assuming you want to count occurrences of specific events in the logs)
+          LOG_COUNT=$(jq '.logs | length' mule-logs.json)
+
+          # Post the count to Prometheus Pushgateway
+          curl -X POST http://localhost:9091/metrics/job/ngrok_metrics \
+            -F "log_count=${LOG_COUNT}"
+
+          # To use the Prometheus text format, create a proper metric
+          echo "mule_logs_total{app_name=\"devops\", environment=\"developer\"} ${LOG_COUNT}" > metrics.txt
+          curl -X POST --data-binary @metrics.txt http://localhost:9091/metrics/job/ngrok_metrics
+
       # Optional: Send metrics to Prometheus
       - name: Send Build Metrics to Prometheus
         run: |
