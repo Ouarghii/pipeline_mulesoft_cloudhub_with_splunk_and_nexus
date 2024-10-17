@@ -228,7 +228,7 @@ jobs:
           CLIENT_SECRET="${{ secrets.ANYPOINT_CLIENT_SECRET }}"
           APP_NAME="devops"
           ENVIRONMENT="developer"
-          BEARER_TOKEN="172e9aad-bcb7-407a-b5c7-b645b0836497"
+          BEARER_TOKEN="4420b875-78f7-4df1-a0d3-f1aa576e32b4"
           ORG_ID="7ad879c6-b198-41d4-b976-e09aec855fdc"
           ENV_ID="4c27de34-218f-4422-ba4f-51d72fadddfb"
 
