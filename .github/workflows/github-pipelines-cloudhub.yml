@@ -192,21 +192,7 @@ jobs:
       #     #       "value": "'${DEPLOY_DURATION}'"
       #     #     }'
 
-      # - name: Install jq
-      #   run: |
-      #     # Install jq for log processing
-      #     if [ "$(uname)" == "Darwin" ]; then
-      #       brew install jq  # macOS
-      #     elif [ -x "$(command -v apt-get)" ]; then
-      #       sudo apt-get update && sudo apt-get install -y jq  # Ubuntu/Debian
-      #     elif [ -x "$(command -v yum)" ]; then
-      #       sudo yum install -y jq  # CentOS/RHEL
-      #     elif [ -x "$(command -v pacman)" ]; then
-      #       sudo pacman -S --noconfirm jq  # Arch Linux
-      #     else
-      #       echo "Unsupported OS for jq installation"
-      #       exit 1
-      #     fi
+
 
 
       - name: Get MuleSoft CloudHub Logs
