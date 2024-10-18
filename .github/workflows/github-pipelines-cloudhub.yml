@@ -246,7 +246,7 @@ jobs:
             -H "Content-Type: application/json" \
             -v)  # Verbose mode for debugging
 
-          # Check if the response is valid JSON
+
           if [[ ! "$ENV_RESPONSE" =~ ^\{.*\}$ ]]; then
             echo "Error: Invalid or empty JSON response: $ENV_RESPONSE"
             exit 1
