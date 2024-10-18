@@ -230,7 +230,7 @@ jobs:
           ENVIRONMENT="developer"
           BEARER_TOKEN="fecd1520-ea50-49fd-958a-10c309292a1b"
           ORG_ID="7ad879c6-b198-41d4-b976-e09aec855fdc"
-          ENV_ID="4c27de34-218f-4422-ba4f-51d72fadddfb"
+          ENV_ID="f88fa23e-21ec-41aa-8135-c3e1f3c31124"
 
           # # Fetch logs from CloudHub and handle errors
           curl -X GET "https://anypoint.mulesoft.com/cloudhub/api/v2/applications/devops/deployments/6710deb3f475af69c74f2c83/logs" \
