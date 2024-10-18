@@ -240,7 +240,6 @@ jobs:
           echo "Organization ID: $ORG_ID"
           echo "ORG_ID=$ORG_ID" >> $GITHUB_ENV  # Save as environment variable
 
-          # Define variables for the log retrieval
           # Fetch Environment ID using the Organization ID
           ENV_RESPONSE=$(curl -X GET "https://anypoint.mulesoft.com/accounts/api/organizations/$ORG_ID/environments?name=${{ github.ref_name }}" \
             -H "Authorization: Bearer fecd1520-ea50-49fd-958a-10c309292a1b" \
