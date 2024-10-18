@@ -238,6 +238,26 @@ jobs:
             -H "x-anypnt-org-id: ${ORG_ID}" \
             -H "X-ANYPNT-ENV-ID: ${ENV_ID}" \
             -o mule-logs.json || echo "Error retrieving logs"
+            # Check if the logs file is not empty
+            if [ -s mule-logs.json ]; then
+              # Display the logs to check content
+              cat mule-logs.json
+
+              # Prepare the Prometheus metrics file for log count
+              LOG_COUNT=$(jq '.data | length' mule-logs.json)
+              echo "mule_logs_total{app_name=\"devops\", environment=\"developer\"} ${LOG_COUNT}" > metrics.txt
+  
+              # Instead of sending full log text as metric values, include log details as labels for Prometheus
+              jq -r '.data[] | "log_entry{app_name=\"devops\", environment=\"developer\", level=\"\(.level)\", timestamp=\"\(.timestamp)\", message=\"\(.message | gsub("\""; "\\\""))\"} 1"' mule-logs.json >> metrics.txt
+
+              # Display the contents of metrics.txt for review
+              cat metrics.txt
+
+              # Post the metrics to Prometheus Pushgateway
+              curl -X POST --data-binary @metrics.txt https://intense-dory-notably.ngrok-free.app/metrics/job/ngrok_metrics
+            else
+              echo "No logs available to process"
+            fi
 
 # permissions:
 #   contents: write 
