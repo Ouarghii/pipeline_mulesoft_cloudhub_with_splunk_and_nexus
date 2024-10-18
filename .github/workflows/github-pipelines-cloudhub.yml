@@ -223,14 +223,48 @@ jobs:
             echo "Unsupported OS for jq installation"
             exit 1
           fi
+          # Fetch Organization ID from MuleSoft API
+          ORG_RESPONSE=$(curl -X GET "https://anypoint.mulesoft.com/accounts/api/me" \
+            -H "Authorization: Bearer ${{ secrets.ANYPOINT_CLIENT_ID }}" \
+            -H "Content-Type: application/json" \
+            -v)  # Verbose mode for debugging
+
+          # Check if the response is valid JSON
+          if [[ ! "$ORG_RESPONSE" =~ ^\{.*\}$ ]]; then
+            echo "Error: Invalid or empty JSON response: $ORG_RESPONSE"
+            exit 1
+          fi
+
+          # Parse Organization ID
+          ORG_ID=$(echo "$ORG_RESPONSE" | jq -r '.user.organization.id')
+
+          echo "Organization ID: $ORG_ID"
+          echo "ORG_ID=$ORG_ID" >> $GITHUB_ENV  # Save as environment variable
           # Define variables for the log retrieval
+          # Fetch Environment ID using the Organization ID
+          ENV_RESPONSE=$(curl -X GET "https://anypoint.mulesoft.com/accounts/api/organizations/$ORG_ID/environments?name=${{ github.ref_name }}" \
+            -H "Authorization: Bearer fecd1520-ea50-49fd-958a-10c309292a1b \
+            -H "Content-Type: application/json" \
+            -v)  # Verbose mode for debugging
+
+          # Check if the response is valid JSON
+          if [[ ! "$ENV_RESPONSE" =~ ^\{.*\}$ ]]; then
+            echo "Error: Invalid or empty JSON response: $ENV_RESPONSE"
+            exit 1
+          fi
+
+          # Parse Environment ID
+          ENV_ID=$(echo "$ENV_RESPONSE" | jq -r '.data[0].id')
+
+          echo "Environment ID: $ENV_ID"
+          echo "ENV_ID=$ENV_ID" >> $GITHUB_ENV  # Save as environment variable
           CLIENT_ID="${{ secrets.ANYPOINT_CLIENT_ID }}"
           CLIENT_SECRET="${{ secrets.ANYPOINT_CLIENT_SECRET }}"
           APP_NAME="devops"
           ENVIRONMENT="developer"
           BEARER_TOKEN="fecd1520-ea50-49fd-958a-10c309292a1b"
-          ORG_ID="7ad879c6-b198-41d4-b976-e09aec855fdc"
-          ENV_ID="f88fa23e-21ec-41aa-8135-c3e1f3c31124"
+          # ORG_ID="7ad879c6-b198-41d4-b976-e09aec855fdc"
+          # ENV_ID="f88fa23e-21ec-41aa-8135-c3e1f3c31124"
 
           # # Fetch logs from CloudHub and handle errors
           curl -X GET "https://anypoint.mulesoft.com/cloudhub/api/v2/applications/devops/deployments/6710deb3f475af69c74f2c83/logs" \
