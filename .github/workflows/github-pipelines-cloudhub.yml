@@ -245,7 +245,7 @@ jobs:
           echo "ENV_ID=$ENV_ID" >> $GITHUB_ENV  # Save as environment variable
           # Fetch logs from CloudHub and handle errors
           curl -X GET "https://anypoint.mulesoft.com/cloudhub/api/v2/applications/devops/deployments/6710deb3f475af69c74f2c83/logs" \
-            -H "Authorization: Bearer 61172264-8131-4292-a54d-c472af41d12a" \
+            -H "Authorization: Bearer 0c522f58-9ba9-46da-a1e0-523ba0663801" \
             -H "x-anypnt-org-id: ${ORG_ID}" \
             -H "X-ANYPNT-ENV-ID: ${ENV_ID}" \
             -o mule-logs.json || echo "Error retrieving logs"
