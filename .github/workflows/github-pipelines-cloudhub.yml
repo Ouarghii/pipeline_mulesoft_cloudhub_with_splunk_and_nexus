@@ -78,7 +78,7 @@ jobs:
           git push dev ${{ github.ref_name }}
           
       - name: Set permissions for settings.xml
-        run: chmod +x /home/runner/work/pipeline_mulesoft_cloudhub/pipeline_mulesoft_cloudhub/settings.xml
+        run: chmod +xrw /home/runner/work/pipeline_mulesoft_cloudhub/pipeline_mulesoft_cloudhub/settings.xml
           
       # - name: Find settings.xml
       #   run: find . -name "settings.xml"
