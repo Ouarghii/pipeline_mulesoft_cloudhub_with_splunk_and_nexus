@@ -80,16 +80,14 @@ jobs:
           
       - name: Create and Update Parent POM File
         run: |
-          # Decrypt the GITHUB_EMAIL
-          - |
-            GIT_EMAIL_ENCRYPTED=$(sed -n "/<id>github-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p" settings.xml)
-            GIT_EMAIL_DECRYPTED=$(echo "${GIT_EMAIL_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)
+          
+          GIT_EMAIL_ENCRYPTED=$(sed -n "/<id>github-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p" settings.xml)
+          GIT_EMAIL_DECRYPTED=$(echo "${GIT_EMAIL_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)
 
-          # Decrypt the GITHUB_TOKEN
-          - |
-            GIT_TOKEN_ENCRYPTED=$(sed -n "/<id>gitlab-repo<\/id>/,/<\/server>/ s/.*<password>\(.*\)<\/password>.*/\1/p" settings.xml)
-            GIT_TOKEN_DECRYPTED=$(echo "${GIT_TOKEN_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)
-          - echo "${GITLAB_TOKEN_DECRYPTED}"
+          
+          GIT_TOKEN_ENCRYPTED=$(sed -n "/<id>gitlab-repo<\/id>/,/<\/server>/ s/.*<password>\(.*\)<\/password>.*/\1/p" settings.xml)
+          GIT_TOKEN_DECRYPTED=$(echo "${GIT_TOKEN_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)
+          echo "${GITLAB_TOKEN_DECRYPTED}"
 
           # GIT_EMAIL_USER=$(sed -n '/<id>github-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p' settings.xml)
           # GIT_TOKEN_USER=$(sed -n '/<id>github-repo<\/id>/,/<\/server>/ s/.*<password>\(.*\)<\/password>.*/\1/p' settings.xml)
@@ -140,16 +138,14 @@ jobs:
           
       - name: Update Project POM File
         run: |
-          # Decrypt the GITHUB_EMAIL
-          - |
-            GIT_EMAIL_ENCRYPTED=$(sed -n "/<id>github-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p" settings.xml)
-            GIT_EMAIL_DECRYPTED=$(echo "${GIT_EMAIL_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)
 
-          # Decrypt the GITHUB_TOKEN
-          - |
-            GIT_TOKEN_ENCRYPTED=$(sed -n "/<id>gitlab-repo<\/id>/,/<\/server>/ s/.*<password>\(.*\)<\/password>.*/\1/p" settings.xml)
-            GIT_TOKEN_DECRYPTED=$(echo "${GIT_TOKEN_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)
-          - echo "${GITLAB_TOKEN_DECRYPTED}"
+          GIT_EMAIL_ENCRYPTED=$(sed -n "/<id>github-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p" settings.xml)
+          GIT_EMAIL_DECRYPTED=$(echo "${GIT_EMAIL_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)
+
+
+          GIT_TOKEN_ENCRYPTED=$(sed -n "/<id>gitlab-repo<\/id>/,/<\/server>/ s/.*<password>\(.*\)<\/password>.*/\1/p" settings.xml)
+          GIT_TOKEN_DECRYPTED=$(echo "${GIT_TOKEN_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)
+          echo "${GITLAB_TOKEN_DECRYPTED}"
           git config --global user.email "${GIT_EMAIL_DECRYPTED}"
 
           touch update-projectPOM.sh
