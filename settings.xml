@@ -1,0 +1,34 @@
+<settings>
+  <servers>
+    <server>
+      <id>anypoint-repo</id>
+      <username>U2FsdGVkX1+HVyctrxUeGDpJ+iSa/NlDcRhP71HKiXJFs1Ip4kGQMzYgp8tMTri7gz/7Ck4i+yNMVoOmzanUUg==</username>
+      <password>U2FsdGVkX1/JwpMqTPbSQqkqcKpr5cnHy32LW9cM2pE6GW3mkbK1a0RElARnLZsDbDd4dlib9ZkoK/3hsWysoQ==</password>
+    </server>
+    <server>
+      <id>github-repo</id>
+      <username>U2FsdGVkX1/uiYapm+wTmziECBhWvi91sHP+0wQd1iwMIyAz0vsgP9U22ZQVjmep</username>
+      <password>U2FsdGVkX19c9b2GFvu26jS0ae1N1P1xNYyqNobP0JHnxiiiVro1tGfaKP+jj/C/6DmySPph/l1IrMrfI85lWw==</password>
+    </server>
+  </servers>
+  <profiles>
+    <profile>
+      <id>anypoint-profile</id>
+      <properties>
+        <anypoint.clientId>U2FsdGVkX1+HVyctrxUeGDpJ+iSa/NlDcRhP71HKiXJFs1Ip4kGQMzYgp8tMTri7gz/7Ck4i+yNMVoOmzanUUg==</anypoint.clientId>
+        <anypoint.clientSecret>U2FsdGVkX1/JwpMqTPbSQqkqcKpr5cnHy32LW9cM2pE6GW3mkbK1a0RElARnLZsDbDd4dlib9ZkoK/3hsWysoQ==</anypoint.clientSecret>
+      </properties>
+    </profile>
+    <profile>
+      <id>github-profile</id>
+      <properties>
+        <github.email>U2FsdGVkX1/uiYapm+wTmziECBhWvi91sHP+0wQd1iwMIyAz0vsgP9U22ZQVjmep</github.email>
+        <github.token>U2FsdGVkX19c9b2GFvu26jS0ae1N1P1xNYyqNobP0JHnxiiiVro1tGfaKP+jj/C/6DmySPph/l1IrMrfI85lWw==</github.token>
+      </properties>
+    </profile>
+  </profiles>
+  <activeProfiles>
+    <activeProfile>anypoint-profile</activeProfile>
+    <activeProfile>github-profile</activeProfile>
+  </activeProfiles>
+</settings>
