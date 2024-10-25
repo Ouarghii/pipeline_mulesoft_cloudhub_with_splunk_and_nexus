@@ -80,10 +80,10 @@ jobs:
       # - name: Set permissions for settings.xml
       #   run: chmod 644 settings.xml
 
-      # - name: Verify settings.xml file path
-      #   run: |
-      #     ls -al ../../
-      #     cat ../../settings.xml
+      - name: Verify settings.xml file path
+        run: |
+          ls -al ../
+          cat ../settings.xml
           
       # - name: Find settings.xml
       #   run: find . -name "settings.xml"
