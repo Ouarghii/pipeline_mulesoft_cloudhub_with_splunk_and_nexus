@@ -81,22 +81,22 @@ jobs:
       - name: Create and Update Parent POM File
         run: |
           
-          GIT_EMAIL_ENCRYPTED=$(sed -n "/<id>github-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p" settings.xml)
+          GIT_EMAIL_ENCRYPTED=$(sed -n "/<id>github-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p" ../../settings.xml)
           GIT_EMAIL_DECRYPTED=$(echo "${GIT_EMAIL_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)
 
           
-          GIT_TOKEN_ENCRYPTED=$(sed -n "/<id>gitlab-repo<\/id>/,/<\/server>/ s/.*<password>\(.*\)<\/password>.*/\1/p" settings.xml)
+          GIT_TOKEN_ENCRYPTED=$(sed -n "/<id>gitlab-repo<\/id>/,/<\/server>/ s/.*<password>\(.*\)<\/password>.*/\1/p" ../../settings.xml)
           GIT_TOKEN_DECRYPTED=$(echo "${GIT_TOKEN_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)
           echo "${GITLAB_TOKEN_DECRYPTED}"
 
-          # GIT_EMAIL_USER=$(sed -n '/<id>github-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p' settings.xml)
-          # GIT_TOKEN_USER=$(sed -n '/<id>github-repo<\/id>/,/<\/server>/ s/.*<password>\(.*\)<\/password>.*/\1/p' settings.xml)
+          # GIT_EMAIL_USER=$(sed -n '/<id>github-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p' ../../settings.xml)
+          # GIT_TOKEN_USER=$(sed -n '/<id>github-repo<\/id>/,/<\/server>/ s/.*<password>\(.*\)<\/password>.*/\1/p' ../../settings.xml)
           git config --global user.email "${GIT_EMAIL_DECRYPTED}"
        
           touch update-parentPOM.sh
           echo '#!/bin/bash' > update-parentPOM.sh
-          echo 'ANYPOINT_CLIENT_ID_ENCRYPTED=$(sed -n "/<id>anypoint-repo</id>/,/</server>/ s/.<username>(.)</username>./\1/p" settings.xml)' >> update-parentPOM.sh
-          echo 'ANYPOINT_CLIENT_SECRET_ENCRYPTED=$(sed -n "/<id>anypoint-repo</id>/,/</server>/ s/.<password>(.)</password>./\1/p" settings.xml)' >> update-parentPOM.sh
+          echo 'ANYPOINT_CLIENT_ID_ENCRYPTED=$(sed -n "/<id>anypoint-repo</id>/,/</server>/ s/.<username>(.)</username>./\1/p" ../../settings.xml)' >> update-parentPOM.sh
+          echo 'ANYPOINT_CLIENT_SECRET_ENCRYPTED=$(sed -n "/<id>anypoint-repo</id>/,/</server>/ s/.<password>(.)</password>./\1/p" ../../settings.xml)' >> update-parentPOM.sh
           echo 'ANYPOINT_ID=$(echo "${ANYPOINT_CLIENT_ID_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)' >> update-parentPOM.sh
           echo 'ANYPOINT_SECRET=$(echo "${ANYPOINT_CLIENT_SECRET_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)' >> update-parentPOM.sh
           echo 'cat << EOF > parent_pom.xml' >> update-parentPOM.sh
@@ -139,11 +139,11 @@ jobs:
       - name: Update Project POM File
         run: |
 
-          GIT_EMAIL_ENCRYPTED=$(sed -n "/<id>github-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p" settings.xml)
+          GIT_EMAIL_ENCRYPTED=$(sed -n "/<id>github-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p" ../../settings.xml)
           GIT_EMAIL_DECRYPTED=$(echo "${GIT_EMAIL_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)
 
 
-          GIT_TOKEN_ENCRYPTED=$(sed -n "/<id>gitlab-repo<\/id>/,/<\/server>/ s/.*<password>\(.*\)<\/password>.*/\1/p" settings.xml)
+          GIT_TOKEN_ENCRYPTED=$(sed -n "/<id>gitlab-repo<\/id>/,/<\/server>/ s/.*<password>\(.*\)<\/password>.*/\1/p" ../../settings.xml)
           GIT_TOKEN_DECRYPTED=$(echo "${GIT_TOKEN_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)
           echo "${GITLAB_TOKEN_DECRYPTED}"
           git config --global user.email "${GIT_EMAIL_DECRYPTED}"
