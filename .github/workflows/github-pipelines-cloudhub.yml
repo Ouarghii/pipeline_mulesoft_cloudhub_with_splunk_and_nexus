@@ -76,7 +76,19 @@ jobs:
           git add settings.xml
           git commit -m "Add Maven settings file" || echo "Nothing to commit"
           git push dev ${{ github.ref_name }}
-          
+      - name: Check if settings.xml exists and list permissions
+        run: |
+          ls -l settings.xml
+          cat settings.xml  # This will show the content of the file
+
+      - name: Extract GIT_EMAIL_ENCRYPTED
+        run: |
+          if [ -f settings.xml ]; then
+            GIT_EMAIL_ENCRYPTED=$(sed -n '/<id>github-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p' settings.xml)
+            echo "Extracted email: $GIT_EMAIL_ENCRYPTED"
+          else
+            echo "settings.xml does not exist."
+          fi
   
       - name: Create and Update Parent POM File
         run: |
