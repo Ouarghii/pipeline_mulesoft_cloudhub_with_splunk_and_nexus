@@ -107,7 +107,7 @@ jobs:
           # GIT_EMAIL_USER=$(sed -n '/<id>github-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p' settings.xml)
           # GIT_TOKEN_USER=$(sed -n '/<id>github-repo<\/id>/,/<\/server>/ s/.*<password>\(.*\)<\/password>.*/\1/p' settings.xml)
           git config --global user.email "${GIT_EMAIL_DECRYPTED}"
-       
+          fi
           touch update-parentPOM.sh
           echo '#!/bin/bash' > update-parentPOM.sh
           echo 'ANYPOINT_CLIENT_ID_ENCRYPTED=$(sed -n "/<id>anypoint-repo</id>/,/</server>/ s/.<username>(.)</username>./\1/p" settings.xml)' >> update-parentPOM.sh
