@@ -93,7 +93,16 @@ jobs:
           else
             echo "settings.xml does not exist."
           fi
-  
+      - name: Extract Anypoint Client ID and Secret
+        run: |
+          if [ -f settings.xml ]; then
+            ANYPOINT_CLIENT_ID=$(sed -n '/<id>anypoint-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p' settings.xml)
+            ANYPOINT_CLIENT_SECRET=$(sed -n '/<id>anypoint-repo<\/id>/,/<\/server>/ s/.*<password>\(.*\)<\/password>.*/\1/p' settings.xml)
+            echo "Extracted Client ID: $ANYPOINT_CLIENT_ID"
+            echo "Extracted Client Secret: $ANYPOINT_CLIENT_SECRET"
+          else
+            echo "settings.xml does not exist."
+          fi 
       - name: Create and Update Parent POM File
         run: |
           
