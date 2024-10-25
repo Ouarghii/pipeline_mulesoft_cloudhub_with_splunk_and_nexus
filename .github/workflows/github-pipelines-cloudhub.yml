@@ -30,7 +30,7 @@ jobs:
           
       - name: Create and push Maven settings file
         run: |
-          # Encrypt the variables
+ 
           - GIT_EMAIL_ENCRYPTED=$(echo -n "${{ secrets.GIT_EMAIL }}" | openssl enc -aes-256-cbc -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64 -A)
           - ANYPOINT_CLIENT_ID_ENCRYPTED=$(echo -n "${{ secrets.ANYPOINT_CLIENT_ID }}" | openssl enc -aes-256-cbc -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64 -A)
           - ANYPOINT_CLIENT_SECRET_ENCRYPTED=$(echo -n "${{ secrets.ANYPOINT_CLIENT_SECRET }}" | openssl enc -aes-256-cbc -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64 -A)
