@@ -3,6 +3,7 @@ name: CI/CD Pipeline GITHUB/CloudHub
 permissions:
   contents: write 
 
+
 on: push
 jobs:
   pipe-github-cloudhub:
