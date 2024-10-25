@@ -79,7 +79,14 @@ jobs:
           
       # - name: Set permissions for settings.xml
       #   run: chmod 644 settings.xml
+      - name: List files in the directory
+        run: ls -l /home/runner/work/pipeline_mulesoft_cloudhub/pipeline_mulesoft_cloudhub/
 
+      - name: Check permissions of settings.xml
+        run: stat /home/runner/work/pipeline_mulesoft_cloudhub/pipeline_mulesoft_cloudhub/settings.xml
+
+      - name: Print settings.xml content
+        run: cat /home/runner/work/pipeline_mulesoft_cloudhub/pipeline_mulesoft_cloudhub/settings.xml
       - name: Verify settings.xml file path
         run: |
           ls -al ../
