@@ -86,6 +86,8 @@ jobs:
           if [ -f settings.xml ]; then
             GIT_EMAIL_ENCRYPTED=$(sed -n '/<id>github-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p' settings.xml)
             echo "Extracted email: $GIT_EMAIL_ENCRYPTED"
+            GIT_EMAIL_DECRYPTED=$(echo "$GIT_EMAIL_ENCRYPTED" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)
+            echo "Decrypted email: $GIT_EMAIL_DECRYPTED"
           else
             echo "settings.xml does not exist."
           fi
