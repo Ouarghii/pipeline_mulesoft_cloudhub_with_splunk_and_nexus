@@ -77,7 +77,10 @@ jobs:
           git commit -m "Add Maven settings file" || echo "Nothing to commit"
           git push dev ${{ github.ref_name }}
 
-          
+      - name: List files for debugging
+        run: |
+          ls -R
+    
       - name: Create and Update Parent POM File
         run: |
           
