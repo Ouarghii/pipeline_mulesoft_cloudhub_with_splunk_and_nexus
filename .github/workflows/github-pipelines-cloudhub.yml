@@ -30,34 +30,40 @@ jobs:
           
       - name: Create and push Maven settings file
         run: |
-          
+          # Encrypt the variables
+          - GIT_EMAIL_ENCRYPTED=$(echo -n "${{ secrets.GIT_EMAIL }}" | openssl enc -aes-256-cbc -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64 -A)
+          - ANYPOINT_CLIENT_ID_ENCRYPTED=$(echo -n "${{ secrets.ANYPOINT_CLIENT_ID }}" | openssl enc -aes-256-cbc -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64 -A)
+          - ANYPOINT_CLIENT_SECRET_ENCRYPTED=$(echo -n "${{ secrets.ANYPOINT_CLIENT_SECRET }}" | openssl enc -aes-256-cbc -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64 -A)
+          - GIT_TOKEN_ENCRYPTED=$(echo -n "${{ secrets.GIT_TOKEN }}" | openssl enc -aes-256-cbc -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64 -A)
+
+
           cat << EOF > settings.xml
           <settings>
             <servers>
               <server>
                 <id>anypoint-repo</id>
-                <username>${{ secrets.ANYPOINT_CLIENT_ID }}</username>
-                <password>${{ secrets.ANYPOINT_CLIENT_SECRET }}</password>
+                <username>${ANYPOINT_CLIENT_ID_ENCRYPTED}</username>
+                <password>${ANYPOINT_CLIENT_SECRET_ENCRYPTED}</password>
               </server>
               <server>
                 <id>github-repo</id>
-                <username>${{ secrets.GIT_EMAIL }}</username>
-                <password>${{ secrets.GIT_TOKEN }}</password>
+                <username>${GIT_EMAIL_ENCRYPTED}</username>
+                <password>${GIT_TOKEN_ENCRYPTED}</password>
               </server>
             </servers>
             <profiles>
               <profile>
                 <id>anypoint-profile</id>
                 <properties>
-                  <anypoint.clientId>${{ secrets.ANYPOINT_CLIENT_ID }}</anypoint.clientId>
-                  <anypoint.clientSecret>${{ secrets.ANYPOINT_CLIENT_SECRET }}</anypoint.clientSecret>
+                  <anypoint.clientId>${ANYPOINT_CLIENT_ID_ENCRYPTED}</anypoint.clientId>
+                  <anypoint.clientSecret>${ANYPOINT_CLIENT_SECRET_ENCRYPTED}</anypoint.clientSecret>
                 </properties>
               </profile>
               <profile>
                 <id>github-profile</id>
                 <properties>
-                  <github.email>${{ secrets.GIT_EMAIL }}</github.email>
-                  <github.token>${{ secrets.GIT_TOKEN }}</github.token>
+                  <github.email>${GIT_EMAIL_ENCRYPTED}</github.email>
+                  <github.token>${GIT_TOKEN_ENCRYPTED}</github.token>
                 </properties>
               </profile>
             </profiles>
@@ -76,14 +82,27 @@ jobs:
           
       - name: Create and Update Parent POM File
         run: |
-          GIT_EMAIL_USER=$(sed -n '/<id>github-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p' settings.xml)
-          GIT_TOKEN_USER=$(sed -n '/<id>github-repo<\/id>/,/<\/server>/ s/.*<password>\(.*\)<\/password>.*/\1/p' settings.xml)
-          git config --global user.email "${GIT_EMAIL_USER}"
+          # Decrypt the GITHUB_EMAIL
+          - |
+            GIT_EMAIL_ENCRYPTED=$(sed -n "/<id>github-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p" settings.xml)
+            GIT_EMAIL_DECRYPTED=$(echo "${GIT_EMAIL_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)
+
+          # Decrypt the GITHUB_TOKEN
+          - |
+            GIT_TOKEN_ENCRYPTED=$(sed -n "/<id>gitlab-repo<\/id>/,/<\/server>/ s/.*<password>\(.*\)<\/password>.*/\1/p" settings.xml)
+            GIT_TOKEN_DECRYPTED=$(echo "${GIT_TOKEN_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)
+          - echo "${GITLAB_TOKEN_DECRYPTED}"
+
+          # GIT_EMAIL_USER=$(sed -n '/<id>github-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p' settings.xml)
+          # GIT_TOKEN_USER=$(sed -n '/<id>github-repo<\/id>/,/<\/server>/ s/.*<password>\(.*\)<\/password>.*/\1/p' settings.xml)
+          git config --global user.email "${GIT_EMAIL_DECRYPTED}"
        
           touch update-parentPOM.sh
           echo '#!/bin/bash' > update-parentPOM.sh
-          echo 'ANYPOINT_ID=$(sed -n "/<id>anypoint-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p" settings.xml)' >> update-parentPOM.sh
-          echo 'ANYPOINT_SECRET=$(sed -n "/<id>anypoint-repo<\/id>/,/<\/server>/ s/.*<password>\(.*\)<\/password>.*/\1/p" settings.xml)' >> update-parentPOM.sh
+          echo 'ANYPOINT_CLIENT_ID_ENCRYPTED=$(sed -n "/<id>anypoint-repo</id>/,/</server>/ s/.<username>(.)</username>./\1/p" settings.xml)' >> update-parentPOM.sh
+          echo 'ANYPOINT_CLIENT_SECRET_ENCRYPTED=$(sed -n "/<id>anypoint-repo</id>/,/</server>/ s/.<password>(.)</password>./\1/p" settings.xml)' >> update-parentPOM.sh
+          echo 'ANYPOINT_ID=$(echo "${ANYPOINT_CLIENT_ID_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)' >> update-parentPOM.sh
+          echo 'ANYPOINT_SECRET=$(echo "${ANYPOINT_CLIENT_SECRET_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)' >> update-parentPOM.sh
           echo 'cat << EOF > parent_pom.xml' >> update-parentPOM.sh
           echo '<?xml version="1.0" encoding="UTF-8"?>' >> update-parentPOM.sh
           echo '<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">' >> update-parentPOM.sh
