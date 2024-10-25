@@ -126,16 +126,13 @@ jobs:
           echo 'if [ -f settings.xml ]; then' >> update-parentPOM.sh
           echo '    ANYPOINT_CLIENT_ID_ENCRYPTED=$(sed -n "/<id>anypoint-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p" settings.xml)' >> update-parentPOM.sh
           echo '    ANYPOINT_CLIENT_SECRET_ENCRYPTED=$(sed -n "/<id>anypoint-repo<\/id>/,/<\/server>/ s/.*<password>\(.*\)<\/password>.*/\1/p" settings.xml)' >> update-parentPOM.sh
-          echo '        echo "Anypoint Client ID: $ANYPOINT_CLIENT_ID_ENCRYPTED"' >> update-parentPOM.sh
-          echo '        echo "Anypoint Client SECRET: $ANYPOINT_CLIENT_SECRET_ENCRYPTED"' >> update-parentPOM.sh
-          echo 'fi' >> update-parentPOM.sh
-          echo 'ANYPOINT_CLIENT_ID_ENCRYPTED=$(sed -n "/<id>anypoint-repo</id>/,/</server>/ s/.<username>(.)</username>./\1/p" settings.xml)' >> update-parentPOM.sh
-          echo 'ANYPOINT_CLIENT_SECRET_ENCRYPTED=$(sed -n "/<id>anypoint-repo</id>/,/</server>/ s/.<password>(.)</password>./\1/p" settings.xml)' >> update-parentPOM.sh
-          echo 'echo $ANYPOINT_CLIENT_ID_ENCRYPTED' >> update-parentPOM.sh
-          echo 'ANYPOINT_ID_DECRYPTED=$(echo "${ANYPOINT_CLIENT_ID_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)' >> update-parentPOM.sh
-          echo "${ANYPOINT_ID_DECRYPTED}"
-          echo 'ANYPOINT_SECRET_DECRYPTED=$(echo "${ANYPOINT_CLIENT_SECRET_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)' >> update-parentPOM.sh
-          echo "${AANYPOINT_SECRET_DECRYPTED}"
+          echo '    echo "Anypoint Client ID: $ANYPOINT_CLIENT_ID_ENCRYPTED"' >> update-parentPOM.sh
+          echo '    echo "Anypoint Client SECRET: $ANYPOINT_CLIENT_SECRET_ENCRYPTED"' >> update-parentPOM.sh
+          # echo 'ANYPOINT_CLIENT_ID_ENCRYPTED=$(sed -n "/<id>anypoint-repo</id>/,/</server>/ s/.<username>(.)</username>./\1/p" settings.xml)' >> update-parentPOM.sh
+          # echo 'ANYPOINT_CLIENT_SECRET_ENCRYPTED=$(sed -n "/<id>anypoint-repo</id>/,/</server>/ s/.<password>(.)</password>./\1/p" settings.xml)' >> update-parentPOM.sh
+          # echo 'echo $ANYPOINT_CLIENT_ID_ENCRYPTED' >> update-parentPOM.sh
+          echo '    ANYPOINT_ID_DECRYPTED=$(echo "${ANYPOINT_CLIENT_ID_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)' >> update-parentPOM.sh
+          echo '    ANYPOINT_SECRET_DECRYPTED=$(echo "${ANYPOINT_CLIENT_SECRET_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)' >> update-parentPOM.sh
           echo 'cat << EOF > parent_pom.xml' >> update-parentPOM.sh
           echo '<?xml version="1.0" encoding="UTF-8"?>' >> update-parentPOM.sh
           echo '<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">' >> update-parentPOM.sh
@@ -169,6 +166,7 @@ jobs:
           echo '  git add parent_pom.xml update-parentPOM.sh' >> update-parentPOM.sh
           echo '  git commit -m "Create and update Parent POM file"' >> update-parentPOM.sh
           echo '  git push dev ${{ github.ref_name }}' >> update-parentPOM.sh
+          echo 'fi' >> update-parentPOM.sh
           echo 'fi' >> update-parentPOM.sh
           chmod +x update-parentPOM.sh
           ./update-parentPOM.sh
