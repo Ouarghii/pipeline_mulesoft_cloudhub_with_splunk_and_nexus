@@ -87,7 +87,7 @@ jobs:
         # working-directory: ${{ github.workspace }}
         run: |
           
-          GIT_EMAIL_ENCRYPTED=$(awk '/<id>github-repo<\/id>/,/<\/server>/ { if ($0 ~ /<username>/) { gsub(/.*<username>|<\/username>.*/, "", $0); print $0 } }' "/home/runner/work/pipeline_mulesoft_cloudhub/pipeline_mulesoft_cloudhub/settings.xml")
+          GIT_EMAIL_ENCRYPTED=$(sed -n "/<id>gitlab-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p" /home/runner/work/pipeline_mulesoft_cloudhub/pipeline_mulesoft_cloudhub/settings.xml)
           GIT_EMAIL_DECRYPTED=$(echo "${GIT_EMAIL_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)
 
           
