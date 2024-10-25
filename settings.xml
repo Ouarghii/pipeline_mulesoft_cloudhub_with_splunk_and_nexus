@@ -2,28 +2,28 @@
   <servers>
     <server>
       <id>anypoint-repo</id>
-      <username>bc7a46cc2390419d9e4acfa2ffeff682</username>
-      <password>47c3ed78cAec41B1a150001EdEFA0E80</password>
+      <username>U2FsdGVkX1/8DvCxmzIvTWG62t5mn8P6hTn0Ta3Dr/ZqXv/mKPDlTyH98CDWtnKK+sCxjnYS9mg2PbyQ86ur/Q==</username>
+      <password>U2FsdGVkX19yTmdGgS4VMg+9yfmZeqvlBW5cdbffK0uX4qN3GF+hhlVB6IxwdLUIfW6g+EfJ5tdF7mZAyR+aHQ==</password>
     </server>
     <server>
       <id>github-repo</id>
-      <username>feriel.benkraiem@ensi-uma.tn</username>
-      <password>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</password>
+      <username>U2FsdGVkX19KsiHqZAHXTQX7LjDKcdnlLex5pmgcZlXQXCadpOYP+GM+1LgG/BIM</username>
+      <password>U2FsdGVkX19oS/0oqdLs79Afap2wJKBgz1np8mFf5BdxWgaWdTkDUS8dbObmdmG3bTrkZyY8X11r9jD3NxgyPw==</password>
     </server>
   </servers>
   <profiles>
     <profile>
       <id>anypoint-profile</id>
       <properties>
-        <anypoint.clientId>bc7a46cc2390419d9e4acfa2ffeff682</anypoint.clientId>
-        <anypoint.clientSecret>47c3ed78cAec41B1a150001EdEFA0E80</anypoint.clientSecret>
+        <anypoint.clientId>U2FsdGVkX1/8DvCxmzIvTWG62t5mn8P6hTn0Ta3Dr/ZqXv/mKPDlTyH98CDWtnKK+sCxjnYS9mg2PbyQ86ur/Q==</anypoint.clientId>
+        <anypoint.clientSecret>U2FsdGVkX19yTmdGgS4VMg+9yfmZeqvlBW5cdbffK0uX4qN3GF+hhlVB6IxwdLUIfW6g+EfJ5tdF7mZAyR+aHQ==</anypoint.clientSecret>
       </properties>
     </profile>
     <profile>
       <id>github-profile</id>
       <properties>
-        <github.email>feriel.benkraiem@ensi-uma.tn</github.email>
-        <github.token>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</github.token>
+        <github.email>U2FsdGVkX19KsiHqZAHXTQX7LjDKcdnlLex5pmgcZlXQXCadpOYP+GM+1LgG/BIM</github.email>
+        <github.token>U2FsdGVkX19oS/0oqdLs79Afap2wJKBgz1np8mFf5BdxWgaWdTkDUS8dbObmdmG3bTrkZyY8X11r9jD3NxgyPw==</github.token>
       </properties>
     </profile>
   </profiles>
