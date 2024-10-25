@@ -27,7 +27,9 @@ jobs:
         run: |
           git remote add dev https://${{ secrets.GIT_TOKEN }}@github.com/Ferielkraiem2000/pipeline_mulesoft_cloudhub.git
           git remote set-url dev https://${{ secrets.GIT_TOKEN }}@github.com/Ferielkraiem2000/pipeline_mulesoft_cloudhub.git
-          
+      - name: Set permissions for settings.xml
+        run: chmod 644 settings.xml
+    
       - name: Create and push Maven settings file
         run: |
  
