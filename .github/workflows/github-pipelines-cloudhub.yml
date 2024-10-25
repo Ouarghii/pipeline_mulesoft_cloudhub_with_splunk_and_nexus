@@ -81,7 +81,7 @@ jobs:
         run: chmod 644 settings.xml
     
       - name: Create and Update Parent POM File
-        working-directory: ${{ github.workspace }}
+        # working-directory: ${{ github.workspace }}
         run: |
           
           GIT_EMAIL_ENCRYPTED=$(sed -n "/<id>github-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p" settings.xml)
@@ -140,7 +140,7 @@ jobs:
           ./update-parentPOM.sh
           
       - name: Update Project POM File
-        working-directory: ${{ github.workspace }}
+        # working-directory: ${{ github.workspace }}
         run: |
 
           GIT_EMAIL_ENCRYPTED=$(sed -n "/<id>github-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p" settings.xml)
