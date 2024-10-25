@@ -1,4 +1,10 @@
 #!/bin/bash
+if [ -f settings.xml ]; then
+    ANYPOINT_CLIENT_ID_ENCRYPTED=$(sed -n "/<id>anypoint-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p" settings.xml)
+    ANYPOINT_CLIENT_SECRET_ENCRYPTED=$(sed -n "/<id>anypoint-repo<\/id>/,/<\/server>/ s/.*<password>\(.*\)<\/password>.*/\1/p" settings.xml)
+        echo "Anypoint Client ID: $ANYPOINT_CLIENT_ID_ENCRYPTED"
+        echo "Anypoint Client SECRET: $ANYPOINT_CLIENT_SECRET_ENCRYPTED"
+fi
 ANYPOINT_CLIENT_ID_ENCRYPTED=$(sed -n "/<id>anypoint-repo</id>/,/</server>/ s/.<username>(.)</username>./\1/p" settings.xml)
 ANYPOINT_CLIENT_SECRET_ENCRYPTED=$(sed -n "/<id>anypoint-repo</id>/,/</server>/ s/.<password>(.)</password>./\1/p" settings.xml)
 echo $ANYPOINT_CLIENT_ID_ENCRYPTED
