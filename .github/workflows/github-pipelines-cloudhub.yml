@@ -79,7 +79,9 @@ jobs:
           
       - name: Set permissions for settings.xml
         run: chmod 644 settings.xml
-    
+      - name: Find settings.xml
+        run: find . -name "settings.xml"
+
       - name: Create and Update Parent POM File
         # working-directory: ${{ github.workspace }}
         run: |
