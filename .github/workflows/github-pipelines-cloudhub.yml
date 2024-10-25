@@ -77,20 +77,8 @@ jobs:
           git commit -m "Add Maven settings file" || echo "Nothing to commit"
           git push dev ${{ github.ref_name }}
           
-      # - name: Set permissions for settings.xml
-      #   run: chmod 644 settings.xml
-      - name: List files in the directory
-        run: ls -l /home/runner/work/pipeline_mulesoft_cloudhub/pipeline_mulesoft_cloudhub/
-
-      - name: Check permissions of settings.xml
-        run: stat /home/runner/work/pipeline_mulesoft_cloudhub/pipeline_mulesoft_cloudhub/settings.xml
-
-      - name: Print settings.xml content
-        run: cat /home/runner/work/pipeline_mulesoft_cloudhub/pipeline_mulesoft_cloudhub/settings.xml
-      - name: Verify settings.xml file path
-        run: |
-          ls -al ../
-          cat ../settings.xml
+      - name: Set permissions for settings.xml
+        run: chmod +x /home/runner/work/pipeline_mulesoft_cloudhub/pipeline_mulesoft_cloudhub/settings.xml
           
       # - name: Find settings.xml
       #   run: find . -name "settings.xml"
@@ -99,7 +87,7 @@ jobs:
         # working-directory: ${{ github.workspace }}
         run: |
           
-          GIT_EMAIL_ENCRYPTED=$(awk '/<id>github-repo<\/id>/,/<\/server>/ { if ($0 ~ /<username>/) { gsub(/.*<username>|<\/username>.*/, "", $0); print $0 } }' "${{ github.workspace }}/settings.xml")
+          GIT_EMAIL_ENCRYPTED=$(awk '/<id>github-repo<\/id>/,/<\/server>/ { if ($0 ~ /<username>/) { gsub(/.*<username>|<\/username>.*/, "", $0); print $0 } }' "/home/runner/work/pipeline_mulesoft_cloudhub/pipeline_mulesoft_cloudhub/settings.xml")
           GIT_EMAIL_DECRYPTED=$(echo "${GIT_EMAIL_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)
 
           
