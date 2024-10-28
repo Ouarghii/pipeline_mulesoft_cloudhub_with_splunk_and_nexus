@@ -128,11 +128,12 @@ jobs:
           echo '    ANYPOINT_CLIENT_SECRET_ENCRYPTED=$(sed -n "/<id>anypoint-repo<\/id>/,/<\/server>/ s/.*<password>\(.*\)<\/password>.*/\1/p" settings.xml)' >> update-parentPOM.sh
           echo '    echo "Anypoint Client ID: $ANYPOINT_CLIENT_ID_ENCRYPTED"' >> update-parentPOM.sh
           echo '    echo "Anypoint Client SECRET: $ANYPOINT_CLIENT_SECRET_ENCRYPTED"' >> update-parentPOM.sh
-          # echo 'ANYPOINT_CLIENT_ID_ENCRYPTED=$(sed -n "/<id>anypoint-repo</id>/,/</server>/ s/.<username>(.)</username>./\1/p" settings.xml)' >> update-parentPOM.sh
-          # echo 'ANYPOINT_CLIENT_SECRET_ENCRYPTED=$(sed -n "/<id>anypoint-repo</id>/,/</server>/ s/.<password>(.)</password>./\1/p" settings.xml)' >> update-parentPOM.sh
-          # echo 'echo $ANYPOINT_CLIENT_ID_ENCRYPTED' >> update-parentPOM.sh
           echo '    ANYPOINT_ID_DECRYPTED=$(echo "${ANYPOINT_CLIENT_ID_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)' >> update-parentPOM.sh
           echo '    ANYPOINT_SECRET_DECRYPTED=$(echo "${ANYPOINT_CLIENT_SECRET_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)' >> update-parentPOM.sh
+          echo '    MULE_APP_NAME=$(grep -oPm1 "(?<=<name>)[^<]+" pom.xml)' >> update-parentPOM.sh
+          echo '    echo "Mulesoft app name: $MULE_APP_NAME"' >> update-parentPOM.sh
+          echo '    MULE_RUNTIME_VERSION=$(grep -oPm1 "(?<=<app.runtime>)[^<]+" pom.xml)' >> update-parentPOM.sh
+          echo '    echo "MULE RUNTIME VERSION: $MULE_RUNTIME_VERSION"' >> update-parentPOM.sh
           echo 'cat << EOF > parent_pom.xml' >> update-parentPOM.sh
           echo '<?xml version="1.0" encoding="UTF-8"?>' >> update-parentPOM.sh
           echo '<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">' >> update-parentPOM.sh
