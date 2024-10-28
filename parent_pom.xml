@@ -31,10 +31,8 @@
 <environment>developer</environment>
 <workers>1</workers>
 <objectStoreV2>true</objectStoreV2>
+<overwrite>true</overwrite>
 </cloudHubDeployment>
-<deploymentSettings>
-<updateStrategy>update</updateStrategy>
-</deploymentSettings>
 </configuration>
 </plugin>
     </plugins>
