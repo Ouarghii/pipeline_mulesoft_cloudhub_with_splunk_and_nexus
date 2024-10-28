@@ -31,6 +31,8 @@
 <environment>developer</environment>
 <workers>1</workers>
 <objectStoreV2>true</objectStoreV2>
+<redeploy>true</redeploy>
+<deploymentTimeout>120000</deploymentTimeout>
 </cloudHubDeployment>
 <deploymentSettings>
 <updateStrategy>recreate</updateStrategy>
