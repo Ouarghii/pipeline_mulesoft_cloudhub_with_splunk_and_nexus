@@ -33,11 +33,7 @@
 <objectStoreV2>true</objectStoreV2>
 </cloudHubDeployment>
 <deploymentSettings>
-<autoscaling>
-<enabled>true</enabled>
-<minReplicas>1</minReplicas>
-<maxReplicas>2</maxReplicas>
-</autoscaling>
+<updateStrategy>update</updateStrategy>
 </deploymentSettings>
 </configuration>
 </plugin>
