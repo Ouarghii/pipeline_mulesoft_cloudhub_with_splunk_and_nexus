@@ -22,7 +22,7 @@ cat << EOF > parent_pom.xml
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <app.runtime>4.8.0</app.runtime>
+    <app.runtime>${MULE_RUNTIME_VERSION}</app.runtime>
     <mule.maven.plugin.version>4.2.0</mule.maven.plugin.version>
   </properties>
   <build>
@@ -34,9 +34,9 @@ EOF
 PLUGIN_EXISTS=$(grep -c "<groupId>org.mule.tools.maven</groupId>" parent_pom.xml)
 if [ "$PLUGIN_EXISTS" -eq 0 ]; then
   if [ "developer" == "main" ] || [ "developer" == "master" ]; then
-    CONFIGURATION="<plugin>\n<groupId>org.mule.tools.maven</groupId>\n<artifactId>mule-maven-plugin</artifactId>\n<version>\${mule.maven.plugin.version}</version>\n<extensions>true</extensions>\n<configuration>\n<cloudHubDeployment>\n<uri>https://anypoint.mulesoft.com/</uri>\n<muleVersion>4.8.0</muleVersion>\n<connectedAppClientId>${ANYPOINT_ID_DECRYPTED}</connectedAppClientId>\n<connectedAppClientSecret>${ANYPOINT_SECRET_DECRYPTED}</connectedAppClientSecret>\n<connectedAppGrantType>client_credentials</connectedAppGrantType>\n<applicationName>devops</applicationName>\n<businessGroup>ITMMA</businessGroup>\n<environment>product</environment>\n<workers>1</workers>\n<objectStoreV2>true</objectStoreV2>\n</cloudHubDeployment>\n</configuration>\n</plugin>"
+    CONFIGURATION="<plugin>\n<groupId>org.mule.tools.maven</groupId>\n<artifactId>mule-maven-plugin</artifactId>\n<version>\${mule.maven.plugin.version}</version>\n<extensions>true</extensions>\n<configuration>\n<cloudHubDeployment>\n<uri>https://anypoint.mulesoft.com/</uri>\n<muleVersion>${MULE_RUNTIME_VERSION}</muleVersion>\n<connectedAppClientId>${ANYPOINT_ID_DECRYPTED}</connectedAppClientId>\n<connectedAppClientSecret>${ANYPOINT_SECRET_DECRYPTED}</connectedAppClientSecret>\n<connectedAppGrantType>client_credentials</connectedAppGrantType>\n<applicationName>${MULE_APP_NAME}</applicationName>\n<businessGroup>ITMMA</businessGroup>\n<environment>product</environment>\n<workers>1</workers>\n<objectStoreV2>true</objectStoreV2>\n</cloudHubDeployment>\n</configuration>\n</plugin>"
   else
-    CONFIGURATION="<plugin>\n<groupId>org.mule.tools.maven</groupId>\n<artifactId>mule-maven-plugin</artifactId>\n<version>\${mule.maven.plugin.version}</version>\n<extensions>true</extensions>\n<configuration>\n<cloudHubDeployment>\n<uri>https://anypoint.mulesoft.com/</uri>\n<muleVersion>4.8.0</muleVersion>\n<connectedAppClientId>${ANYPOINT_ID_DECRYPTED}</connectedAppClientId>\n<connectedAppClientSecret>${ANYPOINT_SECRET_DECRYPTED}</connectedAppClientSecret>\n<connectedAppGrantType>client_credentials</connectedAppGrantType>\n<applicationName>devops</applicationName>\n<businessGroup>ITMMA</businessGroup>\n<environment>developer</environment>\n<workers>1</workers>\n<objectStoreV2>true</objectStoreV2>\n</cloudHubDeployment>\n</configuration>\n</plugin>"
+    CONFIGURATION="<plugin>\n<groupId>org.mule.tools.maven</groupId>\n<artifactId>mule-maven-plugin</artifactId>\n<version>\${mule.maven.plugin.version}</version>\n<extensions>true</extensions>\n<configuration>\n<cloudHubDeployment>\n<uri>https://anypoint.mulesoft.com/</uri>\n<muleVersion>${MULE_RUNTIME_VERSION}</muleVersion>\n<connectedAppClientId>${ANYPOINT_ID_DECRYPTED}</connectedAppClientId>\n<connectedAppClientSecret>${ANYPOINT_SECRET_DECRYPTED}</connectedAppClientSecret>\n<connectedAppGrantType>client_credentials</connectedAppGrantType>\n<applicationName>${MULE_APP_NAME}</applicationName>\n<businessGroup>ITMMA</businessGroup>\n<environment>developer</environment>\n<workers>1</workers>\n<objectStoreV2>true</objectStoreV2>\n</cloudHubDeployment>\n</configuration>\n</plugin>"
   fi
   sed -i "/<\/plugins>/i $CONFIGURATION" parent_pom.xml
   git checkout -b developer || git checkout developer
