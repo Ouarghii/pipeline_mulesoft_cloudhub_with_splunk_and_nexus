@@ -31,9 +31,9 @@
 <environment>developer</environment>
 <workers>1</workers>
 <objectStoreV2>true</objectStoreV2>
+<redeploy>true</redeploy>
 </cloudHubDeployment>
 </configuration>
-<update>true</update>
 </plugin>
     </plugins>
   </build>
