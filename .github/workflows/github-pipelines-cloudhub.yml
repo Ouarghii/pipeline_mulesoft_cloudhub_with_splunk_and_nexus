@@ -237,7 +237,7 @@ jobs:
         id: deploy
         run: |
           # START_TIME=$(date +%s)
-          mvn deploy -DmuleDeploy -DskipTests
+          mvn mule:redeploy -DmuleDeploy -DskipTests
           # END_TIME=$(date +%s)
           # DEPLOY_DURATION=$((END_TIME - START_TIME))
           
