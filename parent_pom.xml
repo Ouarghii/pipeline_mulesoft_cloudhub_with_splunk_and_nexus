@@ -32,6 +32,9 @@
 <workers>1</workers>
 <objectStoreV2>true</objectStoreV2>
 </cloudHubDeployment>
+<deploymentSettings>
+<updateStrategy>recreate</updateStrategy>
+</deploymentSettings>
 </configuration>
 </plugin>
     </plugins>
