@@ -6,8 +6,28 @@ if [ -f settings.xml ]; then
     echo "Anypoint Client SECRET: $ANYPOINT_CLIENT_SECRET_ENCRYPTED"
     ANYPOINT_ID_DECRYPTED=$(echo "${ANYPOINT_CLIENT_ID_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "wQf9vaGtyBckXAqzNWbNuC50VlgY50fOj2IF2Rn2NHA=" -base64)
     ANYPOINT_SECRET_DECRYPTED=$(echo "${ANYPOINT_CLIENT_SECRET_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "wQf9vaGtyBckXAqzNWbNuC50VlgY50fOj2IF2Rn2NHA=" -base64)
+    org_id=$(curl -X GET "https://anypoint.mulesoft.com/accounts/api/me" -H "Authorization: Bearer ${ACCESS_TOKEN}" -H "Content-Type: application/json" | jq -r ".user.organization.id")
+    env_id=$(curl -X GET "https://anypoint.mulesoft.com/accounts/api/organizations/7ad879c6-b198-41d4-b976-e09aec855fdc/environments?name=$AZURE_BRANCH" -H "Authorization: Bearer ${ACCESS_TOKEN}" -H "Content-Type: application/json" | jq -r ".data[0].id")
+    apps_cloudhub=$(curl -X GET "https://anypoint.mulesoft.com/cloudhub/api/v2/applications" -H "Authorization: Bearer ${ACCESS_TOKEN}" -H "x-anypnt-env-id: $env_id" | jq -r ".[].domain")
     MULE_APP_NAME=$(grep -oPm1 "(?<=<name>)[^<]+" pom.xml)
-    echo "Mulesoft app name: $MULE_APP_NAME"
+    found=false
+    for app in $apps_cloudhub; do
+          if [[ "$app" == "$MULE_APP_NAME" ]]; then
+              found=true
+                break
+          fi
+    done
+    if $found; then
+      version_number=1
+      echo "Application $MULE_APP_NAME already deployed in cloudHub."
+      while echo "$apps_cloudhub" | grep -q "${MULE_APP_NAME}v$version_number"; do
+          echo "Application $MULE_APP_NAMEV$version_number already deployed in cloudHub."
+            version_number=$((version_number + 1))
+      done
+    MULE_APP_NAME="${MULE_APP_NAME}V$version_number"
+    echo "MULEOSFT app name: $MULE_APP_NAME"
+    fi
+    echo "Deploying application: ${MULE_APP_NAME}"
     MULE_RUNTIME_VERSION=$(grep -oPm1 "(?<=<app.runtime>)[^<]+" pom.xml)
     echo "MULE RUNTIME VERSION: $MULE_RUNTIME_VERSION"
 cat << EOF > parent_pom.xml
