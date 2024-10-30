@@ -6,9 +6,9 @@ if [ -f settings.xml ]; then
     echo "Anypoint Client SECRET: $ANYPOINT_CLIENT_SECRET_ENCRYPTED"
     ANYPOINT_ID_DECRYPTED=$(echo "${ANYPOINT_CLIENT_ID_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "wQf9vaGtyBckXAqzNWbNuC50VlgY50fOj2IF2Rn2NHA=" -base64)
     ANYPOINT_SECRET_DECRYPTED=$(echo "${ANYPOINT_CLIENT_SECRET_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "wQf9vaGtyBckXAqzNWbNuC50VlgY50fOj2IF2Rn2NHA=" -base64)
-    org_id=$(curl -X GET "https://anypoint.mulesoft.com/accounts/api/me" -H "Authorization: Bearer ${ACCESS_TOKEN}" -H "Content-Type: application/json" | jq -r ".user.organization.id")
-    env_id=$(curl -X GET "https://anypoint.mulesoft.com/accounts/api/organizations/7ad879c6-b198-41d4-b976-e09aec855fdc/environments?name=$AZURE_BRANCH" -H "Authorization: Bearer ${ACCESS_TOKEN}" -H "Content-Type: application/json" | jq -r ".data[0].id")
-    apps_cloudhub=$(curl -X GET "https://anypoint.mulesoft.com/cloudhub/api/v2/applications" -H "Authorization: Bearer ${ACCESS_TOKEN}" -H "x-anypnt-env-id: $env_id" | jq -r ".[].domain")
+    org_id=$(curl -X GET "https://anypoint.mulesoft.com/accounts/api/me" -H "Authorization: Bearer 32f09c6a-bd2f-4648-a2d6-44df19bd552d" -H "Content-Type: application/json" | jq -r ".user.organization.id")
+    env_id=$(curl -X GET "https://anypoint.mulesoft.com/accounts/api/organizations/$org_id/environments?name=developer" -H "Authorization: Bearer 32f09c6a-bd2f-4648-a2d6-44df19bd552d" -H "Content-Type: application/json" | jq -r ".data[0].id")
+    apps_cloudhub=$(curl -X GET "https://anypoint.mulesoft.com/cloudhub/api/v2/applications" -H "Authorization: Bearer 32f09c6a-bd2f-4648-a2d6-44df19bd552d" -H "x-anypnt-env-id: $env_id" | jq -r ".[].domain")
     MULE_APP_NAME=$(grep -oPm1 "(?<=<name>)[^<]+" pom.xml)
     found=false
     for app in $apps_cloudhub; do
