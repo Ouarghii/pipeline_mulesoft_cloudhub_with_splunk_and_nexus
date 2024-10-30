@@ -76,50 +76,14 @@ jobs:
           git add settings.xml
           git commit -m "Add Maven settings file" || echo "Nothing to commit"
           git push dev ${{ github.ref_name }}
-      - name: Check if settings.xml exists and list permissions
-        run: |
-          ls -l settings.xml
-          cat settings.xml  # This will show the content of the file
 
-      - name: Extract GIT_EMAIL_ENCRYPTED
-        run: |
-          if [ -f settings.xml ]; then
-            GIT_EMAIL_ENCRYPTED=$(sed -n '/<id>github-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p' settings.xml)
-            echo "Extracted email: $GIT_EMAIL_ENCRYPTED"
-            GIT_EMAIL_DECRYPTED=$(echo "$GIT_EMAIL_ENCRYPTED" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64 -A)
-            echo "Decrypted email: $GIT_EMAIL_DECRYPTED"
-            ANYPOINT_CLIENT_ID_ENCRYPTED=$(sed -n "/<id>anypoint-repo</id>/,/</server>/ s/.<username>(.)</username>./\1/p" settings.xml)
-            echo "$ANYPOINT_CLIENT_ID_ENCRYPTED"
-          else
-            echo "settings.xml does not exist."
-          fi
-      - name: Extract Anypoint Client ID and Secret
-        run: |
-          if [ -f settings.xml ]; then
-            ANYPOINT_CLIENT_ID=$(sed -n '/<id>anypoint-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p' settings.xml)
-            ANYPOINT_CLIENT_SECRET=$(sed -n '/<id>anypoint-repo<\/id>/,/<\/server>/ s/.*<password>\(.*\)<\/password>.*/\1/p' settings.xml)
-            echo "Extracted Client ID: $ANYPOINT_CLIENT_ID"
-            echo "Extracted Client Secret: $ANYPOINT_CLIENT_SECRET"
-          else
-            echo "settings.xml does not exist."
-          fi 
       - name: Create and Update Parent POM File
         run: |
           
           if [ -f settings.xml ]; then
             GIT_EMAIL_ENCRYPTED=$(sed -n '/<id>github-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p' settings.xml)
-            echo "Extracted email: $GIT_EMAIL_ENCRYPTED"          
             GIT_EMAIL_DECRYPTED=$(echo "${GIT_EMAIL_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)
-            echo "Decrypted email: $GIT_EMAIL_DECRYPTED"          
-
-          
-          # GIT_TOKEN_ENCRYPTED=$(sed -n '/<id>github-repo<\/id>/,/<\/server>/ s/.*<password>\(.*\)<\/password>.*/\1/p' settings.xml)
-          # GIT_TOKEN_DECRYPTED=$(echo "${GIT_TOKEN_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)
-          # echo "${GITLAB_TOKEN_DECRYPTED}"
-
-          # GIT_EMAIL_USER=$(sed -n '/<id>github-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p' settings.xml)
-          # GIT_TOKEN_USER=$(sed -n '/<id>github-repo<\/id>/,/<\/server>/ s/.*<password>\(.*\)<\/password>.*/\1/p' settings.xml)
-          git config --global user.email "${GIT_EMAIL_DECRYPTED}"
+            git config --global user.email "${GIT_EMAIL_DECRYPTED}"
           fi
           touch update-parentPOM.sh
           echo '#!/bin/bash' > update-parentPOM.sh
@@ -130,8 +94,28 @@ jobs:
           echo '    echo "Anypoint Client SECRET: $ANYPOINT_CLIENT_SECRET_ENCRYPTED"' >> update-parentPOM.sh
           echo '    ANYPOINT_ID_DECRYPTED=$(echo "${ANYPOINT_CLIENT_ID_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)' >> update-parentPOM.sh
           echo '    ANYPOINT_SECRET_DECRYPTED=$(echo "${ANYPOINT_CLIENT_SECRET_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)' >> update-parentPOM.sh
+          echo '    org_id=$(curl -X GET "https://anypoint.mulesoft.com/accounts/api/me" -H "Authorization: Bearer ${ACCESS_TOKEN}" -H "Content-Type: application/json" | jq -r ".user.organization.id")' >> update-parentPOM.sh
+          echo '    env_id=$(curl -X GET "https://anypoint.mulesoft.com/accounts/api/organizations/7ad879c6-b198-41d4-b976-e09aec855fdc/environments?name=$AZURE_BRANCH" -H "Authorization: Bearer ${ACCESS_TOKEN}" -H "Content-Type: application/json" | jq -r ".data[0].id")' >> update-parentPOM.sh
+          echo '    apps_cloudhub=$(curl -X GET "https://anypoint.mulesoft.com/cloudhub/api/v2/applications" -H "Authorization: Bearer ${ACCESS_TOKEN}" -H "x-anypnt-env-id: $env_id" | jq -r ".[].domain")' >> update-parentPOM.sh
           echo '    MULE_APP_NAME=$(grep -oPm1 "(?<=<name>)[^<]+" pom.xml)' >> update-parentPOM.sh
-          echo '    echo "Mulesoft app name: $MULE_APP_NAME"' >> update-parentPOM.sh
+          echo '    found=false' >> update-parentPOM.sh
+          echo '    for app in $apps_cloudhub; do' >> update-parentPOM.sh
+          echo '          if [[ "$app" == "$MULE_APP_NAME" ]]; then' >> update-parentPOM.sh
+          echo '              found=true' >> update-parentPOM.sh
+          echo '                break' >> update-parentPOM.sh
+          echo '          fi' >> update-parentPOM.sh
+          echo '    done' >> update-parentPOM.sh
+          echo '    if $found; then' >> update-parentPOM.sh
+          echo '      version_number=1' >> update-parentPOM.sh
+          echo '      echo "Application $MULE_APP_NAME already deployed in cloudHub."' >> update-parentPOM.sh
+          echo '      while echo "$apps_cloudhub" | grep -q "${MULE_APP_NAME}v$version_number"; do' >> update-parentPOM.sh
+          echo '          echo "Application $MULE_APP_NAMEV$version_number already deployed in cloudHub."' >> update-parentPOM.sh
+          echo '            version_number=$((version_number + 1))' >> update-parentPOM.sh
+          echo '      done' >> update-parentPOM.sh
+          echo '    MULE_APP_NAME="${MULE_APP_NAME}V$version_number"' >> update-parentPOM.sh
+          echo '    echo "MULEOSFT app name: $MULE_APP_NAME"' >> update-parentPOM.sh
+          echo '    fi' >> update-parentPOM.sh
+          echo '    echo "Deploying application: ${MULE_APP_NAME}"' >> update-parentPOM.sh        
           echo '    MULE_RUNTIME_VERSION=$(grep -oPm1 "(?<=<app.runtime>)[^<]+" pom.xml)' >> update-parentPOM.sh
           echo '    echo "MULE RUNTIME VERSION: $MULE_RUNTIME_VERSION"' >> update-parentPOM.sh
           echo 'cat << EOF > parent_pom.xml' >> update-parentPOM.sh
