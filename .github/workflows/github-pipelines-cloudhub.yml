@@ -287,7 +287,7 @@ jobs:
           echo "Environment ID: $ENV_ID"
           echo "ENV_ID=$ENV_ID" >> $GITHUB_ENV  # Save as environment variable
           # Fetch logs from CloudHub and handle errors
-          curl -X GET "https://anypoint.mulesoft.com/cloudhub/api/v2/applications/devops/deployments/6710deb3f475af69c74f2c83/logs" \
+          curl -X GET "https://anypoint.mulesoft.com/cloudhub/api/v2/applications/mulesoftcicd/deployments/6710deb3f475af69c74f2c83/logs" \
             -H "Authorization: Bearer a54172ff-57f6-40d9-92ed-74c4eb3092ad" \
             -H "x-anypnt-org-id: ${ORG_ID}" \
             -H "X-ANYPNT-ENV-ID: ${ENV_ID}" \
@@ -299,10 +299,10 @@ jobs:
 
             # Prepare the Prometheus metrics file for log count
             LOG_COUNT=$(jq '.data | length' mule-logs.json)
-            echo "mule_logs_total{app_name=\"devops\", environment=\"developer\"} ${LOG_COUNT}" > metrics.txt
+            echo "mule_logs_total{app_name=\"mulesoftcicd\", environment=\"developer\"} ${LOG_COUNT}" > metrics.txt
   
             # Instead of sending full log text as metric values, include log details as labels for Prometheus
-            jq -r '.data[] | "log_entry{app_name=\"devops\", environment=\"developer\", level=\"\(.level)\", timestamp=\"\(.timestamp)\", message=\"\(.message | gsub("\""; "\\\""))\"} 1"' mule-logs.json >> metrics.txt
+            jq -r '.data[] | "log_entry{app_name=\"mulesoftcicd\", environment=\"developer\", level=\"\(.level)\", timestamp=\"\(.timestamp)\", message=\"\(.message | gsub("\""; "\\\""))\"} 1"' mule-logs.json >> metrics.txt
 
             # Display the contents of metrics.txt for review
             cat metrics.txt
