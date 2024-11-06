@@ -377,11 +377,10 @@ jobs:
           fi
 
 
-      - name: Query Prometheus for Metrics
+      - name: Fetch Project Logs and Push to Pushgateway
         run: |
-          PROMETHEUS_URL="https://working-cobra-early.ngrok-free.app"
-          # Query Prometheus to confirm the Pushgateway metrics are scraped
-          curl -s "${PROMETHEUS_URL}/api/v1/query?query=mule_logs_total" || echo "Prometheus query failed"
-          
-          # Optionally, you can output the query result to check for metrics in Prometheus
-          curl -s "${PROMETHEUS_URL}/api/v1/query?query=mule_logs_total" | jq
+          echo "Fetching logs from the remote server..."
+          curl -s https://choice-wahoo-plainly.ngrok-free.app/logs -o project.log || { echo "Failed to retrieve logs"; exit 1; }
+
+          echo "Pushing logs to Pushgateway..."
+          curl -X POST --data-binary @project.log https://intense-dory-notably.ngrok-free.app/metrics/job/ngrok_metrics || echo "Failed to push logs to Pushgateway"
