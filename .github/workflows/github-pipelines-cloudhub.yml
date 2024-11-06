@@ -216,23 +216,23 @@ jobs:
               }' -v
           
 
-      - name: Deploy to CloudHub
-        id: deploy
-        run: |
-          # START_TIME=$(date +%s)
-          mvn deploy -DmuleDeploy -DskipTests
-          # END_TIME=$(date +%s)
-          # DEPLOY_DURATION=$((END_TIME - START_TIME))
+      # - name: Deploy to CloudHub
+      #   id: deploy
+      #   run: |
+      #     # START_TIME=$(date +%s)
+      #     mvn deploy -DmuleDeploy -DskipTests
+      #     # END_TIME=$(date +%s)
+      #     # DEPLOY_DURATION=$((END_TIME - START_TIME))
           
-          # echo "Deploy completed in ${DEPLOY_DURATION} seconds"
+      #     # echo "Deploy completed in ${DEPLOY_DURATION} seconds"
           
-          # # Send deploy duration to Prometheus
-          # curl -X POST https://working-cobra-early.ngrok-free.app/metrics \
-          # -H "Content-Type: application/json" \
-          # -d '{
-          #       "metric": "deploy_duration_seconds",
-          #       "value": "'${DEPLOY_DURATION}'"
-          #     }'
+      #     # # Send deploy duration to Prometheus
+      #     # curl -X POST https://working-cobra-early.ngrok-free.app/metrics \
+      #     # -H "Content-Type: application/json" \
+      #     # -d '{
+      #     #       "metric": "deploy_duration_seconds",
+      #     #       "value": "'${DEPLOY_DURATION}'"
+      #     #     }'
 
 
 
@@ -350,7 +350,7 @@ jobs:
           echo "Environment ID: $ENV_ID"
           echo "ENV_ID=$ENV_ID" >> $GITHUB_ENV  # Save as environment variable
           # Fetch logs from CloudHub and handle errors
-          curl -X GET "https://anypoint.mulesoft.com/cloudhub/api/v2/applications/mulesoftcicd/deployments/672b3bad266afb36fdc1af25/logs" \
+          curl -X GET "https://anypoint.mulesoft.com/cloudhub/api/v2/applications/mulesoftcicd/deployments/672b4b1a5b49ce4666fffad2/logs" \
             -H "Authorization: Bearer a54172ff-57f6-40d9-92ed-74c4eb3092ad" \
             -H "x-anypnt-org-id: 7ad879c6-b198-41d4-b976-e09aec855fdc" \
             -H "X-ANYPNT-ENV-ID: f88fa23e-21ec-41aa-8135-c3e1f3c31124" \
