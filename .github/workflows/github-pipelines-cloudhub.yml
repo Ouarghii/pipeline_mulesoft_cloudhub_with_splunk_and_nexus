@@ -238,87 +238,87 @@ jobs:
 
 
 
-      # - name: Get MuleSoft CloudHub Logs
-      #   run: |
-      #     if [ "$(uname)" == "Darwin" ]; then
-      #       brew install jq  # macOS
-      #     elif [ -x "$(command -v apt-get)" ]; then
-      #       sudo apt-get update && sudo apt-get install -y jq  # Ubuntu/Debian
-      #     elif [ -x "$(command -v yum)" ]; then
-      #       sudo yum install -y jq  # CentOS/RHEL
-      #     elif [ -x "$(command -v pacman)" ]; then
-      #       sudo pacman -S --noconfirm jq  # Arch Linux
-      #     else
-      #       echo "Unsupported OS for jq installation"
-      #       exit 1
-      #     fi
-      #     ORG_RESPONSE=$(curl -X GET "https://anypoint.mulesoft.com/accounts/api/me" \
-      #       -H "Authorization: Bearer ec242a12-3c49-42be-85db-ce167d724531" \
-      #       -H "Content-Type: application/json" \
-      #       -v)  # Verbose mode for debugging
+      - name: Get MuleSoft CloudHub Logs
+        run: |
+          if [ "$(uname)" == "Darwin" ]; then
+            brew install jq  # macOS
+          elif [ -x "$(command -v apt-get)" ]; then
+            sudo apt-get update && sudo apt-get install -y jq  # Ubuntu/Debian
+          elif [ -x "$(command -v yum)" ]; then
+            sudo yum install -y jq  # CentOS/RHEL
+          elif [ -x "$(command -v pacman)" ]; then
+            sudo pacman -S --noconfirm jq  # Arch Linux
+          else
+            echo "Unsupported OS for jq installation"
+            exit 1
+          fi
+          ORG_RESPONSE=$(curl -X GET "https://anypoint.mulesoft.com/accounts/api/me" \
+            -H "Authorization: Bearer a54172ff-57f6-40d9-92ed-74c4eb3092ad" \
+            -H "Content-Type: application/json" \
+            -v)  # Verbose mode for debugging
 
-      #     # Check if the response is valid JSON
-      #     if [[ ! "$ORG_RESPONSE" =~ ^\{.*\}$ ]]; then
-      #       echo "Error: Invalid or empty JSON response: $ORG_RESPONSE"
-      #       exit 1
-      #     fi
+          # Check if the response is valid JSON
+          if [[ ! "$ORG_RESPONSE" =~ ^\{.*\}$ ]]; then
+            echo "Error: Invalid or empty JSON response: $ORG_RESPONSE"
+            exit 1
+          fi
 
-      #     # Parse Organization ID
-      #     ORG_ID=$(echo "$ORG_RESPONSE" | jq -r '.user.organization.id')
+          # Parse Organization ID
+          ORG_ID=$(echo "$ORG_RESPONSE" | jq -r '.user.organization.id')
 
-      #     echo "Organization ID: $ORG_ID"
-      #     echo "ORG_ID=$ORG_ID" >> $GITHUB_ENV  # Save as environment variable
+          echo "Organization ID: $ORG_ID"
+          echo "ORG_ID=$ORG_ID" >> $GITHUB_ENV  # Save as environment variable
 
-      #     # Fetch Environment ID using the Organization ID
-      #     ENV_RESPONSE=$(curl -X GET "https://anypoint.mulesoft.com/accounts/api/organizations/$ORG_ID/environments?name=${{ github.ref_name }}" \
-      #       -H "Authorization: Bearer ec242a12-3c49-42be-85db-ce167d724531" \
-      #       -H "Content-Type: application/json" \
-      #       -v)  # Verbose mode for debugging
+          # Fetch Environment ID using the Organization ID
+          ENV_RESPONSE=$(curl -X GET "https://anypoint.mulesoft.com/accounts/api/organizations/$ORG_ID/environments?name=${{ github.ref_name }}" \
+            -H "Authorization: Bearer a54172ff-57f6-40d9-92ed-74c4eb3092ad" \
+            -H "Content-Type: application/json" \
+            -v)  # Verbose mode for debugging
 
 
-      #     if [[ ! "$ENV_RESPONSE" =~ ^\{.*\}$ ]]; then
-      #       echo "Error: Invalid or empty JSON response: $ENV_RESPONSE"
-      #       exit 1
-      #     fi
+          if [[ ! "$ENV_RESPONSE" =~ ^\{.*\}$ ]]; then
+            echo "Error: Invalid or empty JSON response: $ENV_RESPONSE"
+            exit 1
+          fi
 
-      #     # Parse Environment ID
-      #     ENV_ID=$(echo "$ENV_RESPONSE" | jq -r '.data[0].id')
+          # Parse Environment ID
+          ENV_ID=$(echo "$ENV_RESPONSE" | jq -r '.data[0].id')
 
-      #     echo "Environment ID: $ENV_ID"
-      #     echo "ENV_ID=$ENV_ID" >> $GITHUB_ENV  # Save as environment variable
-      #     # Fetch logs from CloudHub and handle errors
-      #     curl -X GET "https://anypoint.mulesoft.com/cloudhub/api/v2/applications/devops/deployments/6710deb3f475af69c74f2c83/logs" \
-      #       -H "Authorization: Bearer ec242a12-3c49-42be-85db-ce167d724531" \
-      #       -H "x-anypnt-org-id: ${ORG_ID}" \
-      #       -H "X-ANYPNT-ENV-ID: ${ENV_ID}" \
-      #       -o mule-logs.json || echo "Error retrieving logs"
-      #     # Check if the logs file is not empty
-      #     if [ -s mule-logs.json ]; then
-      #       # Display the logs to check content
-      #       cat mule-logs.json
+          echo "Environment ID: $ENV_ID"
+          echo "ENV_ID=$ENV_ID" >> $GITHUB_ENV  # Save as environment variable
+          # Fetch logs from CloudHub and handle errors
+          curl -X GET "https://anypoint.mulesoft.com/cloudhub/api/v2/applications/devops/deployments/6710deb3f475af69c74f2c83/logs" \
+            -H "Authorization: Bearer a54172ff-57f6-40d9-92ed-74c4eb3092ad" \
+            -H "x-anypnt-org-id: ${ORG_ID}" \
+            -H "X-ANYPNT-ENV-ID: ${ENV_ID}" \
+            -o mule-logs.json || echo "Error retrieving logs"
+          # Check if the logs file is not empty
+          if [ -s mule-logs.json ]; then
+            # Display the logs to check content
+            cat mule-logs.json
 
-      #       # Prepare the Prometheus metrics file for log count
-      #       LOG_COUNT=$(jq '.data | length' mule-logs.json)
-      #       echo "mule_logs_total{app_name=\"devops\", environment=\"developer\"} ${LOG_COUNT}" > metrics.txt
+            # Prepare the Prometheus metrics file for log count
+            LOG_COUNT=$(jq '.data | length' mule-logs.json)
+            echo "mule_logs_total{app_name=\"devops\", environment=\"developer\"} ${LOG_COUNT}" > metrics.txt
   
-      #       # Instead of sending full log text as metric values, include log details as labels for Prometheus
-      #       jq -r '.data[] | "log_entry{app_name=\"devops\", environment=\"developer\", level=\"\(.level)\", timestamp=\"\(.timestamp)\", message=\"\(.message | gsub("\""; "\\\""))\"} 1"' mule-logs.json >> metrics.txt
+            # Instead of sending full log text as metric values, include log details as labels for Prometheus
+            jq -r '.data[] | "log_entry{app_name=\"devops\", environment=\"developer\", level=\"\(.level)\", timestamp=\"\(.timestamp)\", message=\"\(.message | gsub("\""; "\\\""))\"} 1"' mule-logs.json >> metrics.txt
 
-      #       # Display the contents of metrics.txt for review
-      #       cat metrics.txt
+            # Display the contents of metrics.txt for review
+            cat metrics.txt
 
-      #       # Post the metrics to Prometheus Pushgateway
-      #       curl -X POST --data-binary @metrics.txt https://intense-dory-notably.ngrok-free.app/metrics/job/ngrok_metrics
-      #     else
-      #       echo "No logs available to process"
-      #     fi
+            # Post the metrics to Prometheus Pushgateway
+            curl -X POST --data-binary @metrics.txt https://intense-dory-notably.ngrok-free.app/metrics/job/ngrok_metrics
+          else
+            echo "No logs available to process"
+          fi
 
 
-      # - name: Query Prometheus for Metrics
-      #   run: |
-      #     PROMETHEUS_URL="https://working-cobra-early.ngrok-free.app"
-      #     # Query Prometheus to confirm the Pushgateway metrics are scraped
-      #     curl -s "${PROMETHEUS_URL}/api/v1/query?query=mule_logs_total" || echo "Prometheus query failed"
+      - name: Query Prometheus for Metrics
+        run: |
+          PROMETHEUS_URL="https://working-cobra-early.ngrok-free.app"
+          # Query Prometheus to confirm the Pushgateway metrics are scraped
+          curl -s "${PROMETHEUS_URL}/api/v1/query?query=mule_logs_total" || echo "Prometheus query failed"
           
-      #     # Optionally, you can output the query result to check for metrics in Prometheus
-      #     curl -s "${PROMETHEUS_URL}/api/v1/query?query=mule_logs_total" | jq
+          # Optionally, you can output the query result to check for metrics in Prometheus
+          curl -s "${PROMETHEUS_URL}/api/v1/query?query=mule_logs_total" | jq
