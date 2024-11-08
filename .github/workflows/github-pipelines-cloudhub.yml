@@ -216,11 +216,11 @@ jobs:
               }' -v
           
 
-      - name: Deploy to CloudHub
-        id: deploy
-        run: |
+      # - name: Deploy to CloudHub
+      #   id: deploy
+      #   run: |
   
-          mvn deploy -DmuleDeploy -DskipTests
+      #     mvn deploy -DmuleDeploy -DskipTests
     
 
 
@@ -339,7 +339,7 @@ jobs:
           echo "Environment ID: $ENV_ID"
           echo "ENV_ID=$ENV_ID" >> $GITHUB_ENV  # Save as environment variable
           # Fetch logs from CloudHub and handle errors
-          curl -X GET "https://anypoint.mulesoft.com/cloudhub/api/v2/applications/mulesoftcicd/deployments/672b4b1a5b49ce4666fffad2/logs" \
+          curl -X GET "https://anypoint.mulesoft.com/cloudhub/api/v2/applications/muleapp/deployments/672d480ac1612a4e6d18c186/logs" \
             -H "Authorization: Bearer 769bc8f4-fa52-46c8-8593-9dccfbb189c3" \
             -H "x-anypnt-org-id: 7ad879c6-b198-41d4-b976-e09aec855fdc" \
             -H "X-ANYPNT-ENV-ID: f88fa23e-21ec-41aa-8135-c3e1f3c31124" \
@@ -351,10 +351,10 @@ jobs:
 
             # Prepare the Prometheus metrics file for log count
             LOG_COUNT=$(jq '.data | length' mule-logs.json)
-            echo "mule_logs_total{app_name=\"mulesoftcicd\", environment=\"developer\"} ${LOG_COUNT}" > metrics.txt
+            echo "mule_logs_total{app_name=\"muleapp\", environment=\"developer\"} ${LOG_COUNT}" > metrics.txt
   
             # Instead of sending full log text as metric values, include log details as labels for Prometheus
-            jq -r '.data[] | "log_entry{app_name=\"mulesoftcicd\", environment=\"developer\", level=\"\(.level)\", timestamp=\"\(.timestamp)\", message=\"\(.message | gsub("\""; "\\\""))\"} 1"' mule-logs.json >> metrics.txt
+            jq -r '.data[] | "log_entry{app_name=\"muleapp\", environment=\"developer\", level=\"\(.level)\", timestamp=\"\(.timestamp)\", message=\"\(.message | gsub("\""; "\\\""))\"} 1"' mule-logs.json >> metrics.txt
 
             # Display the contents of metrics.txt for review
             cat metrics.txt
