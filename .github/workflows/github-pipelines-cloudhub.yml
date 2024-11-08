@@ -219,20 +219,9 @@ jobs:
       - name: Deploy to CloudHub
         id: deploy
         run: |
-          # START_TIME=$(date +%s)
+  
           mvn deploy -DmuleDeploy -DskipTests
-          # END_TIME=$(date +%s)
-          # DEPLOY_DURATION=$((END_TIME - START_TIME))
-          
-          # echo "Deploy completed in ${DEPLOY_DURATION} seconds"
-          
-          # # Send deploy duration to Prometheus
-          # curl -X POST https://working-cobra-early.ngrok-free.app/metrics \
-          # -H "Content-Type: application/json" \
-          # -d '{
-          #       "metric": "deploy_duration_seconds",
-          #       "value": "'${DEPLOY_DURATION}'"
-          #     }'
+    
 
 
 
