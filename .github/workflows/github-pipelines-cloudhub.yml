@@ -3,6 +3,7 @@ name: CI/CD Pipeline GITHUB/CloudHub
 permissions:
   contents: write 
 
+
 on: push
 jobs:
   pipe-github-cloudhub:
@@ -23,19 +24,18 @@ jobs:
 
       - name: Set up Git remote
         run: |
-          git remote add dev https://${{ secrets.GIT_TOKEN }}@github.com/${{ secrets.GIT_USERNAME }}/${{ secrets.REPO_NAME }}.git
-	  git remote set-url https://${{ secrets.GIT_TOKEN }}@github.com/${{ secrets.GIT_USERNAME }}/${{ secrets.REPO_NAME }}.git
-    
+         git remote add dev https://${{ secrets.GIT_TOKEN }}@github.com/${{ secrets.GIT_USERNAME }}/${{ secrets.REPO_NAME }}.git
+         git remote set-url dev https://${{ secrets.GIT_TOKEN }}@github.com/${{ secrets.GIT_USERNAME }}/${{ secrets.REPO_NAME }}.git
+      
       - name: Create and push Maven settings file
         run: |
-
-         GIT_EMAIL_ENCRYPTED=$(echo -n "${{ secrets.GIT_EMAIL }}" | openssl enc -aes-256-cbc -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64 -A)
-   	 GIT_TOKEN_ENCRYPTED=$(echo -n "${{ secrets.GIT_TOKEN }}" | openssl enc -aes-256-cbc -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64 -A)
-         ANYPOINT_CLIENT_ID_ENCRYPTED=$(echo -n "${{ secrets.ANYPOINT_CLIENT_ID }}" | openssl enc -aes-256-cbc -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64 -A)
-         ANYPOINT_CLIENT_SECRET_ENCRYPTED=$(echo -n "${{ secrets.ANYPOINT_CLIENT_SECRET }}" | openssl enc -aes-256-cbc -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64 -A)
+          GIT_EMAIL_ENCRYPTED=$(echo -n "${{ secrets.GIT_EMAIL }}" | openssl enc -aes-256-cbc -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64 -A)
+          GIT_TOKEN_ENCRYPTED=$(echo -n "${{ secrets.GIT_TOKEN }}" | openssl enc -aes-256-cbc -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64 -A)
+          ANYPOINT_CLIENT_ID_ENCRYPTED=$(echo -n "${{ secrets.ANYPOINT_CLIENT_ID }}" | openssl enc -aes-256-cbc -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64 -A)
+          ANYPOINT_CLIENT_SECRET_ENCRYPTED=$(echo -n "${{ secrets.ANYPOINT_CLIENT_SECRET }}" | openssl enc -aes-256-cbc -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64 -A)
         
-         cat << EOF > settings.xml
-         <settings>
+          cat << EOF > settings.xml
+          <settings>
             <servers>
               <server>
                 <id>anypoint-repo</id>
@@ -68,13 +68,15 @@ jobs:
               <activeProfile>anypoint-profile</activeProfile>
               <activeProfile>github-profile</activeProfile>
             </activeProfiles>
-         </settings>
-         EOF
+          </settings>
+          EOF
 
-         git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}
-         git add settings.xml
-         git commit -m "Add Maven settings file" || echo "Nothing to commit"
-         git push dev ${{ github.ref_name }}
+          git config --global user.email "${{ secrets.GIT_EMAIL }}"
+          git config --global user.name "${{ secrets.GIT_USERNAME }}"
+          git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}
+          git add settings.xml
+          git commit -m "Add Maven settings file" || echo "Nothing to commit"
+          git push dev ${{ github.ref_name }}
 
       - name: Create and Update Parent POM File
         run: |
@@ -82,7 +84,7 @@ jobs:
           if [ -f settings.xml ]; then
             GIT_EMAIL_ENCRYPTED=$(sed -n '/<id>github-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p' settings.xml)
             GIT_EMAIL_DECRYPTED=$(echo "${GIT_EMAIL_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)
-            git config --global user.email "${GIT_EMAIL_DECRYPTED}"
+          git config --global user.email "${GIT_EMAIL_DECRYPTED}"
           fi
           touch update-parentPOM.sh
           echo '#!/bin/bash' > update-parentPOM.sh
@@ -91,27 +93,27 @@ jobs:
           echo '    ANYPOINT_CLIENT_SECRET_ENCRYPTED=$(sed -n "/<id>anypoint-repo<\/id>/,/<\/server>/ s/.*<password>\(.*\)<\/password>.*/\1/p" settings.xml)' >> update-parentPOM.sh
           echo '    ANYPOINT_ID_DECRYPTED=$(echo "${ANYPOINT_CLIENT_ID_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)' >> update-parentPOM.sh
           echo '    ANYPOINT_SECRET_DECRYPTED=$(echo "${ANYPOINT_CLIENT_SECRET_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)' >> update-parentPOM.sh
-          echo '    org_id=$(curl -X GET "https://anypoint.mulesoft.com/accounts/api/me" -H "Authorization: Bearer ${{ secrets.ACCESS_TOKEN }}" -H "Content-Type: application/json" | jq -r ".user.organization.id")' >> update-parentPOM.sh
-          echo '    env_id=$(curl -X GET "https://anypoint.mulesoft.com/accounts/api/organizations/$org_id/environments?name=${{ github.ref_name }}" -H "Authorization: Bearer ${{ secrets.ACCESS_TOKEN }}" -H "Content-Type: application/json" | jq -r ".data[0].id")' >> update-parentPOM.sh
-          echo '    apps_cloudhub=$(curl -X GET "https://anypoint.mulesoft.com/cloudhub/api/v2/applications" -H "Authorization: Bearer ${{ secrets.ACCESS_TOKEN }}" -H "x-anypnt-env-id: $env_id" | jq -r ".[].domain")' >> update-parentPOM.sh
+          # echo '    org_id=$(curl -X GET "https://anypoint.mulesoft.com/accounts/api/me" -H "Authorization: Bearer ${{ secrets.ACCESS_TOKEN }}" -H "Content-Type: application/json" | jq -r ".user.organization.id")' >> update-parentPOM.sh
+          # echo '    env_id=$(curl -X GET "https://anypoint.mulesoft.com/accounts/api/organizations/$org_id/environments?name=${{ github.ref_name }}" -H "Authorization: Bearer ${{ secrets.ACCESS_TOKEN }}" -H "Content-Type: application/json" | jq -r ".data[0].id")' >> update-parentPOM.sh
+          # echo '    apps_cloudhub=$(curl -X GET "https://anypoint.mulesoft.com/cloudhub/api/v2/applications" -H "Authorization: Bearer ${{ secrets.ACCESS_TOKEN }}" -H "x-anypnt-env-id: $env_id" | jq -r ".[].domain")' >> update-parentPOM.sh
           echo '    MULE_APP_NAME=$(grep -oPm1 "(?<=<name>)[^<]+" pom.xml)' >> update-parentPOM.sh
-          echo '    found=false' >> update-parentPOM.sh
-          echo '    for app in $apps_cloudhub; do' >> update-parentPOM.sh
-          echo '          if [[ "$app" == "$MULE_APP_NAME" ]]; then' >> update-parentPOM.sh
-          echo '              found=true' >> update-parentPOM.sh
-          echo '                break' >> update-parentPOM.sh
-          echo '          fi' >> update-parentPOM.sh
-          echo '    done' >> update-parentPOM.sh
-          echo '    if $found; then' >> update-parentPOM.sh
-          echo '      version_number=1' >> update-parentPOM.sh
-          echo '      echo "Application $MULE_APP_NAME already deployed in cloudHub."' >> update-parentPOM.sh
-          echo '      while echo "$apps_cloudhub" | grep -q "${MULE_APP_NAME}v$version_number"; do' >> update-parentPOM.sh
-          echo '          echo "Application $MULE_APP_NAMEV$version_number already deployed in cloudHub."' >> update-parentPOM.sh
-          echo '            version_number=$((version_number + 1))' >> update-parentPOM.sh
-          echo '      done' >> update-parentPOM.sh
-          echo '    MULE_APP_NAME="${MULE_APP_NAME}V$version_number"' >> update-parentPOM.sh
-          echo '    echo "MULEOSFT app name: $MULE_APP_NAME"' >> update-parentPOM.sh
-          echo '    fi' >> update-parentPOM.sh
+          # echo '    found=false' >> update-parentPOM.sh
+          # echo '    for app in $apps_cloudhub; do' >> update-parentPOM.sh
+          # echo '          if [[ "$app" == "$MULE_APP_NAME" ]]; then' >> update-parentPOM.sh
+          # echo '              found=true' >> update-parentPOM.sh
+          # echo '                break' >> update-parentPOM.sh
+          # echo '          fi' >> update-parentPOM.sh
+          # echo '    done' >> update-parentPOM.sh
+          # echo '    if $found; then' >> update-parentPOM.sh
+          # echo '      version_number=1' >> update-parentPOM.sh
+          # echo '      echo "Application $MULE_APP_NAME already deployed in cloudHub."' >> update-parentPOM.sh
+          # echo '      while echo "$apps_cloudhub" | grep -q "${MULE_APP_NAME}v$version_number"; do' >> update-parentPOM.sh
+          # echo '          echo "Application $MULE_APP_NAMEV$version_number already deployed in cloudHub."' >> update-parentPOM.sh
+          # echo '            version_number=$((version_number + 1))' >> update-parentPOM.sh
+          # echo '      done' >> update-parentPOM.sh
+          # echo '    MULE_APP_NAME="${MULE_APP_NAME}V$version_number"' >> update-parentPOM.sh
+          # echo '    echo "MULEOSFT app name: $MULE_APP_NAME"' >> update-parentPOM.sh
+          # echo '    fi' >> update-parentPOM.sh
           echo '    echo "Deploying application: ${MULE_APP_NAME}"' >> update-parentPOM.sh        
           echo '    MULE_RUNTIME_VERSION=$(grep -oPm1 "(?<=<app.runtime>)[^<]+" pom.xml)' >> update-parentPOM.sh
           echo 'cat << EOF > parent_pom.xml' >> update-parentPOM.sh
@@ -160,12 +162,10 @@ jobs:
 
           touch update-projectPOM.sh
           echo '#!/bin/bash' > update-projectPOM.sh
+          echo 'sed -i '\''s|<app.runtime>[^<]*</app.runtime>|<app.runtime>4.4.0</app.runtime>|'\'' pom.xml' >> update-projectPOM.sh
           echo 'PARENT_GROUP_ID=$(grep -oPm1 "(?<=<groupId>)[^<]+" parent_pom.xml)' >> update-projectPOM.sh
           echo 'PARENT_ARTIFACT_ID=$(grep -oPm1 "(?<=<artifactId>)[^<]+" parent_pom.xml)' >> update-projectPOM.sh
           echo 'PARENT_VERSION=$(grep -oPm1 "(?<=<version>)[^<]+" parent_pom.xml)' >> update-projectPOM.sh
-          echo 'echo "The groupId is: $PARENT_GROUP_ID"' >> update-projectPOM.sh
-          echo 'echo "The artifactId is: $PARENT_ARTIFACT_ID"' >> update-projectPOM.sh
-          echo 'echo "The version is: $PARENT_VERSION"' >> update-projectPOM.sh
           echo 'PARENT_EXISTS=$(grep -c "<parent>" pom.xml)' >> update-projectPOM.sh
           echo 'if [ "$PARENT_EXISTS" -eq 0 ]; then' >> update-projectPOM.sh
           echo '  PARENT_INCLUSION="<parent>\n<groupId>${PARENT_GROUP_ID}</groupId>\n<artifactId>${PARENT_ARTIFACT_ID}</artifactId>\n<version>${PARENT_VERSION}</version>\n<relativePath>./parent_pom.xml</relativePath>\n</parent>"' >> update-projectPOM.sh
@@ -185,6 +185,17 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
+
+      # - name: Build
+      #   id: build
+      #   run: |
+      #     mvn clean package
+      
+      # - name: Deploy to CloudHub
+      #   id: deploy
+      #   run: |
+      #     mvn deploy -DmuleDeploy -DskipTests -X
+          
 
       - name: Build
         id: build
