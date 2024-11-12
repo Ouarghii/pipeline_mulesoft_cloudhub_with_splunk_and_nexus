@@ -11,9 +11,9 @@ cat << EOF > parent_pom.xml
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.mycompany</groupId>
+  <groupId>394989c8-ee4c-4f8c-805d-f393165ac9a3</groupId>
   <artifactId>parent-pom</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.0</version>
   <packaging>pom</packaging>
   <name>parent-pom</name>
   <properties>
@@ -31,9 +31,9 @@ EOF
 PLUGIN_EXISTS=$(grep -c "<groupId>org.mule.tools.maven</groupId>" parent_pom.xml)
 if [ "$PLUGIN_EXISTS" -eq 0 ]; then
   if [ "developer" == "main" ] || [ "developer" == "master" ]; then
-    CONFIGURATION="<plugin>\n<groupId>org.mule.tools.maven</groupId>\n<artifactId>mule-maven-plugin</artifactId>\n<version>\${mule.maven.plugin.version}</version>\n<extensions>true</extensions>\n<configuration>\n<cloudhub2Deployment>\n<uri>https://anypoint.mulesoft.com/</uri>\n<provider>MC</provider>\n<environment>product</environment>\n<target>Cloudhub-US-East-2</target>\n<muleVersion>${MULE_RUNTIME_VERSION}</muleVersion>\n<username>Raslen11</username>\n<password>Raslen123**</password>\n<applicationName>${MULE_APP_NAME}</applicationName>\n<businessGroup>ITMMA</businessGroup>\n<replicas>1</replicas>\n<vCores>1</vCores>\n</cloudhub2Deployment>\n</configuration>\n</plugin>"
+    CONFIGURATION="<plugin>\n<groupId>org.mule.tools.maven</groupId>\n<artifactId>mule-maven-plugin</artifactId>\n<version>\${mule.maven.plugin.version}</version>\n<extensions>true</extensions>\n<configuration>\n<cloudhub2Deployment>\n<uri>https://anypoint.mulesoft.com/</uri>\n<provider>MC</provider>\n<environment>product</environment>\n<target>Cloudhub-US-East-2</target>\n<muleVersion>${MULE_RUNTIME_VERSION}</muleVersion>\n<username>Raslen11</username>\n<password>Raslen123**</password>\n<applicationName>${MULE_APP_NAME}</applicationName>\n<businessGroup>ITMMA</businessGroup>\n<replicas>1</replicas>\n<vCores>1</vCores>\n<server>Repository</server>\n</cloudhub2Deployment>\n</configuration>\n</plugin>"
   else
-    CONFIGURATION="<plugin>\n<groupId>org.mule.tools.maven</groupId>\n<artifactId>mule-maven-plugin</artifactId>\n<version>\${mule.maven.plugin.version}</version>\n<extensions>true</extensions>\n<configuration>\n<cloudhub2Deployment>\n<uri>https://anypoint.mulesoft.com/</uri>\n<provider>MC</provider>\n<environment>developer</environment>\n<target>Cloudhub-US-East-2</target>\n<muleVersion>${MULE_RUNTIME_VERSION}</muleVersion>\n<username>Raslen11</username>\n<password>Raslen123**</password>\n<applicationName>${MULE_APP_NAME}</applicationName>\n<businessGroup>ITMMA</businessGroup>\n<replicas>1</replicas>\n<vCores>1</vCores>\n</cloudhub2Deployment>\n</configuration>\n</plugin>"
+    CONFIGURATION="<plugin>\n<groupId>org.mule.tools.maven</groupId>\n<artifactId>mule-maven-plugin</artifactId>\n<version>\${mule.maven.plugin.version}</version>\n<extensions>true</extensions>\n<configuration>\n<cloudhub2Deployment>\n<uri>https://anypoint.mulesoft.com/</uri>\n<provider>MC</provider>\n<environment>developer</environment>\n<target>Cloudhub-US-East-2</target>\n<muleVersion>${MULE_RUNTIME_VERSION}</muleVersion>\n<username>Raslen11</username>\n<password>Raslen123**</password>\n<applicationName>${MULE_APP_NAME}</applicationName>\n<businessGroup>ITMMA</businessGroup>\n<replicas>1</replicas>\n<vCores>1</vCores>\n<server>Repository</server>\n</cloudhub2Deployment>\n</configuration>\n</plugin>"
   fi
   sed -i "/<\/plugins>/i $CONFIGURATION" parent_pom.xml
   git checkout -b developer || git checkout developer
