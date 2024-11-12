@@ -83,10 +83,8 @@
     <!-- Distribution Management Section -->
 <distributionManagement>
     <repository>
-        <id>Repository</id>
-        <name>Corporate Repository</name>
-        <url>https://maven.anypoint.mulesoft.com/api/v3/organizations/${project.groupId}/maven</url>
-        <layout>default</layout>
+        <id>anypoint-exchange-v3</id>
+        <url>https://maven.anypoint.mulesoft.com/api/v3/organizations/394989c8-ee4c-4f8c-805d-f393165ac9a3/maven</url>
     </repository>
 </distributionManagement>
 
