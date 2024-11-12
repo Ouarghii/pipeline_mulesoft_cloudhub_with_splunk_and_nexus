@@ -22,7 +22,7 @@
 <configuration>
 <cloudHub2Deployment>
 <uri>https://anypoint.mulesoft.com/</uri>
-<muleVersion>4.4.0</muleVersion>
+<provider>MC</provider>/n<muleVersion>4.4.0</muleVersion>
 <connectedAppClientId>391d77759060457aab79decdc046ce64</connectedAppClientId>
 <connectedAppClientSecret>DFc36d3fa359443B97FD2e8a7d9d1a93</connectedAppClientSecret>
 <connectedAppGrantType>client_credentials</connectedAppGrantType>
