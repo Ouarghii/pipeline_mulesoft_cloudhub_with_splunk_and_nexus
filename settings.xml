@@ -2,28 +2,33 @@
   <servers>
     <server>
       <id>anypoint-repo</id>
-      <username>U2FsdGVkX1+/ppGyQroGvtZ9/XbDubrIWPfYkxeITQafLh3vsTnDo36EfGmf0addUYb3zSTrE+d2TwfxgA571Q==</username>
-      <password>U2FsdGVkX18upVZ6/NxZa9hmVeAvqkhFhdH0H0U1Nd9eU85meterK1ZBg1k17cUcKskVt/KBBZaVp3+GdS1/7w==</password>
+      <username>U2FsdGVkX1/XmXLkLSFImjElfGa8Rpjp2/4gQIg+T9jzxHVENxz9ECE/ksx4NBwCfvdnc0LlM+Js0c8WM9B0IQ==</username>
+      <password>U2FsdGVkX19V+kmwMgkXx5FPJVNCJUXxcSuA7pKF1MGKRv08R5WKwDodIgQrP9zAHuMhSJfNtketKd1xZgbX+A==</password>
+    </server>
+    <server>
+      <id>anypoint-exchange-v3</id>
+      <username>Raslen11</username>
+      <password>Raslen123**</password>
     </server>
     <server>
       <id>github-repo</id>
-      <username>U2FsdGVkX1/EV426+Kc93ZRIVCQQfNi4aIqgCsu8aYBWmumBKSd54i1gN9sLY/au</username>
-      <password>U2FsdGVkX1+ou6JCL+fQbHQB6zUBeXzfwVjhubHO2H3X+YfTCPSNVEy479uFwnU/5OcjjkeF98lbIVq/5RV9fg==</password>
+      <username>U2FsdGVkX1/8D+dERGTeu9pNShg7pLpM7OT2ts+rwxTO4vIHA3JGaXMVE3mQi9V9</username>
+      <password>U2FsdGVkX18wwJoQstj6zW+E+4Ac7+r3ZxeJU2AlXxltdIFnaReG7LKbumr6GVIpyQxDWP2YAL1SHQHL0HVUFA==</password>
     </server>
   </servers>
   <profiles>
     <profile>
       <id>anypoint-profile</id>
       <properties>
-        <anypoint.clientId>U2FsdGVkX1+/ppGyQroGvtZ9/XbDubrIWPfYkxeITQafLh3vsTnDo36EfGmf0addUYb3zSTrE+d2TwfxgA571Q==</anypoint.clientId>
-        <anypoint.clientSecret>U2FsdGVkX18upVZ6/NxZa9hmVeAvqkhFhdH0H0U1Nd9eU85meterK1ZBg1k17cUcKskVt/KBBZaVp3+GdS1/7w==</anypoint.clientSecret>
+        <anypoint.clientId>U2FsdGVkX1/XmXLkLSFImjElfGa8Rpjp2/4gQIg+T9jzxHVENxz9ECE/ksx4NBwCfvdnc0LlM+Js0c8WM9B0IQ==</anypoint.clientId>
+        <anypoint.clientSecret>U2FsdGVkX19V+kmwMgkXx5FPJVNCJUXxcSuA7pKF1MGKRv08R5WKwDodIgQrP9zAHuMhSJfNtketKd1xZgbX+A==</anypoint.clientSecret>
       </properties>
     </profile>
     <profile>
       <id>github-profile</id>
       <properties>
-        <github.email>U2FsdGVkX1/EV426+Kc93ZRIVCQQfNi4aIqgCsu8aYBWmumBKSd54i1gN9sLY/au</github.email>
-        <github.token>U2FsdGVkX1+ou6JCL+fQbHQB6zUBeXzfwVjhubHO2H3X+YfTCPSNVEy479uFwnU/5OcjjkeF98lbIVq/5RV9fg==</github.token>
+        <github.email>U2FsdGVkX1/8D+dERGTeu9pNShg7pLpM7OT2ts+rwxTO4vIHA3JGaXMVE3mQi9V9</github.email>
+        <github.token>U2FsdGVkX18wwJoQstj6zW+E+4Ac7+r3ZxeJU2AlXxltdIFnaReG7LKbumr6GVIpyQxDWP2YAL1SHQHL0HVUFA==</github.token>
       </properties>
     </profile>
   </profiles>
