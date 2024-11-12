@@ -20,20 +20,20 @@ jobs:
       - name: Set up Git identity
         run: |
           git config --global user.email "${{ secrets.GIT_EMAIL }}"
-          git config --global user.name "Ferielkraiem2000"  
 
       - name: Set up Git remote
         run: |
-          git remote add dev https://${{ secrets.GIT_TOKEN }}@github.com/Ferielkraiem2000/pipeline_mulesoft_cloudhub.git
-          git remote set-url dev https://${{ secrets.GIT_TOKEN }}@github.com/Ferielkraiem2000/pipeline_mulesoft_cloudhub.git
+          git remote add dev https://${{ secrets.GIT_TOKEN }}@github.com/${{ secrets.GIT_USERNAME }}/${{ secrets.REPO_NAME }}.git
+	    git remote set-url https://${{ secrets.GIT_TOKEN }}@github.com/${{ secrets.GIT_USERNAME }}/${{ secrets.REPO_NAME }}.git
     
       - name: Create and push Maven settings file
         run: |
 
           GIT_EMAIL_ENCRYPTED=$(echo -n "${{ secrets.GIT_EMAIL }}" | openssl enc -aes-256-cbc -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64 -A)
-          ANYPOINT_CLIENT_ID_ENCRYPTED=$(echo -n "${{ secrets.ANYPOINT_CLIENT_ID }}" | openssl enc -aes-256-cbc -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64 -A)
-          ANYPOINT_CLIENT_SECRET_ENCRYPTED=$(echo -n "${{ secrets.ANYPOINT_CLIENT_SECRET }}" | openssl enc -aes-256-cbc -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64 -A)
-          GIT_TOKEN_ENCRYPTED=$(echo -n "${{ secrets.GIT_TOKEN }}" | openssl enc -aes-256-cbc -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64 -A)
+   GIT_TOKEN_ENCRYPTED=$(echo -n "${{ secrets.GIT_TOKEN }}" | openssl enc -aes-256-cbc -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64 -A)
+         ANYPOINT_CLIENT_ID_ENCRYPTED=$(echo -n "${{ secrets.ANYPOINT_CLIENT_ID }}" | openssl enc -aes-256-cbc -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64 -A)
+         ANYPOINT_CLIENT_SECRET_ENCRYPTED=$(echo -n "${{ secrets.ANYPOINT_CLIENT_SECRET }}" | openssl enc -aes-256-cbc -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64 -A)
+        
           cat << EOF > settings.xml
           <settings>
             <servers>
@@ -89,13 +89,11 @@ jobs:
           echo 'if [ -f settings.xml ]; then' >> update-parentPOM.sh
           echo '    ANYPOINT_CLIENT_ID_ENCRYPTED=$(sed -n "/<id>anypoint-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p" settings.xml)' >> update-parentPOM.sh
           echo '    ANYPOINT_CLIENT_SECRET_ENCRYPTED=$(sed -n "/<id>anypoint-repo<\/id>/,/<\/server>/ s/.*<password>\(.*\)<\/password>.*/\1/p" settings.xml)' >> update-parentPOM.sh
-          echo '    echo "Anypoint Client ID: $ANYPOINT_CLIENT_ID_ENCRYPTED"' >> update-parentPOM.sh
-          echo '    echo "Anypoint Client SECRET: $ANYPOINT_CLIENT_SECRET_ENCRYPTED"' >> update-parentPOM.sh
           echo '    ANYPOINT_ID_DECRYPTED=$(echo "${ANYPOINT_CLIENT_ID_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)' >> update-parentPOM.sh
           echo '    ANYPOINT_SECRET_DECRYPTED=$(echo "${ANYPOINT_CLIENT_SECRET_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)' >> update-parentPOM.sh
-          echo '    org_id=$(curl -X GET "https://anypoint.mulesoft.com/accounts/api/me" -H "Authorization: Bearer 769bc8f4-fa52-46c8-8593-9dccfbb189c3" -H "Content-Type: application/json" | jq -r ".user.organization.id")' >> update-parentPOM.sh
-          echo '    env_id=$(curl -X GET "https://anypoint.mulesoft.com/accounts/api/organizations/$org_id/environments?name=${{ github.ref_name }}" -H "Authorization: Bearer 769bc8f4-fa52-46c8-8593-9dccfbb189c3" -H "Content-Type: application/json" | jq -r ".data[0].id")' >> update-parentPOM.sh
-          echo '    apps_cloudhub=$(curl -X GET "https://anypoint.mulesoft.com/cloudhub/api/v2/applications" -H "Authorization: Bearer 769bc8f4-fa52-46c8-8593-9dccfbb189c3" -H "x-anypnt-env-id: $env_id" | jq -r ".[].domain")' >> update-parentPOM.sh
+          echo '    org_id=$(curl -X GET "https://anypoint.mulesoft.com/accounts/api/me" -H "Authorization: Bearer ${{ secrets.ACCESS_TOKEN }}" -H "Content-Type: application/json" | jq -r ".user.organization.id")' >> update-parentPOM.sh
+          echo '    env_id=$(curl -X GET "https://anypoint.mulesoft.com/accounts/api/organizations/$org_id/environments?name=${{ github.ref_name }}" -H "Authorization: Bearer ${{ secrets.ACCESS_TOKEN }}" -H "Content-Type: application/json" | jq -r ".data[0].id")' >> update-parentPOM.sh
+          echo '    apps_cloudhub=$(curl -X GET "https://anypoint.mulesoft.com/cloudhub/api/v2/applications" -H "Authorization: Bearer ${{ secrets.ACCESS_TOKEN }}" -H "x-anypnt-env-id: $env_id" | jq -r ".[].domain")' >> update-parentPOM.sh
           echo '    MULE_APP_NAME=$(grep -oPm1 "(?<=<name>)[^<]+" pom.xml)' >> update-parentPOM.sh
           echo '    found=false' >> update-parentPOM.sh
           echo '    for app in $apps_cloudhub; do' >> update-parentPOM.sh
@@ -116,7 +114,6 @@ jobs:
           echo '    fi' >> update-parentPOM.sh
           echo '    echo "Deploying application: ${MULE_APP_NAME}"' >> update-parentPOM.sh        
           echo '    MULE_RUNTIME_VERSION=$(grep -oPm1 "(?<=<app.runtime>)[^<]+" pom.xml)' >> update-parentPOM.sh
-          echo '    echo "MULE RUNTIME VERSION: $MULE_RUNTIME_VERSION"' >> update-parentPOM.sh
           echo 'cat << EOF > parent_pom.xml' >> update-parentPOM.sh
           echo '<?xml version="1.0" encoding="UTF-8"?>' >> update-parentPOM.sh
           echo '<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">' >> update-parentPOM.sh
@@ -156,16 +153,9 @@ jobs:
           ./update-parentPOM.sh
           
       - name: Update Project POM File
-        # working-directory: ${{ github.workspace }}
         run: |
-
           GIT_EMAIL_ENCRYPTED=$(sed -n '/<id>github-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p' settings.xml)
           GIT_EMAIL_DECRYPTED=$(echo "${GIT_EMAIL_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)
-
-
-          GIT_TOKEN_ENCRYPTED=$(sed -n '/<id>github-repo<\/id>/,/<\/server>/ s/.*<password>\(.*\)<\/password>.*/\1/p' settings.xml)
-          GIT_TOKEN_DECRYPTED=$(echo "${GIT_TOKEN_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)
-          echo "${GITLAB_TOKEN_DECRYPTED}"
           git config --global user.email "${GIT_EMAIL_DECRYPTED}"
 
           touch update-projectPOM.sh
@@ -199,28 +189,12 @@ jobs:
       - name: Build
         id: build
         run: |
-          START_TIME=$(date +%s)
           mvn clean package
-          END_TIME=$(date +%s)
-          BUILD_DURATION=$((END_TIME - START_TIME))
-          
-          echo "Build completed in ${BUILD_DURATION} seconds"
-          
-          # Send build duration to Prometheus
-          curl -X POST https://working-cobra-early.ngrok-free.app/metrics \
-          -H "Content-Type: application/json" \
-          -d '{
-                "metric": "build_duration_seconds",
-                "value": "'${BUILD_DURATION}'",
-                "labels": {"job": "ci_build", "branch": "${{ github.ref_name }}"}
-              }' -v
-          
-
-      # - name: Deploy to CloudHub
-      #   id: deploy
-      #   run: |
-  
-      #     mvn deploy -DmuleDeploy -DskipTests
+      
+      - name: Deploy to CloudHub
+        id: deploy
+        run: |
+          mvn deploy -DmuleDeploy -DskipTests
     
 
 
