@@ -65,7 +65,7 @@
 <repository>
    <id>Repository</id>
    <name>Private Exchange repository</name>
-   <url>https://maven.anypoint.mulesoft.com/api/v3/organizations/${project.groupId}/maven</url>
+   <url>https://maven.anypoint.mulesoft.com/api/v3/organizations/7ad879c6-b198-41d4-b976-e09aec855fdc/maven</url>
    <layout>default</layout>
 </repository>
 	</repositories>
