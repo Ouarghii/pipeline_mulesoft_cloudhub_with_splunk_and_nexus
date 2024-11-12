@@ -61,6 +61,14 @@
 			<url>https://repository.mulesoft.org/releases/</url>
 			<layout>default</layout>
 		</repository>
+		   
+       <!-- Added for Exchange deployment -->
+       <repository>
+         <id>Repository</id>
+         <name>Private Exchange repository</name>
+         <url>https://maven.anypoint.mulesoft.com/api/v3/organizations/${project.groupId}/maven</url>
+         <layout>default</layout>
+       </repository>
 	</repositories>
 
 	<pluginRepositories>
