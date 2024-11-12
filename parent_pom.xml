@@ -24,7 +24,7 @@
 <uri>https://anypoint.mulesoft.com</uri>
 <provider>MC</provider>
 <environment>developer</environment>
-<target>developer</target>
+<target>Cloudhub-US-East-2</target>
 <muleVersion>${MULE_RUNTIME_VERSION}</muleVersion>
 <connectedAppClientId>${ANYPOINT_ID_DECRYPTED}</connectedAppClientId>
 <connectedAppClientSecret>${ANYPOINT_SECRET_DECRYPTED}</connectedAppClientSecret>
