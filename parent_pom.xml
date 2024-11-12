@@ -32,7 +32,6 @@
 <businessGroup>ITMMA</businessGroup>
 <replicas>1</replicas>
 <vCores>1</vCores>
-<server>Repository</server>
 </cloudhub2Deployment>
 </configuration>
 </plugin>
