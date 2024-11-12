@@ -24,18 +24,18 @@ jobs:
       - name: Set up Git remote
         run: |
           git remote add dev https://${{ secrets.GIT_TOKEN }}@github.com/${{ secrets.GIT_USERNAME }}/${{ secrets.REPO_NAME }}.git
-	    git remote set-url https://${{ secrets.GIT_TOKEN }}@github.com/${{ secrets.GIT_USERNAME }}/${{ secrets.REPO_NAME }}.git
+	  git remote set-url https://${{ secrets.GIT_TOKEN }}@github.com/${{ secrets.GIT_USERNAME }}/${{ secrets.REPO_NAME }}.git
     
       - name: Create and push Maven settings file
         run: |
 
-          GIT_EMAIL_ENCRYPTED=$(echo -n "${{ secrets.GIT_EMAIL }}" | openssl enc -aes-256-cbc -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64 -A)
-   GIT_TOKEN_ENCRYPTED=$(echo -n "${{ secrets.GIT_TOKEN }}" | openssl enc -aes-256-cbc -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64 -A)
+         GIT_EMAIL_ENCRYPTED=$(echo -n "${{ secrets.GIT_EMAIL }}" | openssl enc -aes-256-cbc -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64 -A)
+   	 GIT_TOKEN_ENCRYPTED=$(echo -n "${{ secrets.GIT_TOKEN }}" | openssl enc -aes-256-cbc -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64 -A)
          ANYPOINT_CLIENT_ID_ENCRYPTED=$(echo -n "${{ secrets.ANYPOINT_CLIENT_ID }}" | openssl enc -aes-256-cbc -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64 -A)
          ANYPOINT_CLIENT_SECRET_ENCRYPTED=$(echo -n "${{ secrets.ANYPOINT_CLIENT_SECRET }}" | openssl enc -aes-256-cbc -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64 -A)
         
-          cat << EOF > settings.xml
-          <settings>
+         cat << EOF > settings.xml
+         <settings>
             <servers>
               <server>
                 <id>anypoint-repo</id>
@@ -68,13 +68,13 @@ jobs:
               <activeProfile>anypoint-profile</activeProfile>
               <activeProfile>github-profile</activeProfile>
             </activeProfiles>
-          </settings>
-          EOF
+         </settings>
+         EOF
 
-          git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}
-          git add settings.xml
-          git commit -m "Add Maven settings file" || echo "Nothing to commit"
-          git push dev ${{ github.ref_name }}
+         git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}
+         git add settings.xml
+         git commit -m "Add Maven settings file" || echo "Nothing to commit"
+         git push dev ${{ github.ref_name }}
 
       - name: Create and Update Parent POM File
         run: |
