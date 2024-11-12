@@ -2,9 +2,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>7ad879c6-b198-41d4-b976-e09aec855fdc</groupId>
+	<groupId>394989c8-ee4c-4f8c-805d-f393165ac9a3</groupId>
 	<artifactId>devops</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>mule-application</packaging>
 
 	<name>devops</name>
@@ -90,10 +90,5 @@
     </repository>
 </distributionManagement>
 
-<parent>
-<groupId>com.mycompany</groupId>
-<artifactId>parent-pom</artifactId>
-<version>1.0.0-SNAPSHOT</version>
-<relativePath>./parent_pom.xml</relativePath>
-</parent>
+
 </project>
