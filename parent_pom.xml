@@ -24,7 +24,7 @@
 <uri>https://anypoint.mulesoft.com/</uri>
 <provider>MC</provider>
 <environment>developer</environment>
-<target>Cloudhub-US-East-2</target>
+<target>Cloudhub-US-East-1</target>
 <muleVersion>4.4.0</muleVersion>
 <username>Raslen11</username>
 <password>Raslen123**</password>
