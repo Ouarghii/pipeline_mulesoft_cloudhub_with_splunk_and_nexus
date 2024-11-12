@@ -61,7 +61,12 @@
 			<url>https://repository.mulesoft.org/releases/</url>
 			<layout>default</layout>
 		</repository>
-		   
+		<repository>
+			<id>repository</id>
+			<name>Private Exchange repository</name>
+			<url>https://maven.anypoint.mulesoft.com/api/v3/organizations/${project.groupId}/maven</url>
+			<layout>default</layout>
+		</repository>
 	</repositories>
 
 	<pluginRepositories>
@@ -76,14 +81,14 @@
 		</pluginRepository>
 	</pluginRepositories>
     <!-- Distribution Management Section -->
-    <distributionManagement>
-        <repository>
-            <id>anypoint-exchange-v3</id>
-            <name>Exchange Private Repository</name>
-            <url>https://maven.anypoint.mulesoft.com/api/v3/organizations/${project.groupId}/maven</url>
-            <layout>default</layout>
-        </repository>
-    </distributionManagement>
+<distributionManagement>
+    <repository>
+        <id>Repository</id>
+        <name>Corporate Repository</name>
+        <url>https://maven.anypoint.mulesoft.com/api/v3/organizations/${project.groupId}/maven</url>
+        <layout>default</layout>
+    </repository>
+</distributionManagement>
 
 <parent>
 <groupId>com.mycompany</groupId>
