@@ -32,15 +32,6 @@
 <businessGroup>ITMMA</businessGroup>
 <replicas>1</replicas>
 <vCores>1</vCores>
-<deploymentSettings>
-<http>
-<inbound>
-<publicUrl>${PUBLIC_URL}</publicUrl>
-<forwardSslSession>true</forwardSslSession>
-<lastMileSecurity>true</lastMileSecurity>
-</inbound>
-</http>
-</deploymentSettings>
 </cloudhub2Deployment>
 </configuration>
 </plugin>
