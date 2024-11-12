@@ -290,7 +290,7 @@ jobs:
             exit 1
           fi
           ORG_RESPONSE=$(curl -X GET "https://anypoint.mulesoft.com/accounts/api/me" \
-            -H "Authorization: Bearer 769bc8f4-fa52-46c8-8593-9dccfbb189c3" \
+            -H "Authorization: Bearer 738924b7-4f6e-4fc9-9e9b-9f671ef90f31" \
             -H "Content-Type: application/json" \
             -v)  # Verbose mode for debugging
 
@@ -308,7 +308,7 @@ jobs:
 
           # Fetch Environment ID using the Organization ID
           ENV_RESPONSE=$(curl -X GET "https://anypoint.mulesoft.com/accounts/api/organizations/7ad879c6-b198-41d4-b976-e09aec855fdc/environments?name=${{ github.ref_name }}" \
-            -H "Authorization: Bearer 769bc8f4-fa52-46c8-8593-9dccfbb189c3" \
+            -H "Authorization: Bearer 738924b7-4f6e-4fc9-9e9b-9f671ef90f31" \
             -H "Content-Type: application/json" \
             -v)  # Verbose mode for debugging
 
@@ -325,7 +325,7 @@ jobs:
           echo "ENV_ID=$ENV_ID" >> $GITHUB_ENV  # Save as environment variable
           # Fetch logs from CloudHub and handle errors
           curl -X GET "https://anypoint.mulesoft.com/cloudhub/api/v2/applications/muleapp/deployments/672d480ac1612a4e6d18c186/logs" \
-            -H "Authorization: Bearer 769bc8f4-fa52-46c8-8593-9dccfbb189c3" \
+            -H "Authorization: Bearer 738924b7-4f6e-4fc9-9e9b-9f671ef90f31" \
             -H "x-anypnt-org-id: 7ad879c6-b198-41d4-b976-e09aec855fdc" \
             -H "X-ANYPNT-ENV-ID: f88fa23e-21ec-41aa-8135-c3e1f3c31124" \
             -o mule-logs.json || echo "Error retrieving logs"
