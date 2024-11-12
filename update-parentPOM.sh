@@ -2,34 +2,11 @@
 if [ -f settings.xml ]; then
     ANYPOINT_CLIENT_ID_ENCRYPTED=$(sed -n "/<id>anypoint-repo<\/id>/,/<\/server>/ s/.*<username>\(.*\)<\/username>.*/\1/p" settings.xml)
     ANYPOINT_CLIENT_SECRET_ENCRYPTED=$(sed -n "/<id>anypoint-repo<\/id>/,/<\/server>/ s/.*<password>\(.*\)<\/password>.*/\1/p" settings.xml)
-    echo "Anypoint Client ID: $ANYPOINT_CLIENT_ID_ENCRYPTED"
-    echo "Anypoint Client SECRET: $ANYPOINT_CLIENT_SECRET_ENCRYPTED"
     ANYPOINT_ID_DECRYPTED=$(echo "${ANYPOINT_CLIENT_ID_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "wQf9vaGtyBckXAqzNWbNuC50VlgY50fOj2IF2Rn2NHA=" -base64)
     ANYPOINT_SECRET_DECRYPTED=$(echo "${ANYPOINT_CLIENT_SECRET_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "wQf9vaGtyBckXAqzNWbNuC50VlgY50fOj2IF2Rn2NHA=" -base64)
-    org_id=$(curl -X GET "https://anypoint.mulesoft.com/accounts/api/me" -H "Authorization: Bearer 769bc8f4-fa52-46c8-8593-9dccfbb189c3" -H "Content-Type: application/json" | jq -r ".user.organization.id")
-    env_id=$(curl -X GET "https://anypoint.mulesoft.com/accounts/api/organizations/$org_id/environments?name=developer" -H "Authorization: Bearer 769bc8f4-fa52-46c8-8593-9dccfbb189c3" -H "Content-Type: application/json" | jq -r ".data[0].id")
-    apps_cloudhub=$(curl -X GET "https://anypoint.mulesoft.com/cloudhub/api/v2/applications" -H "Authorization: Bearer 769bc8f4-fa52-46c8-8593-9dccfbb189c3" -H "x-anypnt-env-id: $env_id" | jq -r ".[].domain")
     MULE_APP_NAME=$(grep -oPm1 "(?<=<name>)[^<]+" pom.xml)
-    found=false
-    for app in $apps_cloudhub; do
-          if [[ "$app" == "$MULE_APP_NAME" ]]; then
-              found=true
-                break
-          fi
-    done
-    if $found; then
-      version_number=1
-      echo "Application $MULE_APP_NAME already deployed in cloudHub."
-      while echo "$apps_cloudhub" | grep -q "${MULE_APP_NAME}v$version_number"; do
-          echo "Application $MULE_APP_NAMEV$version_number already deployed in cloudHub."
-            version_number=$((version_number + 1))
-      done
-    MULE_APP_NAME="${MULE_APP_NAME}V$version_number"
-    echo "MULEOSFT app name: $MULE_APP_NAME"
-    fi
     echo "Deploying application: ${MULE_APP_NAME}"
     MULE_RUNTIME_VERSION=$(grep -oPm1 "(?<=<app.runtime>)[^<]+" pom.xml)
-    echo "MULE RUNTIME VERSION: $MULE_RUNTIME_VERSION"
 cat << EOF > parent_pom.xml
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
