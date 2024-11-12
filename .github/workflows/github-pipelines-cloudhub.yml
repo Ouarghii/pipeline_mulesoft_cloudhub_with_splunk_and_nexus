@@ -199,7 +199,7 @@ jobs:
       - name: Build
         id: build
         run: |
-          mvn clean package
+          mvn -DskipTests clean deploy -s settings.xml
       
       - name: Deploy to CloudHub
         id: deploy
