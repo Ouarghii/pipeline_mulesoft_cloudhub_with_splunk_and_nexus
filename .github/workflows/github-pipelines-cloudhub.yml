@@ -175,8 +175,8 @@ jobs:
           echo 'if [ "$PARENT_EXISTS" -eq 0 ]; then' >> update-projectPOM.sh
           echo '  PARENT_INCLUSION="<parent>\n<groupId>${PARENT_GROUP_ID}</groupId>\n<artifactId>${PARENT_ARTIFACT_ID}</artifactId>\n<version>${PARENT_VERSION}</version>\n<relativePath>./parent_pom.xml</relativePath>\n</parent>"' >> update-projectPOM.sh
           echo '  sed -i "/<\/project>/i $PARENT_INCLUSION" pom.xml' >> update-projectPOM.sh
-          echo '  sed -i '\''s|<groupId>[^<]*</groupId>|<groupId>$org_id</groupId>|'\'' pom.xml' >> update-projectPOM.sh
-          echo '  sed -i '\''s|<version>[^<]*</version>|<version>1.0.0</version>|'\'' pom.xml' >> update-projectPOM.sh
+          echo "sed -i '0,/<groupId>[^<]*<\/groupId>/s|<groupId>[^<]*</groupId>|<groupId>$org_id</groupId>|' pom.xml" >> update-projectPOM.sh
+          echo "sed -i '0,/<version>[^<]*<\/version>/s|<version>[^<]*</version>|<version>1.0.0</version>|' pom.xml" >> update-projectPOM.sh
           echo '  sed -i "/<\/repositories>/i \<repository>\\<id>repository</id>\\<name>Private Exchange repository</name>\\<url>https://maven.anypoint.mulesoft.com/api/v3/organizations/\${project.groupId}/maven</url>\\<layout>default</layout>\\</repository>" pom.xml' >> update-projectPOM.sh
           echo '  sed -i "/<\/project>/i \<distributionManagement>\\<repository>\\<id>anypoint-exchange-v3</id>\\<url>https://maven.anypoint.mulesoft.com/api/v3/organizations/$org_id/maven</url>\\</repository>\\</distributionManagement>" pom.xml' >> update-projectPOM.sh
           echo '  git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}' >> update-projectPOM.sh
