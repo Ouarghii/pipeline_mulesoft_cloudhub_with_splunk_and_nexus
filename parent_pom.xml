@@ -28,7 +28,7 @@
 <muleVersion>4.7.0</muleVersion>
 <username>Raslen11</username>
 <password>Raslen123**</password>
-<applicationName>pipeline</applicationName>
+<applicationName>devops</applicationName>
 <businessGroup>ITMMA</businessGroup>
 <replicas>1</replicas>
 <vCores>1</vCores>
