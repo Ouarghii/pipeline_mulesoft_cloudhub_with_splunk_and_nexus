@@ -44,8 +44,8 @@ jobs:
               </server>
               <server>
                 <id>anypoint-exchange-v3</id>
-                <username>${ANYPOINT_CLIENT_ID_ENCRYPTED}</username>
-                <password>${ANYPOINT_CLIENT_SECRET_ENCRYPTED}</password>
+                <username>Raslen11/username>
+                <password>Raslen123**</password>
               </server>
               <server>
                 <id>github-repo</id>
