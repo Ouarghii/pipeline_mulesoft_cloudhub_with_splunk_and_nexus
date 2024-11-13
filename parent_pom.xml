@@ -9,7 +9,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <app.runtime>4.4.0</app.runtime>
+    <app.runtime>4.7.0</app.runtime>
     <mule.maven.plugin.version>4.2.0</mule.maven.plugin.version>
   </properties>
   <build>
@@ -25,7 +25,7 @@
 <provider>MC</provider>
 <environment>developer</environment>
 <target>Cloudhub-US-East-2</target>
-<muleVersion>4.4.0</muleVersion>
+<muleVersion>4.7.0</muleVersion>
 <username>Raslen11</username>
 <password>Raslen123**</password>
 <applicationName>devops</applicationName>
