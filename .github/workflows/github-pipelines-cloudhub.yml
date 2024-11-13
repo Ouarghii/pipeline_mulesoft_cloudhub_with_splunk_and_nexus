@@ -167,7 +167,6 @@ jobs:
 
           touch update-projectPOM.sh
           echo '#!/bin/bash' > update-projectPOM.sh
-          echo 'sed -i '\''s|<app.runtime>[^<]*</app.runtime>|<app.runtime>4.4.0</app.runtime>|'\'' pom.xml' >> update-projectPOM.sh
           echo 'PARENT_GROUP_ID=$(grep -oPm1 "(?<=<groupId>)[^<]+" parent_pom.xml)' >> update-projectPOM.sh
           echo 'PARENT_ARTIFACT_ID=$(grep -oPm1 "(?<=<artifactId>)[^<]+" parent_pom.xml)' >> update-projectPOM.sh
           echo 'PARENT_VERSION=$(grep -oPm1 "(?<=<version>)[^<]+" parent_pom.xml)' >> update-projectPOM.sh
