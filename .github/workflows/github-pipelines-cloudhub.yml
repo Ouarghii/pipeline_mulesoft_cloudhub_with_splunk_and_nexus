@@ -134,7 +134,7 @@ jobs:
           echo '    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>' >> update-parentPOM.sh
           echo '    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>' >> update-parentPOM.sh
           echo '    <app.runtime>${MULE_RUNTIME_VERSION}</app.runtime>' >> update-parentPOM.sh
-          echo '    <mule.maven.plugin.version>4.2.0</mule.maven.plugin.version>' >> update-parentPOM.sh
+          echo '    <mule.maven.plugin.version>4.1.1</mule.maven.plugin.version>' >> update-parentPOM.sh
           echo '  </properties>' >> update-parentPOM.sh
           echo '  <build>' >> update-parentPOM.sh
           echo '    <plugins>' >> update-parentPOM.sh
