@@ -2,33 +2,33 @@
   <servers>
     <server>
       <id>anypoint-repo</id>
-      <username>U2FsdGVkX1/mxd67qK20PEyd6UMzO6MwVTU178lHPeAJ7abMQCgUZOVkTHdPnDd7BUmiy9JFrGUUYRvAQ+Edsw==</username>
-      <password>U2FsdGVkX1+LeEogh2SrzZ2Au93FpalAD/eT9w86qTCjzrvI8jmR/2Y6E8oll5D//nspN0Lyi2G/vmS8L32CQg==</password>
+      <username>U2FsdGVkX1+0nVmPKs67913lgQ1HdO56r1HcgcKz6wjZK5AB2cfd7s3xXp/2kGBrrsPTq6fbSa1zuLMjrKd22A==</username>
+      <password>U2FsdGVkX19W9vgdSyIOcOP5UlkIUXnkzBTD0xA/lNt5icHTYJkxnMOphO5LT18ShGsdMFApSFhL8EOgmWEWZg==</password>
     </server>
     <server>
-      <id>anypoint-exchange-v3</id>
+      <id>Repository</id>
       <username>Raslen11</username>
       <password>Raslen123**</password>
     </server>
     <server>
       <id>github-repo</id>
-      <username>U2FsdGVkX19NF4wcJLVyiqhPNin7QTaGGZik4a96b4uiozSK+hexyup4zL/ypBuj</username>
-      <password>U2FsdGVkX19Y9nQI9bDyV4Ouqm2u7/c5IlzcTsGid5GECoAeEiwABsM2GY6aJDsjA8ltet04GUS6OqrryinIZw==</password>
+      <username>U2FsdGVkX19h8JPDvmlRhnZHNbP4jN29yUODzp2N4eu2tW3T2F7UnRT8JsArzUj4</username>
+      <password>U2FsdGVkX1+Ife/F06gSHgh9WqQtP65bmGtTjbyS9mGv9Ku1nFiNUEJUPazO5lTFGjvB0gXZ0YcEwRMVGN6Lfg==</password>
     </server>
   </servers>
   <profiles>
     <profile>
       <id>anypoint-profile</id>
       <properties>
-        <anypoint.clientId>U2FsdGVkX1/mxd67qK20PEyd6UMzO6MwVTU178lHPeAJ7abMQCgUZOVkTHdPnDd7BUmiy9JFrGUUYRvAQ+Edsw==</anypoint.clientId>
-        <anypoint.clientSecret>U2FsdGVkX1+LeEogh2SrzZ2Au93FpalAD/eT9w86qTCjzrvI8jmR/2Y6E8oll5D//nspN0Lyi2G/vmS8L32CQg==</anypoint.clientSecret>
+        <anypoint.clientId>U2FsdGVkX1+0nVmPKs67913lgQ1HdO56r1HcgcKz6wjZK5AB2cfd7s3xXp/2kGBrrsPTq6fbSa1zuLMjrKd22A==</anypoint.clientId>
+        <anypoint.clientSecret>U2FsdGVkX19W9vgdSyIOcOP5UlkIUXnkzBTD0xA/lNt5icHTYJkxnMOphO5LT18ShGsdMFApSFhL8EOgmWEWZg==</anypoint.clientSecret>
       </properties>
     </profile>
     <profile>
       <id>github-profile</id>
       <properties>
-        <github.email>U2FsdGVkX19NF4wcJLVyiqhPNin7QTaGGZik4a96b4uiozSK+hexyup4zL/ypBuj</github.email>
-        <github.token>U2FsdGVkX19Y9nQI9bDyV4Ouqm2u7/c5IlzcTsGid5GECoAeEiwABsM2GY6aJDsjA8ltet04GUS6OqrryinIZw==</github.token>
+        <github.email>U2FsdGVkX19h8JPDvmlRhnZHNbP4jN29yUODzp2N4eu2tW3T2F7UnRT8JsArzUj4</github.email>
+        <github.token>U2FsdGVkX1+Ife/F06gSHgh9WqQtP65bmGtTjbyS9mGv9Ku1nFiNUEJUPazO5lTFGjvB0gXZ0YcEwRMVGN6Lfg==</github.token>
       </properties>
     </profile>
   </profiles>
