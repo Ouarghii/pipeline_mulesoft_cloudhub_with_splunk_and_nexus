@@ -4,6 +4,7 @@ if [ -f settings.xml ]; then
     ANYPOINT_CLIENT_SECRET_ENCRYPTED=$(sed -n "/<id>anypoint-repo<\/id>/,/<\/server>/ s/.*<password>\(.*\)<\/password>.*/\1/p" settings.xml)
     ANYPOINT_ID_DECRYPTED=$(echo "${ANYPOINT_CLIENT_ID_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "wQf9vaGtyBckXAqzNWbNuC50VlgY50fOj2IF2Rn2NHA=" -base64)
     ANYPOINT_SECRET_DECRYPTED=$(echo "${ANYPOINT_CLIENT_SECRET_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "wQf9vaGtyBckXAqzNWbNuC50VlgY50fOj2IF2Rn2NHA=" -base64)
+    org_id=$(curl -X GET "https://anypoint.mulesoft.com/accounts/api/me" -H "Authorization: Bearer 80ac4892-1949-430c-8190-e2e45649c707" -H "Content-Type: application/json" | jq -r ".user.organization.id")
     MULE_APP_NAME=$(grep -oPm1 "(?<=<name>)[^<]+" pom.xml)
     echo "Deploying application: ${MULE_APP_NAME}"
     MULE_RUNTIME_VERSION=$(grep -oPm1 "(?<=<app.runtime>)[^<]+" pom.xml)
@@ -11,7 +12,7 @@ cat << EOF > parent_pom.xml
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>394989c8-ee4c-4f8c-805d-f393165ac9a3</groupId>
+  <groupId>$org_id</groupId>
   <artifactId>parent-pom</artifactId>
   <version>1.0.0</version>
   <packaging>pom</packaging>
@@ -31,9 +32,9 @@ EOF
 PLUGIN_EXISTS=$(grep -c "<groupId>org.mule.tools.maven</groupId>" parent_pom.xml)
 if [ "$PLUGIN_EXISTS" -eq 0 ]; then
   if [ "developer" == "main" ] || [ "developer" == "master" ]; then
-    CONFIGURATION="<plugin>\n<groupId>org.mule.tools.maven</groupId>\n<artifactId>mule-maven-plugin</artifactId>\n<version>\${mule.maven.plugin.version}</version>\n<extensions>true</extensions>\n<configuration>\n<cloudhub2Deployment>\n<uri>https://anypoint.mulesoft.com/</uri>\n<provider>MC</provider>\n<environment>product</environment>\n<target>Cloudhub-US-East-2</target>\n<muleVersion>${MULE_RUNTIME_VERSION}</muleVersion>\n<username>${ANYPOINT_ID_DECRYPTED}</username>\n<password>${ANYPOINT_SECRET_DECRYPTED}</password>\n<applicationName>${MULE_APP_NAME}</applicationName>\n<businessGroup>ITMMA</businessGroup>\n<replicas>1</replicas>\n<vCores>1</vCores>\n</cloudhub2Deployment>\n</configuration>\n</plugin>"
+    CONFIGURATION="<plugin>\n<groupId>org.mule.tools.maven</groupId>\n<artifactId>mule-maven-plugin</artifactId>\n<version>\${mule.maven.plugin.version}</version>\n<extensions>true</extensions>\n<configuration>\n<cloudhub2Deployment>\n<uri>https://anypoint.mulesoft.com/</uri>\n<provider>MC</provider>\n<environment>product</environment>\n<target>Cloudhub-US-East-2</target>\n<muleVersion>${MULE_RUNTIME_VERSION}</muleVersion>\n<username>Raslen11</username>\n<password>Raslen123**</password>\n<applicationName>${MULE_APP_NAME}</applicationName>\n<businessGroup>ITMMA</businessGroup>\n<replicas>1</replicas>\n<vCores>1</vCores>\n</cloudhub2Deployment>\n</configuration>\n</plugin>"
   else
-    CONFIGURATION="<plugin>\n<groupId>org.mule.tools.maven</groupId>\n<artifactId>mule-maven-plugin</artifactId>\n<version>\${mule.maven.plugin.version}</version>\n<extensions>true</extensions>\n<configuration>\n<cloudhub2Deployment>\n<uri>https://anypoint.mulesoft.com/</uri>\n<provider>MC</provider>\n<environment>developer</environment>\n<target>Cloudhub-US-East-2</target>\n<muleVersion>${MULE_RUNTIME_VERSION}</muleVersion>\n<username>${ANYPOINT_ID_DECRYPTED}</username>\n<password>${ANYPOINT_SECRET_DECRYPTED}</password>\n<applicationName>${MULE_APP_NAME}</applicationName>\n<businessGroup>ITMMA</businessGroup>\n<replicas>1</replicas>\n<vCores>1</vCores>\n</cloudhub2Deployment>\n</configuration>\n</plugin>"
+    CONFIGURATION="<plugin>\n<groupId>org.mule.tools.maven</groupId>\n<artifactId>mule-maven-plugin</artifactId>\n<version>\${mule.maven.plugin.version}</version>\n<extensions>true</extensions>\n<configuration>\n<cloudhub2Deployment>\n<uri>https://anypoint.mulesoft.com/</uri>\n<provider>MC</provider>\n<environment>developer</environment>\n<target>Cloudhub-US-East-2</target>\n<muleVersion>${MULE_RUNTIME_VERSION}</muleVersion>\n<username>Raslen11</username>\n<password>Raslen123**</password>\n<applicationName>${MULE_APP_NAME}</applicationName>\n<businessGroup>ITMMA</businessGroup>\n<replicas>1</replicas>\n<vCores>1</vCores>\n</cloudhub2Deployment>\n</configuration>\n</plugin>"
   fi
   sed -i "/<\/plugins>/i $CONFIGURATION" parent_pom.xml
   git checkout -b developer || git checkout developer
