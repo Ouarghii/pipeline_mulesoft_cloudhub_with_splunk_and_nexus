@@ -2,33 +2,33 @@
   <servers>
     <server>
       <id>anypoint-repo</id>
-      <username>Raslen11</username>
-      <password>Raslen123**</password>
+      <username>U2FsdGVkX1/giLtFsXU06o4444sFP7dJe1kf+u/TQfNwq3kKRX0l9sVg3SeN99eemh/toI6db/ip/66u6OxGXw==</username>
+      <password>U2FsdGVkX19hOcfCNm+he7lNM7DJqmqUZgWjcpw6JO1RmOFku6wVbqE8BP+QkcYWDInl9kiJRc7IYJrdS4Qs/w==</password>
     </server>
     <server>
       <id>Repository</id>
-      <username>U2FsdGVkX18OQw07Je1UsDsrlHYCE9BDNcWFrJGBrHV3OnL+ugfzeqS3z3o3CEM/pwQrxvvW8XUUVbefP+u/xw==</username>
-      <password>U2FsdGVkX1/S49Y5LDqOL1Ge1eT67RpmL0CdtM3HBrWtUdCd9iTN2EmdG6bNiWuZNdjzvFy4XXQLTL7Jdg9duQ==</password>
+      <username>U2FsdGVkX1/giLtFsXU06o4444sFP7dJe1kf+u/TQfNwq3kKRX0l9sVg3SeN99eemh/toI6db/ip/66u6OxGXw==</username>
+      <password>U2FsdGVkX19hOcfCNm+he7lNM7DJqmqUZgWjcpw6JO1RmOFku6wVbqE8BP+QkcYWDInl9kiJRc7IYJrdS4Qs/w==</password>
     </server>
     <server>
       <id>github-repo</id>
-      <username>U2FsdGVkX18xF95ivVNY+cpPpAnV00bCNb0TFdrQ64QKaXjSBnsBGwiW33gcg9z0</username>
-      <password>U2FsdGVkX1+9mnIZXVUdMAB1l41i0NMoDZmuRYucS0pjRB32kFbo1s4exyzGg6/gOCDgBqC8vRTprlI339r9Ng==</password>
+      <username>U2FsdGVkX1/0H2A59/FSB+uZq4HkrHI0MjjYVAcjbwcYnohK35khFD1zntyKIs8s</username>
+      <password>U2FsdGVkX18nYmJc2Ynbe6bh6yKmexjkLuC1p1v4QQXy+1sd/JibZlABzNv83I//LZbVtERlQRumS2h5OC945A==</password>
     </server>
   </servers>
   <profiles>
     <profile>
       <id>anypoint-profile</id>
       <properties>
-        <anypoint.clientId>U2FsdGVkX18OQw07Je1UsDsrlHYCE9BDNcWFrJGBrHV3OnL+ugfzeqS3z3o3CEM/pwQrxvvW8XUUVbefP+u/xw==</anypoint.clientId>
-        <anypoint.clientSecret>U2FsdGVkX1/S49Y5LDqOL1Ge1eT67RpmL0CdtM3HBrWtUdCd9iTN2EmdG6bNiWuZNdjzvFy4XXQLTL7Jdg9duQ==</anypoint.clientSecret>
+        <anypoint.clientId>U2FsdGVkX1/giLtFsXU06o4444sFP7dJe1kf+u/TQfNwq3kKRX0l9sVg3SeN99eemh/toI6db/ip/66u6OxGXw==</anypoint.clientId>
+        <anypoint.clientSecret>U2FsdGVkX19hOcfCNm+he7lNM7DJqmqUZgWjcpw6JO1RmOFku6wVbqE8BP+QkcYWDInl9kiJRc7IYJrdS4Qs/w==</anypoint.clientSecret>
       </properties>
     </profile>
     <profile>
       <id>github-profile</id>
       <properties>
-        <github.email>U2FsdGVkX18xF95ivVNY+cpPpAnV00bCNb0TFdrQ64QKaXjSBnsBGwiW33gcg9z0</github.email>
-        <github.token>U2FsdGVkX1+9mnIZXVUdMAB1l41i0NMoDZmuRYucS0pjRB32kFbo1s4exyzGg6/gOCDgBqC8vRTprlI339r9Ng==</github.token>
+        <github.email>U2FsdGVkX1/0H2A59/FSB+uZq4HkrHI0MjjYVAcjbwcYnohK35khFD1zntyKIs8s</github.email>
+        <github.token>U2FsdGVkX18nYmJc2Ynbe6bh6yKmexjkLuC1p1v4QQXy+1sd/JibZlABzNv83I//LZbVtERlQRumS2h5OC945A==</github.token>
       </properties>
     </profile>
   </profiles>
