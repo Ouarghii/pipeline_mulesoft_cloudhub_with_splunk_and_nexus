@@ -26,8 +26,8 @@
 <environment>developer</environment>
 <target>Cloudhub-US-East-2</target>
 <muleVersion>4.7.0</muleVersion>
-<username>Raslen11</username>
-<password>Raslen123**</password>
+<connectedAppClientId>391d77759060457aab79decdc046ce64</connectedAppClientId>
+<connectedAppClientSecret>DFc36d3fa359443B97FD2e8a7d9d1a93</connectedAppClientSecret>
 <applicationName>devops</applicationName>
 <businessGroup>ITMMA</businessGroup>
 <replicas>1</replicas>
