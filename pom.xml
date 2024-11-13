@@ -85,6 +85,7 @@
         <layout>default</layout>
     </repository>
 </distributionManagement> -->
+<distributionManagement><repository><id>anypoint-exchange-v3</id><url>https://maven.anypoint.mulesoft.com/api/v3/organizations/394989c8-ee4c-4f8c-805d-f393165ac9a3/maven</url></repository></distributionManagement>
 
 <parent>
 <groupId>394989c8-ee4c-4f8c-805d-f393165ac9a3</groupId>
@@ -92,5 +93,4 @@
 <version>1.0.0</version>
 <relativePath>./parent_pom.xml</relativePath>
 </parent>
-<distributionManagement><repository><id>anypoint-exchange-v3</id><url>https://maven.anypoint.mulesoft.com/api/v3/organizations/394989c8-ee4c-4f8c-805d-f393165ac9a3/maven</url></repository></distributionManagement>
 </project>
