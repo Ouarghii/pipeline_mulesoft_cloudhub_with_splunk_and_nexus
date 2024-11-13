@@ -98,7 +98,7 @@ jobs:
           echo '    ANYPOINT_CLIENT_SECRET_ENCRYPTED=$(sed -n "/<id>anypoint-repo<\/id>/,/<\/server>/ s/.*<password>\(.*\)<\/password>.*/\1/p" settings.xml)' >> update-parentPOM.sh
           echo '    ANYPOINT_ID_DECRYPTED=$(echo "${ANYPOINT_CLIENT_ID_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)' >> update-parentPOM.sh
           echo '    ANYPOINT_SECRET_DECRYPTED=$(echo "${ANYPOINT_CLIENT_SECRET_ENCRYPTED}" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -k "${{ secrets.ENCRYPTION_PASSWORD }}" -base64)' >> update-parentPOM.sh
-          # echo '    org_id=$(curl -X GET "https://anypoint.mulesoft.com/accounts/api/me" -H "Authorization: Bearer ${{ secrets.ACCESS_TOKEN }}" -H "Content-Type: application/json" | jq -r ".user.organization.id")' >> update-parentPOM.sh
+          echo '    org_id=$(curl -X GET "https://anypoint.mulesoft.com/accounts/api/me" -H "Authorization: Bearer ${{ secrets.ACCESS_TOKEN }}" -H "Content-Type: application/json" | jq -r ".user.organization.id")' >> update-parentPOM.sh
           # echo '    env_id=$(curl -X GET "https://anypoint.mulesoft.com/accounts/api/organizations/$org_id/environments?name=${{ github.ref_name }}" -H "Authorization: Bearer ${{ secrets.ACCESS_TOKEN }}" -H "Content-Type: application/json" | jq -r ".data[0].id")' >> update-parentPOM.sh
           # echo '    apps_cloudhub=$(curl -X GET "https://anypoint.mulesoft.com/cloudhub/api/v2/applications" -H "Authorization: Bearer ${{ secrets.ACCESS_TOKEN }}" -H "x-anypnt-env-id: $env_id" | jq -r ".[].domain")' >> update-parentPOM.sh
           echo '    MULE_APP_NAME=$(grep -oPm1 "(?<=<name>)[^<]+" pom.xml)' >> update-parentPOM.sh
@@ -125,7 +125,7 @@ jobs:
           echo '<?xml version="1.0" encoding="UTF-8"?>' >> update-parentPOM.sh
           echo '<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">' >> update-parentPOM.sh
           echo '  <modelVersion>4.0.0</modelVersion>' >> update-parentPOM.sh
-          echo '  <groupId>394989c8-ee4c-4f8c-805d-f393165ac9a3</groupId>' >> update-parentPOM.sh
+          echo '  <groupId>$org_id</groupId>' >> update-parentPOM.sh
           echo '  <artifactId>parent-pom</artifactId>' >> update-parentPOM.sh
           echo '  <version>1.0.0</version>' >> update-parentPOM.sh
           echo '  <packaging>pom</packaging>' >> update-parentPOM.sh
@@ -145,9 +145,9 @@ jobs:
           echo 'PLUGIN_EXISTS=$(grep -c "<groupId>org.mule.tools.maven</groupId>" parent_pom.xml)' >> update-parentPOM.sh
           echo 'if [ "$PLUGIN_EXISTS" -eq 0 ]; then' >> update-parentPOM.sh
           echo '  if [ "${{ github.ref_name }}" == "main" ] || [ "${{ github.ref_name }}" == "master" ]; then' >> update-parentPOM.sh
-          echo '    CONFIGURATION="<plugin>\n<groupId>org.mule.tools.maven</groupId>\n<artifactId>mule-maven-plugin</artifactId>\n<version>\${mule.maven.plugin.version}</version>\n<extensions>true</extensions>\n<configuration>\n<cloudhub2Deployment>\n<uri>https://anypoint.mulesoft.com/</uri>\n<provider>MC</provider>\n<environment>${{secrets.PRODUCTION_ENVIRONMENT}}</environment>\n<target>Cloudhub-US-East-2</target>\n<muleVersion>${MULE_RUNTIME_VERSION}</muleVersion>\n<username>${ANYPOINT_ID_DECRYPTED}</username>\n<password>${ANYPOINT_SECRET_DECRYPTED}</password>\n<applicationName>${MULE_APP_NAME}</applicationName>\n<businessGroup>${{secrets.BUSINESS_GROUP}}</businessGroup>\n<replicas>1</replicas>\n<vCores>1</vCores>\n</cloudhub2Deployment>\n</configuration>\n</plugin>"' >> update-parentPOM.sh
+          echo '    CONFIGURATION="<plugin>\n<groupId>org.mule.tools.maven</groupId>\n<artifactId>mule-maven-plugin</artifactId>\n<version>\${mule.maven.plugin.version}</version>\n<extensions>true</extensions>\n<configuration>\n<cloudhub2Deployment>\n<uri>https://anypoint.mulesoft.com/</uri>\n<provider>MC</provider>\n<environment>${{secrets.PRODUCTION_ENVIRONMENT}}</environment>\n<target>Cloudhub-US-East-2</target>\n<muleVersion>${MULE_RUNTIME_VERSION}</muleVersion>\n<username>Raslen11</username>\n<password>Raslen123**</password>\n<applicationName>${MULE_APP_NAME}</applicationName>\n<businessGroup>${{secrets.BUSINESS_GROUP}}</businessGroup>\n<replicas>1</replicas>\n<vCores>1</vCores>\n</cloudhub2Deployment>\n</configuration>\n</plugin>"' >> update-parentPOM.sh
           echo '  else' >> update-parentPOM.sh
-          echo '    CONFIGURATION="<plugin>\n<groupId>org.mule.tools.maven</groupId>\n<artifactId>mule-maven-plugin</artifactId>\n<version>\${mule.maven.plugin.version}</version>\n<extensions>true</extensions>\n<configuration>\n<cloudhub2Deployment>\n<uri>https://anypoint.mulesoft.com/</uri>\n<provider>MC</provider>\n<environment>${{ github.ref_name }}</environment>\n<target>Cloudhub-US-East-2</target>\n<muleVersion>${MULE_RUNTIME_VERSION}</muleVersion>\n<username>${ANYPOINT_ID_DECRYPTED}</username>\n<password>${ANYPOINT_SECRET_DECRYPTED}</password>\n<applicationName>${MULE_APP_NAME}</applicationName>\n<businessGroup>${{secrets.BUSINESS_GROUP}}</businessGroup>\n<replicas>1</replicas>\n<vCores>1</vCores>\n</cloudhub2Deployment>\n</configuration>\n</plugin>"' >> update-parentPOM.sh
+          echo '    CONFIGURATION="<plugin>\n<groupId>org.mule.tools.maven</groupId>\n<artifactId>mule-maven-plugin</artifactId>\n<version>\${mule.maven.plugin.version}</version>\n<extensions>true</extensions>\n<configuration>\n<cloudhub2Deployment>\n<uri>https://anypoint.mulesoft.com/</uri>\n<provider>MC</provider>\n<environment>${{ github.ref_name }}</environment>\n<target>Cloudhub-US-East-2</target>\n<muleVersion>${MULE_RUNTIME_VERSION}</muleVersion>\n<username>Raslen11</username>\n<password>Raslen123**</password>\n<applicationName>${MULE_APP_NAME}</applicationName>\n<businessGroup>${{secrets.BUSINESS_GROUP}}</businessGroup>\n<replicas>1</replicas>\n<vCores>1</vCores>\n</cloudhub2Deployment>\n</configuration>\n</plugin>"' >> update-parentPOM.sh
           echo '  fi' >> update-parentPOM.sh
           echo '  sed -i "/<\/plugins>/i $CONFIGURATION" parent_pom.xml' >> update-parentPOM.sh
           echo '  git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}' >> update-parentPOM.sh 
@@ -171,9 +171,14 @@ jobs:
           echo 'PARENT_ARTIFACT_ID=$(grep -oPm1 "(?<=<artifactId>)[^<]+" parent_pom.xml)' >> update-projectPOM.sh
           echo 'PARENT_VERSION=$(grep -oPm1 "(?<=<version>)[^<]+" parent_pom.xml)' >> update-projectPOM.sh
           echo 'PARENT_EXISTS=$(grep -c "<parent>" pom.xml)' >> update-projectPOM.sh
+          echo 'org_id=$(curl -X GET "https://anypoint.mulesoft.com/accounts/api/me" -H "Authorization: Bearer ${{ secrets.ACCESS_TOKEN }}" -H "Content-Type: application/json" | jq -r ".user.organization.id")' >> update-projectPOM.sh
           echo 'if [ "$PARENT_EXISTS" -eq 0 ]; then' >> update-projectPOM.sh
           echo '  PARENT_INCLUSION="<parent>\n<groupId>${PARENT_GROUP_ID}</groupId>\n<artifactId>${PARENT_ARTIFACT_ID}</artifactId>\n<version>${PARENT_VERSION}</version>\n<relativePath>./parent_pom.xml</relativePath>\n</parent>"' >> update-projectPOM.sh
           echo '  sed -i "/<\/project>/i $PARENT_INCLUSION" pom.xml' >> update-projectPOM.sh
+          echo '  sed -i '\''s|<groupId>[^<]*</groupId>|<groupId>4.4.0</groupId>|'\'' pom.xml' >> update-projectPOM.sh
+          echo '  sed -i '\''s|<version>[^<]*</version>|<version>1.0.0</version>|'\'' pom.xml' >> update-projectPOM.sh
+          echo '  sed -i "/<\/repositories>/i \<repository>\\<id>repository</id>\\<name>Private Exchange repository</name>\\<url>https://maven.anypoint.mulesoft.com/api/v3/organizations/\${project.groupId}/maven</url>\\<layout>default</layout>\\</repository>" pom.xml' >> update-projectPOM.sh
+          echo '  sed -i "/<\/project>/i \<distributionManagement>\\<repository>\\<id>anypoint-exchange-v3</id>\\<url>https://maven.anypoint.mulesoft.com/api/v3/organizations/$org_id/maven</url>\\</repository>\\</distributionManagement>" pom.xml' >> update-projectPOM.sh
           echo '  git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}' >> update-projectPOM.sh
           echo '  git add pom.xml' >> update-projectPOM.sh
           echo '  git commit -m "Update project POM to include Parent POM"' >> update-projectPOM.sh
@@ -278,6 +283,7 @@ jobs:
       #     else
       #       echo "No logs available to process"
       #     fi
+      
       - name: Get MuleSoft CloudHub Logs
         run: |
           if [ "$(uname)" == "Darwin" ]; then
@@ -360,4 +366,4 @@ jobs:
           curl -s https://choice-wahoo-plainly.ngrok-free.app/logs -o project.log || { echo "Failed to retrieve logs"; exit 1; }
 
           echo "Pushing logs to Pushgateway..."
-          curl -X POST --data-binary @project.log https://intense-dory-notably.ngrok-free.app/metrics/job/ngrok_metrics || echo "Failed to push logs to Pushgateway"
+          curl -X POST --data-binary @project.log https://intense-dory-notably.ngrok-
