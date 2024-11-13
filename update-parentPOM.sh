@@ -21,7 +21,7 @@ cat << EOF > parent_pom.xml
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <app.runtime>${MULE_RUNTIME_VERSION}</app.runtime>
-    <mule.maven.plugin.version>4.2.0</mule.maven.plugin.version>
+    <mule.maven.plugin.version>4.1.1</mule.maven.plugin.version>
   </properties>
   <build>
     <plugins>
