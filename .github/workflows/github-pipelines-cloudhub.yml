@@ -44,7 +44,7 @@ jobs:
               </server>
               <server>
                 <id>anypoint-exchange-v3</id>
-                <username>Raslen11/username>
+                <username>Raslen11</username>
                 <password>Raslen123**</password>
               </server>
               <server>
