@@ -63,7 +63,6 @@
     			<url>https://maven.anypoint.mulesoft.com/api/v3/organizations/${project.groupId}/maven</url>
     			<layout>default</layout>
 	</repository> -->
-<repository><id>repository</id><name>Private Exchange repository</name><url>https://maven.anypoint.mulesoft.com/api/v3/organizations/${project.groupId}/maven</url><layout>default</layout></repository>
 	</repositories>
 
 	<pluginRepositories>
@@ -85,11 +84,5 @@
         <layout>default</layout>
     </repository>
 </distributionManagement> -->
-<parent>
-<groupId>394989c8-ee4c-4f8c-805d-f393165ac9a3</groupId>
-<artifactId>parent-pom</artifactId>
-<version>1.0.0</version>
-<relativePath>./parent_pom.xml</relativePath>
-</parent>
-<distributionManagement><repository><id>anypoint-exchange-v3</id><url>https://maven.anypoint.mulesoft.com/api/v3/organizations/394989c8-ee4c-4f8c-805d-f393165ac9a3/maven</url></repository></distributionManagement>
+
 </project>
