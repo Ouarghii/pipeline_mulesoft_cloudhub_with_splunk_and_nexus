@@ -42,6 +42,21 @@
 			<version>1.2.4</version>
 			<classifier>mule-plugin</classifier>
 		</dependency>
+		<dependency>
+  			<groupId>org.apache.logging.log4j</groupId>
+  			<artifactId>log4j-core</artifactId>
+  			<version>2.17.0</version>
+		</dependency>
+		<dependency>
+  			<groupId>org.apache.logging.log4j</groupId>
+  			<artifactId>log4j-api</artifactId>
+  			<version>2.17.0</version>
+		</dependency>
+		<dependency>
+  			<groupId>com.splunk.logging</groupId>
+  			<artifactId>splunk-library-javalogging</artifactId>
+  			<version>1.11.4</version>
+		</dependency>
 	</dependencies>
 
 	<repositories>
@@ -57,6 +72,11 @@
 			<url>https://repository.mulesoft.org/releases/</url>
 			<layout>default</layout>
 		</repository>
+		<repository>
+			<id>splunk-artifactory</id>
+        		<name>Splunk Releases</name>
+       			<url>https://splunk.jfrog.io/splunk/ext-releases-local</url>
+   		</repository>
 <repository><id>Repository</id><name>Private Exchange repository</name><url>https://maven.anypoint.mulesoft.com/api/v3/organizations/${project.groupId}/maven</url><layout>default</layout></repository>
 	</repositories>
 
