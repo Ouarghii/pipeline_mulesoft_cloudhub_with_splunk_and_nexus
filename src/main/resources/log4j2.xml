@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Configuration>
-
+<Configuration status="INFO" name="cloudhub" packages="com.splunk.logging,org.apache.logging.log4j">
     <!--These are some of the loggers you can enable. 
         There are several more you can find in the documentation. 
         Besides this log4j configuration, you can also use Java VM environment variables
@@ -15,6 +14,11 @@
             <SizeBasedTriggeringPolicy size="10 MB"/>
             <DefaultRolloverStrategy max="10"/>
         </RollingFile>
+        <SplunkHttp name="splunk" url="https://prd-p-g2fbj.splunkcloud.com:8088"             
+                    token="dcdb772d-9fe1-496d-898e-e1c0cadb472b"
+                    index="first_index"
+                    batch_size_count="1"
+                    disableCertificateValidation="true" />
     </Appenders>
 
     <Loggers>
@@ -29,6 +33,10 @@
         <AsyncRoot level="INFO">
             <AppenderRef ref="file"/>
         </AsyncRoot>
+        <AsyncLogger name="splunk.Logger" level="INFO">
+        <AppenderRef ref="splunk" />
+
+        </AsyncLogger> 
     </Loggers>
 
 </Configuration>
