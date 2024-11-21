@@ -32,7 +32,7 @@
 <applicationName>devops</applicationName>
 <businessGroup>ITMMA</businessGroup>
 <replicas>1</replicas>
-<vCores>1</vCores>
+<vCores>0.1</vCores>
 </cloudhub2Deployment>
 </configuration>
 </plugin>
