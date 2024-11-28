@@ -19,6 +19,10 @@
                     index="first_index"
                     batch_size_count="1"
                     disableCertificateValidation="true" />
+    <Http name="Splunk" url="https://guiding-doberman-mentally.ngrok-free.app/services/collector/raw">
+      <Property name="Authorization" value="Splunk dcdb772d-9fe1-496d-898e-e1c0cadb472b"></Property>
+      <PatternLayout pattern="%m%n"></PatternLayout>
+    </Http>
     </Appenders>
 
     <Loggers>
