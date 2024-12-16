@@ -101,5 +101,3 @@
 <version>1.0.0</version>
 <relativePath>./parent_pom.xml</relativePath>
 </parent>
-<distributionManagement><repository><id>nexus</id><url>https://grouper-ace-merely.ngrok-free.app/repository/mule4-jars/</url></repository></distributionManagement>
-</project>
