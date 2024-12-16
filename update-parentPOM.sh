@@ -30,7 +30,7 @@ cat << EOF > parent_pom.xml
   <repositories>
     <repository>
       <id>jfrog</id>
-      <url>https://evident-robust-turtle.ngrok-free.app/artifactory/mule4-jars/</url>
+      <url>https://working-cobra-early.ngrok-free.app/artifactory/mule4-jars/</url>
       <releases>
         <enabled>true</enabled>
         <updatePolicy>never</updatePolicy>
