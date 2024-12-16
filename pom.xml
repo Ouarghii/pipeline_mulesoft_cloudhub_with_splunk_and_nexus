@@ -2,10 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
         <groupId>394989c8-ee4c-4f8c-805d-f393165ac9a3</groupId> 
-	<artifactId>pimityno</artifactId>
+	<artifactId>lotto</artifactId>
 	<version>1.0.0</version>
 	<packaging>mule-application</packaging>
-	<name>devopslott</name>
+	<name>lotto</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
