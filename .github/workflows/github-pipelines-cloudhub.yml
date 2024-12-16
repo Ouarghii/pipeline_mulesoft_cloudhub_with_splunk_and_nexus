@@ -142,7 +142,7 @@ jobs:
           echo '  <repositories>' >> update-parentPOM.sh
           echo '    <repository>' >> update-parentPOM.sh
           echo '      <id>jfrog</id>' >> update-parentPOM.sh
-          echo '      <url>http://localhost:8081/artifactory/mule4-jars/</url>' >> update-parentPOM.sh
+          echo '      <url>https://evident-robust-turtle.ngrok-free.app/artifactory/mule4-jars/</url>' >> update-parentPOM.sh
           echo '      <releases>' >> update-parentPOM.sh
           echo '        <enabled>true</enabled>' >> update-parentPOM.sh
           echo '        <updatePolicy>never</updatePolicy>' >> update-parentPOM.sh
@@ -166,7 +166,7 @@ jobs:
           echo '  <distributionManagement>' >> update-parentPOM.sh
           echo '    <repository>' >> update-parentPOM.sh
           echo '      <id>jfrog</id>' >> update-parentPOM.sh
-          echo '      <url>http://localhost:8081/artifactory/mule4-jars/</url>' >> update-parentPOM.sh
+          echo '      <url>https://evident-robust-turtle.ngrok-free.app/artifactory/mule4-jars/</url>' >> update-parentPOM.sh
           echo '    </repository>' >> update-parentPOM.sh
           echo '  </distributionManagement>' >> update-parentPOM.sh
           echo '</project>' >> update-parentPOM.sh
@@ -207,7 +207,7 @@ jobs:
           echo '  sed -i "0,/<groupId>[^<]*<\/groupId>/s|<groupId>[^<]*</groupId>|<groupId>$org_id</groupId>|" pom.xml' >> update-projectPOM.sh
           echo '  sed -i "0,/<version>[^<]*<\/version>/s|<version>[^<]*</version>|<version>1.0.0</version>|" pom.xml' >> update-projectPOM.sh
           echo '  sed -i "/<\/repositories>/i \<repository>\\<id>Repository</id>\\<name>Private Exchange repository</name>\\<url>https://maven.anypoint.mulesoft.com/api/v3/organizations/\${project.groupId}/maven</url>\\<layout>default</layout>\\</repository>" pom.xml' >> update-projectPOM.sh
-          echo '  sed -i "/<\/repositories>/i \<repository>\\<id>jfrog</id>\\<url>http://localhost:8081/artifactory/mule4-jars-pom/</url>\\<releases>\\<enabled>true</enabled>\\<updatePolicy>never</updatePolicy>\\</releases>\\<snapshots>\\<enabled>false</enabled>\\</snapshots>\\</repository>" pom.xml' >> update-projectPOM.sh
+          echo '  sed -i "/<\/repositories>/i \<repository>\\<id>jfrog</id>\\<url>https://evident-robust-turtle.ngrok-free.app/mule4-jars-pom/</url>\\<releases>\\<enabled>true</enabled>\\<updatePolicy>never</updatePolicy>\\</releases>\\<snapshots>\\<enabled>false</enabled>\\</snapshots>\\</repository>" pom.xml' >> update-projectPOM.sh
           echo '  sed -i "/<\/project>/i \<distributionManagement>\\<repository>\\<id>Repository</id>\\<url>https://maven.anypoint.mulesoft.com/api/v3/organizations/\${project.groupId}/maven</url>\\</repository>\\</distributionManagement>" pom.xml' >> update-projectPOM.sh
           echo '  git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}' >> update-projectPOM.sh
           echo '  git add pom.xml' >> update-projectPOM.sh
@@ -272,7 +272,7 @@ jobs:
 
       - name: Update Settings file with Jfrog server
         run: |
-          echo 'sed -i "/<servers>/a \\<server>\\n    <id>nexus</id>\\n    <username>${{ secrets.JFROG_USERNAME }}</username>\\n    <password>${{ secrets.JFROG_PASSWORD }}</password>\\n  </server>" settings.xml' >> update-settings.sh
+          echo 'sed -i "/<servers>/a \\<server>\\n    <id>jfrog</id>\\n    <username>${{ secrets.JFROG_USERNAME }}</username>\\n    <password>${{ secrets.JFROG_PASSWORD }}</password>\\n  </server>" settings.xml' >> update-settings.sh
           echo '  git add settings.xml' >> update-settings.sh
           echo '  git commit -m "Update Settings File to enable Hosting to JFROG"' >> update-settings.sh
           echo '  git push dev ${{ github.ref_name }}' >> update-settings.sh
@@ -281,14 +281,14 @@ jobs:
 
       - name: Update Project POM file for Jfrog
         run: |
-          echo 'sed -i "/<\/distributionManagement>/ {s|</distributionManagement>|  <repository>\\n    <id>jfrog</id>\\n    <url>http://localhost:8081/artifactory/mule4-jars-pom/</url>\\n  </repository>\\n\\0|; s|<repository>\\([^<]*Repository[^<]*\\)</repository>||g}" pom.xml' >> update-projectPOM-to-publishJar.sh
-          echo '  git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}' >> update-projectPOM-to-publishJar.sh
-          echo '  git add pom.xml' >> update-projectPOM-to-publishJar.sh
-          echo '  git commit -m "Update project POM to enable Hosting to Jfrog"' >> update-projectPOM-to-publishJar.sh
-          echo '  git push dev ${{ github.ref_name }}' >> update-projectPOM-to-publishJar.sh
+          echo 'sed -i "/<\/distributionManagement>/ {s|</distributionManagement>|  <repository>\\n    <id>jfrog</id>\\n    <url>https://evident-robust-turtle.ngrok-free.app/artifactory/mule4-jars-pom/</url>\\n  </repository>\\n\\0|; s|<repository>\\([^<]*Repository[^<]*\\)</repository>||g}" pom.xml' >> update-projectPOM-to-publishJar.sh
+          echo 'git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}' >> update-projectPOM-to-publishJar.sh
+          echo 'git add pom.xml' >> update-projectPOM-to-publishJar.sh
+          echo 'git commit -m "Update project POM to enable Hosting to Jfrog"' >> update-projectPOM-to-publishJar.sh
+          echo 'git push dev ${{ github.ref_name }}' >> update-projectPOM-to-publishJar.sh
           chmod +x update-projectPOM-to-publishJar.sh
           ./update-projectPOM-to-publishJar.sh
-          
+
       - name: Host Jar In JFrog
         id: hostJar
         run: |
