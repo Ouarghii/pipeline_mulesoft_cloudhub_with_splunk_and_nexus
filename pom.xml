@@ -78,8 +78,6 @@
        			<url>https://splunk.jfrog.io/splunk/ext-releases-local</url>
    		</repository>
 
-<repository><id>Repository</id><name>Private Exchange repository</name><url>https://maven.anypoint.mulesoft.com/api/v3/organizations/${project.groupId}/maven</url><layout>default</layout></repository>
-<repository><id>jfrog</id><url>https://evident-robust-turtle.ngrok-free.app/mule4-jars-pom/</url><releases><enabled>true</enabled><updatePolicy>never</updatePolicy></releases><snapshots><enabled>false</enabled></snapshots></repository>
 	</repositories>
 
 	<pluginRepositories>
@@ -95,12 +93,4 @@
 	</pluginRepositories>
 
 
-
-
-
-<parent>
-<groupId>a0ece5d6-6eab-4fa2-ab08-b50224debdb0</groupId>
-<artifactId>parent-pom</artifactId>
-<version>1.0.0</version>
-<relativePath>./parent_pom.xml</relativePath>
-</parent>
+</project>
