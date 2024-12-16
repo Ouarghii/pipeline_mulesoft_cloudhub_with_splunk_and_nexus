@@ -102,5 +102,3 @@
 <version>1.0.0</version>
 <relativePath>./parent_pom.xml</relativePath>
 </parent>
-<distributionManagement><repository><id>Repository</id><url>https://maven.anypoint.mulesoft.com/api/v3/organizations/${project.groupId}/maven</url></repository></distributionManagement>
-</project>
