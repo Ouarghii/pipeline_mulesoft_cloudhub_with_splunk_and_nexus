@@ -265,10 +265,10 @@ jobs:
       #   run: |
       #     mvn deploy -DmuleDeploy -DskipTests -X
           
-      - name: Build and Publish To Exchange
-        id: build_publish
-        run: |
-          mvn -DskipTests clean deploy -s settings.xml
+      # - name: Build and Publish To Exchange
+      #   id: build_publish
+      #   run: |
+      #     mvn -DskipTests clean deploy -s settings.xml
 
       - name: Update Distribution Management in Project POM for JFrog
         run: |
