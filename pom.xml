@@ -93,10 +93,5 @@
 
 
 
-<parent>
-<groupId>a0ece5d6-6eab-4fa2-ab08-b50224debdb0</groupId>
-<artifactId>parent-pom</artifactId>
-<version>1.0.0</version>
-<relativePath>./parent_pom.xml</relativePath>
-</parent>
+
 </project>
