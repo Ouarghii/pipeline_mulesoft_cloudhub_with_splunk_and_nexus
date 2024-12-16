@@ -272,7 +272,7 @@ jobs:
 
       - name: Update Distribution Management in Project POM for JFrog
         run: |
-          echo 'sed -i "/<distributionManagement>/,/<\/distributionManagement>/ {s|<repository>\\n\\s*<id>Repository</id>\\n\\s*<url>[^<]*</url>\\n\\s*</repository>|<repository>\\n    <id>nexus</id>\\n    <url>https://evident-robust-turtle.ngrok-free.app/artifactory/mule4-jars-pom/</url>\\n  </repository>|}" pom.xml' >> update-projectPOM-to-publishJar.sh
+          echo 'sed -i "/<distributionManagement>/,/<\/distributionManagement>/ {s|<repository>\\n\\s*<id>Repository</id>\\n\\s*<url>[^<]*</url>\\n\\s*</repository>|<repository>\\n    <id>nexus</id>\\n    <url>https://evident-robust-turtle.ngrok-free.app/artifactory/mule4-jars-pom/</url>\\n  </repository>|}" pom.xml' >> update-distributionManagement.sh
           echo 'git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}' >> update-distributionManagement.sh
           echo 'git add pom.xml' >> update-distributionManagement.sh
           echo 'git commit -m "Update Distribution Management to use JFrog repository"' >> update-distributionManagement.sh
