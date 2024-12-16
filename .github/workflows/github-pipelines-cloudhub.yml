@@ -270,26 +270,26 @@ jobs:
         run: |
           mvn -DskipTests clean deploy -s settings.xml
 
-      # - name: Update Distribution Management in Project POM for JFrog
-      #   run: |
-      #     echo 'sed -i "/<distributionManagement>/,/<\/distributionManagement>/c\  <distributionManagement>\\n    <repository>\\n      <id>jfrog</id>\\n      <url>https://evident-robust-turtle.ngrok-free.app/artifactory/mule4-jars-pom/</url>\\n    </repository>\\n  </distributionManagement>" pom.xml' >> update-distributionManagement.sh
-      #     echo 'git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}' >> update-distributionManagement.sh
-      #     echo 'git add pom.xml' >> update-distributionManagement.sh
-      #     echo 'git commit -m "Update Distribution Management to use JFrog repository"' >> update-distributionManagement.sh
-      #     echo 'git push origin ${{ github.ref_name }}' >> update-distributionManagement.sh
-      #     chmod +x update-distributionManagement.sh
-      #     ./update-distributionManagement.sh
-
-
-      - name: Update Project POM file for Jfrog
+      - name: Update Distribution Management in Project POM for JFrog
         run: |
-          echo 'sed -i "/<\/distributionManagement>/ {s|</distributionManagement>|  <repository>\\n    <id>jfrog</id>\\n    <url>https://evident-robust-turtle.ngrok-free.app/artifactory/mule4-jars-pom/</url>\\n  </repository>\\n\\0|; s|<repository>\\([^<]*Repository[^<]*\\)</repository>||g}" pom.xml' >> update-projectPOM-to-publishJar.sh
-          echo 'git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}' >> update-projectPOM-to-publishJar.sh
-          echo 'git add pom.xml' >> update-projectPOM-to-publishJar.sh
-          echo 'git commit -m "Update project POM to enable Hosting to Jfrog"' >> update-projectPOM-to-publishJar.sh
-          echo 'git push dev ${{ github.ref_name }}' >> update-projectPOM-to-publishJar.sh
-          chmod +x update-projectPOM-to-publishJar.sh
-          ./update-projectPOM-to-publishJar.sh
+          echo 'sed -i "/<distributionManagement>/,/<\/distributionManagement>/c\  <distributionManagement>\\n    <repository>\\n      <id>jfrog</id>\\n      <url>https://evident-robust-turtle.ngrok-free.app/artifactory/mule4-jars-pom/</url>\\n    </repository>\\n  </distributionManagement>" pom.xml' >> update-distributionManagement.sh
+          echo 'git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}' >> update-distributionManagement.sh
+          echo 'git add pom.xml' >> update-distributionManagement.sh
+          echo 'git commit -m "Update Distribution Management to use JFrog repository"' >> update-distributionManagement.sh
+          echo 'git push origin ${{ github.ref_name }}' >> update-distributionManagement.sh
+          chmod +x update-distributionManagement.sh
+          ./update-distributionManagement.sh
+
+
+      # - name: Update Project POM file for Jfrog
+      #   run: |
+      #     echo 'sed -i "/<\/distributionManagement>/ {s|</distributionManagement>|  <repository>\\n    <id>jfrog</id>\\n    <url>https://evident-robust-turtle.ngrok-free.app/artifactory/mule4-jars-pom/</url>\\n  </repository>\\n\\0|; s|<repository>\\([^<]*Repository[^<]*\\)</repository>||g}" pom.xml' >> update-projectPOM-to-publishJar.sh
+      #     echo 'git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}' >> update-projectPOM-to-publishJar.sh
+      #     echo 'git add pom.xml' >> update-projectPOM-to-publishJar.sh
+      #     echo 'git commit -m "Update project POM to enable Hosting to Jfrog"' >> update-projectPOM-to-publishJar.sh
+      #     echo 'git push dev ${{ github.ref_name }}' >> update-projectPOM-to-publishJar.sh
+      #     chmod +x update-projectPOM-to-publishJar.sh
+      #     ./update-projectPOM-to-publishJar.sh
 
       - name: Host Jar In JFrog
         id: hostJar
