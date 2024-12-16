@@ -139,6 +139,36 @@ jobs:
           echo '    <plugins>' >> update-parentPOM.sh
           echo '    </plugins>' >> update-parentPOM.sh
           echo '  </build>' >> update-parentPOM.sh
+          echo '  <repositories>' >> update-parentPOM.sh
+          echo '    <repository>' >> update-parentPOM.sh
+          echo '      <id>jfrog</id>' >> update-parentPOM.sh
+          echo '      <url>http://localhost:8081/artifactory/mule4-jars/</url>' >> update-parentPOM.sh
+          echo '      <releases>' >> update-parentPOM.sh
+          echo '        <enabled>true</enabled>' >> update-parentPOM.sh
+          echo '        <updatePolicy>never</updatePolicy>' >> update-parentPOM.sh
+          echo '      </releases>' >> update-parentPOM.sh
+          echo '      <snapshots>' >> update-parentPOM.sh
+          echo '        <enabled>false</enabled>' >> update-parentPOM.sh
+          echo '      </snapshots>' >> update-parentPOM.sh
+          echo '    </repository>' >> update-parentPOM.sh
+          echo '  </repositories>' >> update-parentPOM.sh
+          echo '  <pluginRepositories>' >> update-parentPOM.sh
+          echo '    <pluginRepository>' >> update-parentPOM.sh
+          echo '      <id>mulesoft-releases</id>' >> update-parentPOM.sh
+          echo '      <name>MuleSoft Releases Repository</name>' >> update-parentPOM.sh
+          echo '      <layout>default</layout>' >> update-parentPOM.sh
+          echo '      <url>https://repository.mulesoft.org/releases/</url>' >> update-parentPOM.sh
+          echo '      <snapshots>' >> update-parentPOM.sh
+          echo '        <enabled>false</enabled>' >> update-parentPOM.sh
+          echo '      </snapshots>' >> update-parentPOM.sh
+          echo '    </pluginRepository>' >> update-parentPOM.sh
+          echo '  </pluginRepositories>' >> update-parentPOM.sh
+          echo '  <distributionManagement>' >> update-parentPOM.sh
+          echo '    <repository>' >> update-parentPOM.sh
+          echo '      <id>jfrog</id>' >> update-parentPOM.sh
+          echo '      <url>http://localhost:8081/artifactory/mule4-jars/</url>' >> update-parentPOM.sh
+          echo '    </repository>' >> update-parentPOM.sh
+          echo '  </distributionManagement>' >> update-parentPOM.sh
           echo '</project>' >> update-parentPOM.sh
           echo 'EOF' >> update-parentPOM.sh
           echo 'PLUGIN_EXISTS=$(grep -c "<groupId>org.mule.tools.maven</groupId>" parent_pom.xml)' >> update-parentPOM.sh
@@ -177,6 +207,7 @@ jobs:
           echo '  sed -i "0,/<groupId>[^<]*<\/groupId>/s|<groupId>[^<]*</groupId>|<groupId>$org_id</groupId>|" pom.xml' >> update-projectPOM.sh
           echo '  sed -i "0,/<version>[^<]*<\/version>/s|<version>[^<]*</version>|<version>1.0.0</version>|" pom.xml' >> update-projectPOM.sh
           echo '  sed -i "/<\/repositories>/i \<repository>\\<id>Repository</id>\\<name>Private Exchange repository</name>\\<url>https://maven.anypoint.mulesoft.com/api/v3/organizations/\${project.groupId}/maven</url>\\<layout>default</layout>\\</repository>" pom.xml' >> update-projectPOM.sh
+          echo '  sed -i "/<\/repositories>/i \<repository>\\<id>jfrog</id>\\<url>http://localhost:8081/artifactory/mule4-jars-pom/</url>\\<releases>\\<enabled>true</enabled>\\<updatePolicy>never</updatePolicy>\\</releases>\\<snapshots>\\<enabled>false</enabled>\\</snapshots>\\</repository>" pom.xml' >> update-projectPOM.sh
           echo '  sed -i "/<\/project>/i \<distributionManagement>\\<repository>\\<id>Repository</id>\\<url>https://maven.anypoint.mulesoft.com/api/v3/organizations/\${project.groupId}/maven</url>\\</repository>\\</distributionManagement>" pom.xml' >> update-projectPOM.sh
           echo '  git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}' >> update-projectPOM.sh
           echo '  git add pom.xml' >> update-projectPOM.sh
@@ -185,37 +216,37 @@ jobs:
           echo 'fi' >> update-projectPOM.sh
           chmod +x update-projectPOM.sh
           ./update-projectPOM.sh
-      - name: Update the Log4j2 configuration to enable sending logs to Logstash
-        run: |
-            echo '#!/bin/bash' > update-log4j2.sh
-            echo 'HTTP_APPENDER_EXISTS=$(grep -q "<Http name=\"HttpAppender\"" ./src/main/resources/log4j2.xml && echo "found" || echo "not found")' >> update-log4j2.sh
-            echo 'if [ "$HTTP_APPENDER_EXISTS" == "not found" ]; then' >> update-log4j2.sh
-            echo '   echo "Adding HttpAppender to log4j2.xml..."' >> update-log4j2.sh
-            echo '   sed -i "/<\/Appenders>/i \ \ \ \ <Http name=\"Splunk\" url=\"${{ secrets.SPLUNK_URL }}\">\n\ \ \ \ \ \ <Property name=\"Authorization\" value=\"Splunk ${{ secrets.Splunk_token }}\"></Property>\n\ \ \ \ \ \ <PatternLayout pattern=\"%m%n\"></PatternLayout>\n\ \ \ \ </Http>" ./src/main/resources/log4j2.xml' >> update-log4j2.sh
-            echo '   git config --global user.email "${{ secrets.GIT_EMAIL }}"' >> update-log4j2.sh
-            echo '   git config --global user.name "${{ secrets.GIT_USERNAME }}"' >> update-log4j2.sh
-            echo '   git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}' >> update-log4j2.sh
-            echo '   git add ./src/main/resources/log4j2.xml' >> update-log4j2.sh
-            echo '   git commit -m "Update log4j2.xml with HttpAppender and AppenderRef"' >> update-log4j2.sh
-            echo '   git push dev ${{ github.ref_name }}' >> update-log4j2.sh
-            echo 'else' >> update-log4j2.sh 
-            echo '   echo "HTTP Appender already exists, skipping addition."' >> update-log4j2.sh
-            echo 'fi' >> update-log4j2.sh
-            echo 'APPENDER_REF_EXISTS=$(grep -q "<AppenderRef ref=\"HttpAppender\"/>" ./src/main/resources/log4j2.xml && echo "found" || echo "not found")' >> update-log4j2.sh
-            echo 'if [ "$APPENDER_REF_EXISTS" == "not found" ]; then' >> update-log4j2.sh
-            echo '   echo "Adding AppenderRef to AsyncRoot in log4j2.xml..."' >> update-log4j2.sh
-            echo '   sed -i "/<AsyncRoot level=\"INFO\">/a \ \ \ \ <AppenderRef ref=\"Splunk\"/>" ./src/main/resources/log4j2.xml' >> update-log4j2.sh
-            echo '   git config --global user.email "${{ secrets.GIT_EMAIL }}"' >> update-log4j2.sh
-            echo '   git config --global user.name "${{ secrets.GIT_USERNAME }}"' >> update-log4j2.sh
-            echo '   git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}' >> update-log4j2.sh
-            echo '   git add ./src/main/resources/log4j2.xml' >> update-log4j2.sh
-            echo '   git commit -m "Update log4j2.xml with HttpAppender and AppenderRef"' >> update-log4j2.sh
-            echo '   git push dev ${{ github.ref_name }}' >> update-log4j2.sh
-            echo 'else' >> update-log4j2.sh 
-            echo '   echo "Ref Appender already exists, skipping addition."' >> update-log4j2.sh
-            echo 'fi' >> update-log4j2.sh
-            chmod +x update-log4j2.sh
-            ./update-log4j2.sh  
+      # - name: Update the Log4j2 configuration to enable sending logs to Logstash
+      #   run: |
+      #       echo '#!/bin/bash' > update-log4j2.sh
+      #       echo 'HTTP_APPENDER_EXISTS=$(grep -q "<Http name=\"HttpAppender\"" ./src/main/resources/log4j2.xml && echo "found" || echo "not found")' >> update-log4j2.sh
+      #       echo 'if [ "$HTTP_APPENDER_EXISTS" == "not found" ]; then' >> update-log4j2.sh
+      #       echo '   echo "Adding HttpAppender to log4j2.xml..."' >> update-log4j2.sh
+      #       echo '   sed -i "/<\/Appenders>/i \ \ \ \ <Http name=\"Splunk\" url=\"${{ secrets.SPLUNK_URL }}\">\n\ \ \ \ \ \ <Property name=\"Authorization\" value=\"Splunk ${{ secrets.Splunk_token }}\"></Property>\n\ \ \ \ \ \ <PatternLayout pattern=\"%m%n\"></PatternLayout>\n\ \ \ \ </Http>" ./src/main/resources/log4j2.xml' >> update-log4j2.sh
+      #       echo '   git config --global user.email "${{ secrets.GIT_EMAIL }}"' >> update-log4j2.sh
+      #       echo '   git config --global user.name "${{ secrets.GIT_USERNAME }}"' >> update-log4j2.sh
+      #       echo '   git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}' >> update-log4j2.sh
+      #       echo '   git add ./src/main/resources/log4j2.xml' >> update-log4j2.sh
+      #       echo '   git commit -m "Update log4j2.xml with HttpAppender and AppenderRef"' >> update-log4j2.sh
+      #       echo '   git push dev ${{ github.ref_name }}' >> update-log4j2.sh
+      #       echo 'else' >> update-log4j2.sh 
+      #       echo '   echo "HTTP Appender already exists, skipping addition."' >> update-log4j2.sh
+      #       echo 'fi' >> update-log4j2.sh
+      #       echo 'APPENDER_REF_EXISTS=$(grep -q "<AppenderRef ref=\"HttpAppender\"/>" ./src/main/resources/log4j2.xml && echo "found" || echo "not found")' >> update-log4j2.sh
+      #       echo 'if [ "$APPENDER_REF_EXISTS" == "not found" ]; then' >> update-log4j2.sh
+      #       echo '   echo "Adding AppenderRef to AsyncRoot in log4j2.xml..."' >> update-log4j2.sh
+      #       echo '   sed -i "/<AsyncRoot level=\"INFO\">/a \ \ \ \ <AppenderRef ref=\"Splunk\"/>" ./src/main/resources/log4j2.xml' >> update-log4j2.sh
+      #       echo '   git config --global user.email "${{ secrets.GIT_EMAIL }}"' >> update-log4j2.sh
+      #       echo '   git config --global user.name "${{ secrets.GIT_USERNAME }}"' >> update-log4j2.sh
+      #       echo '   git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}' >> update-log4j2.sh
+      #       echo '   git add ./src/main/resources/log4j2.xml' >> update-log4j2.sh
+      #       echo '   git commit -m "Update log4j2.xml with HttpAppender and AppenderRef"' >> update-log4j2.sh
+      #       echo '   git push dev ${{ github.ref_name }}' >> update-log4j2.sh
+      #       echo 'else' >> update-log4j2.sh 
+      #       echo '   echo "Ref Appender already exists, skipping addition."' >> update-log4j2.sh
+      #       echo 'fi' >> update-log4j2.sh
+      #       chmod +x update-log4j2.sh
+      #       ./update-log4j2.sh  
       - name: Cache Maven dependencies
         uses: actions/cache@v3
         with:
@@ -234,15 +265,45 @@ jobs:
       #   run: |
       #     mvn deploy -DmuleDeploy -DskipTests -X
           
-      - name: Build
-        id: build
+      - name: Build and Publish To Exchange
+        id: build_publish
         run: |
           mvn -DskipTests clean deploy -s settings.xml
+
+      - name: Update Settings file with Jfrog server
+        run: |
+          echo 'sed -i "/<servers>/a \\<server>\\n    <id>nexus</id>\\n    <username>${{ secrets.JFROG_USERNAME }}</username>\\n    <password>${{ secrets.JFROG_PASSWORD }}</password>\\n  </server>" settings.xml' >> update-settings.sh
+          echo '  git add settings.xml' >> update-settings.sh
+          echo '  git commit -m "Update Settings File to enable Hosting to JFROG"' >> update-settings.sh
+          echo '  git push dev ${{ github.ref_name }}' >> update-settings.sh
+          chmod +x update-settings.sh
+          ./update-settings.sh
+
+      - name: Update Project POM file for Jfrog
+        run: |
+          echo 'sed -i "/<\/distributionManagement>/ {s|</distributionManagement>|  <repository>\\n    <id>jfrog</id>\\n    <url>http://localhost:8081/artifactory/mule4-jars-pom/</url>\\n  </repository>\\n\\0|; s|<repository>\\([^<]*Repository[^<]*\\)</repository>||g}" pom.xml' >> update-projectPOM-to-publishJar.sh
+          echo '  git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}' >> update-projectPOM-to-publishJar.sh
+          echo '  git add pom.xml' >> update-projectPOM-to-publishJar.sh
+          echo '  git commit -m "Update project POM to enable Hosting to Jfrog"' >> update-projectPOM-to-publishJar.sh
+          echo '  git push dev ${{ github.ref_name }}' >> update-projectPOM-to-publishJar.sh
+          chmod +x update-projectPOM-to-publishJar.sh
+          ./update-projectPOM-to-publishJar.sh
+          
+      - name: Host Jar In JFrog
+        id: hostJar
+        run: |
+          mvn deploy -s settings.xml
+          
+      - name: Host ParentPOM In JFrog
+        id: hostParentPom
+        run: |
+          mvn deploy -s settings.xml -f parent_pom.xml
       
-      - name: Deploy to CloudHub
+      - name: Deploy to CloudHub 2.0
         id: deploy
         run: |
-          mvn deploy -DmuleDeploy -DskipTests -X
+          mvn deploy -DmuleDeploy -DskipTests
+
     
 
 
