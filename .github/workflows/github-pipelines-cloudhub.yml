@@ -142,7 +142,7 @@ jobs:
           echo '  <repositories>' >> update-parentPOM.sh
           echo '    <repository>' >> update-parentPOM.sh
           echo '      <id>jfrog</id>' >> update-parentPOM.sh
-          echo '      <url>https://evident-robust-turtle.ngrok-free.app/artifactory/mule4-jars/</url>' >> update-parentPOM.sh
+          echo '      <url>https://working-cobra-early.ngrok-free.app/artifactory/mule4-jars/</url>' >> update-parentPOM.sh
           echo '      <releases>' >> update-parentPOM.sh
           echo '        <enabled>true</enabled>' >> update-parentPOM.sh
           echo '        <updatePolicy>never</updatePolicy>' >> update-parentPOM.sh
@@ -207,7 +207,7 @@ jobs:
           echo '  sed -i "0,/<groupId>[^<]*<\/groupId>/s|<groupId>[^<]*</groupId>|<groupId>$org_id</groupId>|" pom.xml' >> update-projectPOM.sh
           echo '  sed -i "0,/<version>[^<]*<\/version>/s|<version>[^<]*</version>|<version>1.0.0</version>|" pom.xml' >> update-projectPOM.sh
           echo '  sed -i "/<\/repositories>/i \<repository>\\<id>Repository</id>\\<name>Private Exchange repository</name>\\<url>https://maven.anypoint.mulesoft.com/api/v3/organizations/\${project.groupId}/maven</url>\\<layout>default</layout>\\</repository>" pom.xml' >> update-projectPOM.sh
-          echo '  sed -i "/<\/repositories>/i \<repository>\\<id>jfrog</id>\\<url>https://evident-robust-turtle.ngrok-free.app/mule4-jars-pom/</url>\\<releases>\\<enabled>true</enabled>\\<updatePolicy>never</updatePolicy>\\</releases>\\<snapshots>\\<enabled>false</enabled>\\</snapshots>\\</repository>" pom.xml' >> update-projectPOM.sh
+          echo '  sed -i "/<\/repositories>/i \<repository>\\<id>jfrog</id>\\<urlhttps://working-cobra-early.ngrok-free.app/artifactory/mule4-jars-parent/</url>\\<releases>\\<enabled>true</enabled>\\<updatePolicy>never</updatePolicy>\\</releases>\\<snapshots>\\<enabled>false</enabled>\\</snapshots>\\</repository>" pom.xml' >> update-projectPOM.sh
           echo '  sed -i "/<\/project>/i \<distributionManagement>\\<repository>\\<id>Repository</id>\\<url>https://maven.anypoint.mulesoft.com/api/v3/organizations/\${project.groupId}/maven</url>\\</repository>\\</distributionManagement>" pom.xml' >> update-projectPOM.sh
           echo '  git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}' >> update-projectPOM.sh
           echo '  git add pom.xml' >> update-projectPOM.sh
