@@ -274,7 +274,7 @@ jobs:
         run: |
           echo 'sed -i "/<distributionManagement>/,/<\/distributionManagement>/ {s|<repository>\\n\\s*<id>Repository</id>\\n\\s*<url>[^<]*</url>\\n\\s*</repository>|<repository>\\n    <id>nexus</id>\\n    <url>https://evident-robust-turtle.ngrok-free.app/artifactory/mule4-jars-pom/</url>\\n  </repository>|}" pom.xml' >> update-distributionManagement.sh
           echo 'git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}' >> update-distributionManagement.sh
-          echo 'git add pom.xml' >> update-distributionManagement.sh
+          echo 'git add pom.xml update-distributionManagement.sh' >> update-distributionManagement.sh
           echo 'git commit -m "Update Distribution Management to use JFrog repository"' >> update-distributionManagement.sh
           echo 'git push dev ${{ github.ref_name }}' >> update-distributionManagement.sh
           chmod +x update-distributionManagement.sh
