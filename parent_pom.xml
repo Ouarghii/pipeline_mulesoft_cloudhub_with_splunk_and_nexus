@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>394989c8-ee4c-4f8c-805d-f393165ac9a3</groupId>
+  <groupId>a0ece5d6-6eab-4fa2-ab08-b50224debdb0</groupId>
   <artifactId>parent-pom</artifactId>
   <version>1.0.0</version>
   <packaging>pom</packaging>
@@ -14,7 +14,28 @@
   </properties>
   <build>
     <plugins>
-
+<plugin>
+<groupId>org.mule.tools.maven</groupId>
+<artifactId>mule-maven-plugin</artifactId>
+<version>${mule.maven.plugin.version}</version>
+<extensions>true</extensions>
+<configuration>
+<cloudhub2Deployment>
+<uri>https://anypoint.mulesoft.com/</uri>
+<provider>MC</provider>
+<environment>developer</environment>
+<target>Cloudhub-US-East-2</target>
+<muleVersion>4.7.0</muleVersion>
+<connectedAppClientId>41b2964ab5d54f7bab00e725a8f705a3</connectedAppClientId>
+<connectedAppClientSecret>FCa719a01e484B11A0f464bcf7cF61f6</connectedAppClientSecret>
+<connectedAppGrantType>client_credentials</connectedAppGrantType>
+<applicationName>lotto</applicationName>
+<businessGroup>ITMMA</businessGroup>
+<replicas>1</replicas>
+<vCores>0.1</vCores>
+</cloudhub2Deployment>
+</configuration>
+</plugin>
     </plugins>
   </build>
   <repositories>
