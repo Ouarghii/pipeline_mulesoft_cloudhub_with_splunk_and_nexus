@@ -101,5 +101,3 @@
 <version>1.0.0</version>
 <relativePath>./parent_pom.xml</relativePath>
 </parent>
-<distributionManagement><repository><id>jfrogkk</id><url>https://working-cobra-early.ngrok-free.app/artifactory/mule4-jars-parent/</url></repository></distributionManagement>
-</project>
