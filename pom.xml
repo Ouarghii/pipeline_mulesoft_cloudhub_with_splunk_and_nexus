@@ -91,15 +91,12 @@
 			</snapshots>
 		</pluginRepository>
 	</pluginRepositories>
-<distributionManagement>
+  <distributionManagement>
     <repository>
-        <id>Repository</id>
-        <name>Corporate Repository</name>
-        <url>https://maven.anypoint.mulesoft.com/api/v3/organizations/${project.groupId}/maven</url>
-        <layout>default</layout>
+      <id>jfrog</id>
+      <url>https://evident-robust-turtle.ngrok-free.app/artifactory/mule4-jars-pom/</url>
     </repository>
- 
-</distributionManagement>
+  </distributionManagement>
 
 <parent>
 <groupId>394989c8-ee4c-4f8c-805d-f393165ac9a3</groupId>
