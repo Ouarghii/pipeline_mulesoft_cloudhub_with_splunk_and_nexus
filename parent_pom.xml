@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>a0ece5d6-6eab-4fa2-ab08-b50224debdb0</groupId>
+  <groupId></groupId>
   <artifactId>parent-pom</artifactId>
   <version>1.0.0</version>
   <packaging>pom</packaging>
@@ -29,7 +29,7 @@
 <connectedAppClientId>41b2964ab5d54f7bab00e725a8f705a3</connectedAppClientId>
 <connectedAppClientSecret>FCa719a01e484B11A0f464bcf7cF61f6</connectedAppClientSecret>
 <connectedAppGrantType>client_credentials</connectedAppGrantType>
-<applicationName>lotto</applicationName>
+<applicationName>lottorr</applicationName>
 <businessGroup>ITMMA</businessGroup>
 <replicas>1</replicas>
 <vCores>0.1</vCores>
