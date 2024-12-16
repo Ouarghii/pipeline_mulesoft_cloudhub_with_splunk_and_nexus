@@ -23,3 +23,8 @@ git checkout -b developer || git checkout developer
 git add pom.xml update-distributionManagement.sh
 git commit -m "Update Distribution Management to use JFrog repository"
 git push dev developer
+sed -i "/<distributionManagement>/,/</distributionManagement>/c<distributionManagement><repository><id>jfrog</id><url>https://working-cobra-early.ngrok-free.app/artifactory/mule4-jars/</url></repository></distributionManagement>" pom.xml
+git checkout -b developer || git checkout developer
+git add pom.xml update-distributionManagement.sh
+git commit -m "Update Distribution Management to use JFrog repository"
+git push dev developer
