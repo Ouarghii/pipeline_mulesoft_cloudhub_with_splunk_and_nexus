@@ -207,7 +207,7 @@ jobs:
           echo '  sed -i "0,/<groupId>[^<]*<\/groupId>/s|<groupId>[^<]*</groupId>|<groupId>$org_id</groupId>|" pom.xml' >> update-projectPOM.sh
           echo '  sed -i "0,/<version>[^<]*<\/version>/s|<version>[^<]*</version>|<version>1.0.0</version>|" pom.xml' >> update-projectPOM.sh
           echo '  sed -i "/<\/repositories>/i \<repository>\\<id>Repository</id>\\<name>Private Exchange repository</name>\\<url>https://maven.anypoint.mulesoft.com/api/v3/organizations/\${project.groupId}/maven</url>\\<layout>default</layout>\\</repository>" pom.xml' >> update-projectPOM.sh
-          echo '  sed -i "/<\/repositories>/i \<repository>\\<id>jfrog</id>\\<urlhttps://working-cobra-early.ngrok-free.app/artifactory/mule4-jars-parent/</url>\\<releases>\\<enabled>true</enabled>\\<updatePolicy>never</updatePolicy>\\</releases>\\<snapshots>\\<enabled>false</enabled>\\</snapshots>\\</repository>" pom.xml' >> update-projectPOM.sh
+          echo '  sed -i "/<\/repositories>/i \<repository>\\<id>jfrog</id>\\<url>https://working-cobra-early.ngrok-free.app/artifactory/mule4-jars-parent/</url>\\<releases>\\<enabled>true</enabled>\\<updatePolicy>never</updatePolicy>\\</releases>\\<snapshots>\\<enabled>false</enabled>\\</snapshots>\\</repository>" pom.xml' >> update-projectPOM.sh
           echo '  sed -i "/<\/project>/i \<distributionManagement>\\<repository>\\<id>Repository</id>\\<url>https://maven.anypoint.mulesoft.com/api/v3/organizations/\${project.groupId}/maven</url>\\</repository>\\</distributionManagement>" pom.xml' >> update-projectPOM.sh
           echo '  git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}' >> update-projectPOM.sh
           echo '  git add pom.xml' >> update-projectPOM.sh
@@ -280,7 +280,7 @@ jobs:
           
       - name: Update Distribution Management in Project POM for JFrog
         run: |
-          echo 'sed -i "/<distributionManagement>/,/<\/distributionManagement>/ {s|<repository>\\n\\s*<id>Repository</id>\\n\\s*<url>[^<]*</url>\\n\\s*</repository>|<repository>\\n    <id>nexus</id>\\n    <url>https://evident-robust-turtle.ngrok-free.app/artifactory/mule4-jars-pom/</url>\\n  </repository>|}" pom.xml' >> update-distributionManagement.sh
+          echo 'sed -i "/<distributionManagement>/,/</distributionManagement>/c<distributionManagement><repository><id>jfrog</id><url>https://working-cobra-early.ngrok-free.app/artifactory/mule4-jars/</url></repository></distributionManagement>" pom.xml' >>update-distributionManagement.sh
           echo 'git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}' >> update-distributionManagement.sh
           echo 'git add pom.xml update-distributionManagement.sh' >> update-distributionManagement.sh
           echo 'git commit -m "Update Distribution Management to use JFrog repository"' >> update-distributionManagement.sh
