@@ -270,14 +270,16 @@ jobs:
         run: |
           mvn -DskipTests clean deploy -s settings.xml
 
-      - name: Update Settings file with Jfrog server
+      - name: Update Distribution Management in Project POM for JFrog
         run: |
-          echo 'sed -i "/<servers>/a \\<server>\\n    <id>jfrog</id>\\n    <username>${{ secrets.JFROG_USERNAME }}</username>\\n    <password>${{ secrets.JFROG_PASSWORD }}</password>\\n  </server>" settings.xml' >> update-settings.sh
-          echo '  git add settings.xml' >> update-settings.sh
-          echo '  git commit -m "Update Settings File to enable Hosting to JFROG"' >> update-settings.sh
-          echo '  git push dev ${{ github.ref_name }}' >> update-settings.sh
-          chmod +x update-settings.sh
-          ./update-settings.sh
+          echo 'sed -i "/<distributionManagement>/,/<\/distributionManagement>/c\  <distributionManagement>\\n    <repository>\\n      <id>jfrog</id>\\n      <url>https://evident-robust-turtle.ngrok-free.app/artifactory/mule4-jars-pom/</url>\\n    </repository>\\n  </distributionManagement>" pom.xml' >> update-distributionManagement.sh
+          echo 'git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}' >> update-distributionManagement.sh
+          echo 'git add pom.xml' >> update-distributionManagement.sh
+          echo 'git commit -m "Update Distribution Management to use JFrog repository"' >> update-distributionManagement.sh
+          echo 'git push origin ${{ github.ref_name }}' >> update-distributionManagement.sh
+          chmod +x update-distributionManagement.sh
+          ./update-distributionManagement.sh
+
 
       - name: Update Project POM file for Jfrog
         run: |
