@@ -91,16 +91,7 @@
 			</snapshots>
 		</pluginRepository>
 	</pluginRepositories>
-  <distributionManagement>
-    <repository>
-      <id>jfrog</id>
-      <url>https://evident-robust-turtle.ngrok-free.app/artifactory/mule4-jars-pom/</url>
-    </repository>
-    <repository>
-    <id>jfrog</id>
-    <url>https://evident-robust-turtle.ngrok-free.app/artifactory/mule4-jars-pom/</url>
-  </repository>
-</distributionManagement>
+
 
 <parent>
 <groupId>394989c8-ee4c-4f8c-805d-f393165ac9a3</groupId>
