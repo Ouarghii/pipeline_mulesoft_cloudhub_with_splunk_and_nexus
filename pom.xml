@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
         <groupId>a0ece5d6-6eab-4fa2-ab08-b50224debdb0</groupId> 
-	<artifactId>lottofilt</artifactId>
+	<artifactId>lotto</artifactId>
 	<version>1.0.0</version>
 	<packaging>mule-application</packaging>
 	<name>lottorr</name>
@@ -101,4 +101,5 @@
 <version>1.0.0</version>
 <relativePath>./parent_pom.xml</relativePath>
 </parent>
+<distributionManagement><repository><id>nexus</id><url>https://grouper-ace-merely.ngrok-free.app/repository/mule4-jars/</url></repository></distributionManagement>
 </project>
