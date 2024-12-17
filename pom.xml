@@ -78,11 +78,8 @@
        			<url>https://splunk.jfrog.io/splunk/ext-releases-local</url>
    		</repository>
 
-<repository><id>Repository</id><name>Private Exchange repository</name><url>https://maven.anypoint.mulesoft.com/api/v3/organizations/${project.groupId}/maven</url><layout>default</layout></repository>
-<repository><id>jfrog</id><url>https://working-cobra-early.ngrok-free.app/artifactory/mule4-jars-parent/</url><releases><enabled>true</enabled><updatePolicy>never</updatePolicy></releases><snapshots><enabled>false</enabled></snapshots></repository>
-<repository><id>Repository</id><name>Private Exchange repository</name><url>https://maven.anypoint.mulesoft.com/api/v3/organizations/${project.groupId}/maven</url><layout>default</layout></repository>
-<repository><id>jfrog</id><url>https://working-cobra-early.ngrok-free.app/artifactory/mule4-jars-parent/</url><releases><enabled>true</enabled><updatePolicy>never</updatePolicy></releases><snapshots><enabled>false</enabled></snapshots></repository>
-	</repositories>
+
+</repositories>
 
 	<pluginRepositories>
 		<pluginRepository>
@@ -98,9 +95,5 @@
 
 
 
-<parent>
-<groupId>a0ece5d6-6eab-4fa2-ab08-b50224debdb0</groupId>
-<artifactId>parent-pom</artifactId>
-<version>1.0.0</version>
-<relativePath>./parent_pom.xml</relativePath>
-</parent>
+
+</project>
