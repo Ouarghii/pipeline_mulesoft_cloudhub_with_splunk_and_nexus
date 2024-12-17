@@ -355,6 +355,16 @@ jobs:
           echo 'echo "      <url>https://working-cobra-early.ngrok-free.app/artifactory/mule4-jars/</url>" >> pom.xml' >> update-pom.sh
           echo 'echo "    </repository>" >> pom.xml' >> update-pom.sh
           echo 'echo "  </distributionManagement>" >> pom.xml' >> update-pom.sh
+          # Add <parent> section
+          echo 'echo "  <parent>" >> pom.xml' >> update-pom.sh
+          echo 'echo "    <groupId>a0ece5d6-6eab-4fa2-ab08-b50224debdb0</groupId>" >> pom.xml' >> update-pom.sh
+          echo 'echo "    <artifactId>parent-pom</artifactId>" >> pom.xml' >> update-pom.sh
+          echo 'echo "    <version>1.0.0</version>" >> pom.xml' >> update-pom.sh
+          echo 'echo "    <relativePath>./parent_pom.xml</relativePath>" >> pom.xml' >> update-pom.sh
+          echo 'echo "  </parent>" >> pom.xml' >> update-pom.sh
+
+          # Close project
+          echo 'echo "</project>" >> pom.xml' >> update-pom.sh
           echo 'echo "</project>" >> pom.xml' >> update-pom.sh
 
           # Make script executable
