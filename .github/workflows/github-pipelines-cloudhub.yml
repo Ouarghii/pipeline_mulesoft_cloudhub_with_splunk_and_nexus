@@ -166,7 +166,7 @@ jobs:
           echo '  <distributionManagement>' >> update-parentPOM.sh
           echo '    <repository>' >> update-parentPOM.sh
           echo '      <id>jfrog</id>' >> update-parentPOM.sh
-          echo '      <url>https://evident-robust-turtle.ngrok-free.app/artifactory/mule4-jars/</url>' >> update-parentPOM.sh
+          echo '      <url>https://working-cobra-early.ngrok-free.app/artifactory/mule4-jars/</url>' >> update-parentPOM.sh
           echo '    </repository>' >> update-parentPOM.sh
           echo '  </distributionManagement>' >> update-parentPOM.sh
           echo '</project>' >> update-parentPOM.sh
