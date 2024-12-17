@@ -286,15 +286,26 @@ jobs:
           git push dev ${{ github.ref_name }}
 
           
-      - name: Update Distribution Management in Project POM for JFrog
+      - name: Add Distribution Management to Project POM
         run: |
-          echo 'sed -i "/<distributionManagement>/,/<\\/distributionManagement>/c\\  <distributionManagement>\\n    <repository>\\n      <id>jfrog</id>\\n      <url>https://working-cobra-early.ngrok-free.app/artifactory/mule4-jars/</url>\\n    </repository>\\n  </distributionManagement>" pom.xml' >> update-distributionManagement.sh
+          # Add the <distributionManagement> block line by line using echo
+          echo 'echo "<distributionManagement>" > pom.xml' >> update-distributionManagement.sh
+          echo 'echo "    <repository>" >> pom.xml' >> update-distributionManagement.sh
+          echo 'echo "      <id>jfrog</id>" >> pom.xml' >> update-distributionManagement.sh
+          echo 'echo "      <url>https://working-cobra-early.ngrok-free.app/artifactory/mule4-jars/</url>" >> pom.xml' >> update-distributionManagement.sh
+          echo 'echo "    </repository>" >> pom.xml' >> update-distributionManagement.sh
+          echo 'echo "</distributionManagement>" >> pom.xml' >> update-distributionManagement.sh
+
+          # Git commands to commit and push the changes
           echo 'git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}' >> update-distributionManagement.sh
           echo 'git add pom.xml update-distributionManagement.sh' >> update-distributionManagement.sh
-          echo 'git commit -m "Update Distribution Management to use JFrog repository"' >> update-distributionManagement.sh
+          echo 'git commit -m "Add Distribution Management to use JFrog repository"' >> update-distributionManagement.sh
           echo 'git push dev ${{ github.ref_name }}' >> update-distributionManagement.sh
+
+          # Make the script executable and run it
           chmod +x update-distributionManagement.sh
           ./update-distributionManagement.sh
+
 
 
 
