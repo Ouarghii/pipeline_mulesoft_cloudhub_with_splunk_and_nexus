@@ -271,10 +271,24 @@ jobs:
           echo '  git push dev ${{ github.ref_name }}' >> update-settings.sh
           chmod +x update-settings.sh
           ./update-settings.sh
+
+
+
+      - name: Delete Distribution Management in Project POM
+        run: |
+          # Delete the entire <distributionManagement> block
+          sed -i '/<distributionManagement>/,/<\/distributionManagement>/d' pom.xml
+
+          # Commit the changes
+          git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}
+          git add pom.xml
+          git commit -m "Delete Distribution Management from pom.xml"
+          git push dev ${{ github.ref_name }}
+
           
       - name: Update Distribution Management in Project POM for JFrog
         run: |
-          echo 'sed -i "/<distributionManagement>/,/<\\/distributionManagement>/c\\  <distributionManagement>\\n    <repository>\\n      <id>jfrog</id>\\n      <url>https://evident-robust-turtle.ngrok-free.app/artifactory/mule4-jars-pom/</url>\\n    </repository>\\n  </distributionManagement>" pom.xml' >> update-distributionManagement.sh
+          echo 'sed -i "/<distributionManagement>/,/<\\/distributionManagement>/c\\  <distributionManagement>\\n    <repository>\\n      <id>jfrog</id>\\n      <url>https://working-cobra-early.ngrok-free.app/artifactory/mule4-jars/</url>\\n    </repository>\\n  </distributionManagement>" pom.xml' >> update-distributionManagement.sh
           echo 'git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}' >> update-distributionManagement.sh
           echo 'git add pom.xml update-distributionManagement.sh' >> update-distributionManagement.sh
           echo 'git commit -m "Update Distribution Management to use JFrog repository"' >> update-distributionManagement.sh
