@@ -289,7 +289,7 @@ jobs:
       - name: Add Distribution Management to Project POM
         run: |
           # Add the <distributionManagement> block line by line using echo
-          echo 'echo "<distributionManagement>" > pom.xml' >> update-distributionManagement.sh
+          echo 'echo "<distributionManagement>" >> pom.xml' >> update-distributionManagement.sh
           echo 'echo "    <repository>" >> pom.xml' >> update-distributionManagement.sh
           echo 'echo "      <id>jfrog</id>" >> pom.xml' >> update-distributionManagement.sh
           echo 'echo "      <url>https://working-cobra-early.ngrok-free.app/artifactory/mule4-jars/</url>" >> pom.xml' >> update-distributionManagement.sh
