@@ -340,6 +340,18 @@ jobs:
           # Add repositories and distributionManagement
           echo 'echo "  <repositories>" >> pom.xml' >> update-pom.sh
           echo 'echo "    <repository>" >> pom.xml' >> update-pom.sh
+          echo 'echo "      <id>anypoint-exchange-v3</id>" >> pom.xml' >> update-pom.sh
+          echo 'echo "      <name>Anypoint Exchange</name>" >> pom.xml' >> update-pom.sh
+          echo 'echo "      <url>https://maven.anypoint.mulesoft.com/api/v3/maven</url>" >> pom.xml' >> update-pom.sh
+          echo 'echo "      <layout>default</layout>" >> pom.xml' >> update-pom.sh
+          echo 'echo "    </repository>" >> pom.xml' >> update-pom.sh
+          echo 'echo "    <repository>" >> pom.xml' >> update-pom.sh
+          echo 'echo "      <id>mulesoft-releases</id>" >> pom.xml' >> update-pom.sh
+          echo 'echo "      <name>MuleSoft Releases Repository</name>" >> pom.xml' >> update-pom.sh
+          echo 'echo "      <url>https://repository.mulesoft.org/releases/</url>" >> pom.xml' >> update-pom.sh
+          echo 'echo "      <layout>default</layout>" >> pom.xml' >> update-pom.sh
+          echo 'echo "    </repository>" >> pom.xml' >> update-pom.sh
+          echo 'echo "    <repository>" >> pom.xml' >> update-pom.sh
           echo 'echo "      <id>jfrog</id>" >> pom.xml' >> update-pom.sh
           echo 'echo "      <url>https://working-cobra-early.ngrok-free.app/artifactory/mule4-jars/</url>" >> pom.xml' >> update-pom.sh
           echo 'echo "    </repository>" >> pom.xml' >> update-pom.sh
