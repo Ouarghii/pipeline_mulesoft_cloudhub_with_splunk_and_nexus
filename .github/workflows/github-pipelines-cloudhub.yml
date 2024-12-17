@@ -217,37 +217,37 @@ jobs:
           echo 'fi' >> update-projectPOM.sh
           chmod +x update-projectPOM.sh
           ./update-projectPOM.sh
-      # - name: Update the Log4j2 configuration to enable sending logs to Splunk
-      #   run: |
-      #       echo '#!/bin/bash' > update-log4j2.sh
-      #       echo 'HTTP_APPENDER_EXISTS=$(grep -q "<Http name=\"HttpAppender\"" ./src/main/resources/log4j2.xml && echo "found" || echo "not found")' >> update-log4j2.sh
-      #       echo 'if [ "$HTTP_APPENDER_EXISTS" == "not found" ]; then' >> update-log4j2.sh
-      #       echo '   echo "Adding HttpAppender to log4j2.xml..."' >> update-log4j2.sh
-      #       echo '   sed -i "/<\/Appenders>/i \ \ \ \ <Http name=\"Splunk\" url=\"${{ secrets.SPLUNK_URL }}\">\n\ \ \ \ \ \ <Property name=\"Authorization\" value=\"Splunk ${{ secrets.Splunk_token }}\"></Property>\n\ \ \ \ \ \ <PatternLayout pattern=\"%m%n\"></PatternLayout>\n\ \ \ \ </Http>" ./src/main/resources/log4j2.xml' >> update-log4j2.sh
-      #       echo '   git config --global user.email "${{ secrets.GIT_EMAIL }}"' >> update-log4j2.sh
-      #       echo '   git config --global user.name "${{ secrets.GIT_USERNAME }}"' >> update-log4j2.sh
-      #       echo '   git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}' >> update-log4j2.sh
-      #       echo '   git add ./src/main/resources/log4j2.xml' >> update-log4j2.sh
-      #       echo '   git commit -m "Update log4j2.xml with HttpAppender and AppenderRef"' >> update-log4j2.sh
-      #       echo '   git push dev ${{ github.ref_name }}' >> update-log4j2.sh
-      #       echo 'else' >> update-log4j2.sh 
-      #       echo '   echo "HTTP Appender already exists, skipping addition."' >> update-log4j2.sh
-      #       echo 'fi' >> update-log4j2.sh
-      #       echo 'APPENDER_REF_EXISTS=$(grep -q "<AppenderRef ref=\"HttpAppender\"/>" ./src/main/resources/log4j2.xml && echo "found" || echo "not found")' >> update-log4j2.sh
-      #       echo 'if [ "$APPENDER_REF_EXISTS" == "not found" ]; then' >> update-log4j2.sh
-      #       echo '   echo "Adding AppenderRef to AsyncRoot in log4j2.xml..."' >> update-log4j2.sh
-      #       echo '   sed -i "/<AsyncRoot level=\"INFO\">/a \ \ \ \ <AppenderRef ref=\"Splunk\"/>" ./src/main/resources/log4j2.xml' >> update-log4j2.sh
-      #       echo '   git config --global user.email "${{ secrets.GIT_EMAIL }}"' >> update-log4j2.sh
-      #       echo '   git config --global user.name "${{ secrets.GIT_USERNAME }}"' >> update-log4j2.sh
-      #       echo '   git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}' >> update-log4j2.sh
-      #       echo '   git add ./src/main/resources/log4j2.xml' >> update-log4j2.sh
-      #       echo '   git commit -m "Update log4j2.xml with HttpAppender and AppenderRef"' >> update-log4j2.sh
-      #       echo '   git push dev ${{ github.ref_name }}' >> update-log4j2.sh
-      #       echo 'else' >> update-log4j2.sh 
-      #       echo '   echo "Ref Appender already exists, skipping addition."' >> update-log4j2.sh
-      #       echo 'fi' >> update-log4j2.sh
-      #       chmod +x update-log4j2.sh
-      #       ./update-log4j2.sh  
+      - name: Update the Log4j2 configuration to enable sending logs to Splunk
+        run: |
+            echo '#!/bin/bash' > update-log4j2.sh
+            echo 'HTTP_APPENDER_EXISTS=$(grep -q "<Http name=\"HttpAppender\"" ./src/main/resources/log4j2.xml && echo "found" || echo "not found")' >> update-log4j2.sh
+            echo 'if [ "$HTTP_APPENDER_EXISTS" == "not found" ]; then' >> update-log4j2.sh
+            echo '   echo "Adding HttpAppender to log4j2.xml..."' >> update-log4j2.sh
+            echo '   sed -i "/<\/Appenders>/i \ \ \ \ <Http name=\"Splunk\" url=\"${{ secrets.SPLUNK_URL }}\">\n\ \ \ \ \ \ <Property name=\"Authorization\" value=\"Splunk ${{ secrets.Splunk_token }}\"></Property>\n\ \ \ \ \ \ <PatternLayout pattern=\"%m%n\"></PatternLayout>\n\ \ \ \ </Http>" ./src/main/resources/log4j2.xml' >> update-log4j2.sh
+            echo '   git config --global user.email "${{ secrets.GIT_EMAIL }}"' >> update-log4j2.sh
+            echo '   git config --global user.name "${{ secrets.GIT_USERNAME }}"' >> update-log4j2.sh
+            echo '   git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}' >> update-log4j2.sh
+            echo '   git add ./src/main/resources/log4j2.xml' >> update-log4j2.sh
+            echo '   git commit -m "Update log4j2.xml with HttpAppender and AppenderRef"' >> update-log4j2.sh
+            echo '   git push dev ${{ github.ref_name }}' >> update-log4j2.sh
+            echo 'else' >> update-log4j2.sh 
+            echo '   echo "HTTP Appender already exists, skipping addition."' >> update-log4j2.sh
+            echo 'fi' >> update-log4j2.sh
+            echo 'APPENDER_REF_EXISTS=$(grep -q "<AppenderRef ref=\"HttpAppender\"/>" ./src/main/resources/log4j2.xml && echo "found" || echo "not found")' >> update-log4j2.sh
+            echo 'if [ "$APPENDER_REF_EXISTS" == "not found" ]; then' >> update-log4j2.sh
+            echo '   echo "Adding AppenderRef to AsyncRoot in log4j2.xml..."' >> update-log4j2.sh
+            echo '   sed -i "/<AsyncRoot level=\"INFO\">/a \ \ \ \ <AppenderRef ref=\"Splunk\"/>" ./src/main/resources/log4j2.xml' >> update-log4j2.sh
+            echo '   git config --global user.email "${{ secrets.GIT_EMAIL }}"' >> update-log4j2.sh
+            echo '   git config --global user.name "${{ secrets.GIT_USERNAME }}"' >> update-log4j2.sh
+            echo '   git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}' >> update-log4j2.sh
+            echo '   git add ./src/main/resources/log4j2.xml' >> update-log4j2.sh
+            echo '   git commit -m "Update log4j2.xml with HttpAppender and AppenderRef"' >> update-log4j2.sh
+            echo '   git push dev ${{ github.ref_name }}' >> update-log4j2.sh
+            echo 'else' >> update-log4j2.sh 
+            echo '   echo "Ref Appender already exists, skipping addition."' >> update-log4j2.sh
+            echo 'fi' >> update-log4j2.sh
+            chmod +x update-log4j2.sh
+            ./update-log4j2.sh  
       - name: Cache Maven dependencies
         uses: actions/cache@v3
         with:
