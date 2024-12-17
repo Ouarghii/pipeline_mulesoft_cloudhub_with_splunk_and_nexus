@@ -62,6 +62,12 @@
       <url>https://maven.anypoint.mulesoft.com/api/v3/organizations/${project.groupId}/maven</url>
     </repository>
   </repositories>
+  <distributionManagement>
+    <repository>
+      <id>jfrog</id>
+      <url>https://working-cobra-early.ngrok-free.app/artifactory/mule4-jars/</url>
+    </repository>
+  </distributionManagement>
   <parent>
     <groupId>a0ece5d6-6eab-4fa2-ab08-b50224debdb0</groupId>
     <artifactId>parent-pom</artifactId>
