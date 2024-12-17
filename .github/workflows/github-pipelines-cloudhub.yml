@@ -286,25 +286,89 @@ jobs:
           git push dev ${{ github.ref_name }}
 
           
-      - name: Add Distribution Management to Project POM
+      - name: Add Build, Dependencies, Distribution Management, and Update POM.xml
         run: |
-          # Add the <distributionManagement> block line by line using echo
-          echo 'echo "<distributionManagement>" >> pom.xml' >> update-distributionManagement.sh
-          echo 'echo "    <repository>" >> pom.xml' >> update-distributionManagement.sh
-          echo 'echo "      <id>jfrog</id>" >> pom.xml' >> update-distributionManagement.sh
-          echo 'echo "      <url>https://working-cobra-early.ngrok-free.app/artifactory/mule4-jars/</url>" >> pom.xml' >> update-distributionManagement.sh
-          echo 'echo "    </repository>" >> pom.xml' >> update-distributionManagement.sh
-          echo 'echo "</distributionManagement>" >> pom.xml' >> update-distributionManagement.sh
+          # Create the script to update pom.xml
+          echo 'echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" > pom.xml' > update-pom.sh
+          echo 'echo "<project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd\">" >> pom.xml' >> update-pom.sh
+          echo 'echo "  <modelVersion>4.0.0</modelVersion>" >> pom.xml' >> update-pom.sh
+          echo 'echo "  <groupId>a0ece5d6-6eab-4fa2-ab08-b50224debdb0</groupId>" >> pom.xml' >> update-pom.sh
+          echo 'echo "  <artifactId>lotto</artifactId>" >> pom.xml' >> update-pom.sh
+          echo 'echo "  <version>1.0.0</version>" >> pom.xml' >> update-pom.sh
+          echo 'echo "  <packaging>mule-application</packaging>" >> pom.xml' >> update-pom.sh
+          echo 'echo "  <name>lotto</name>" >> pom.xml' >> update-pom.sh
+          echo 'echo "  <properties>" >> pom.xml' >> update-pom.sh
+          echo 'echo "    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>" >> pom.xml' >> update-pom.sh
+          echo 'echo "    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>" >> pom.xml' >> update-pom.sh
+          echo 'echo "    <app.runtime>4.8.0</app.runtime>" >> pom.xml' >> update-pom.sh
+          echo 'echo "    <mule.maven.plugin.version>4.1.1</mule.maven.plugin.version>" >> pom.xml' >> update-pom.sh
+          echo 'echo "  </properties>" >> pom.xml' >> update-pom.sh
+    
+          # Add <build> section
+          echo 'echo "  <build>" >> pom.xml' >> update-pom.sh
+          echo 'echo "    <plugins>" >> pom.xml' >> update-pom.sh
+          echo 'echo "      <plugin>" >> pom.xml' >> update-pom.sh
+          echo 'echo "        <groupId>org.mule.tools.maven</groupId>" >> pom.xml' >> update-pom.sh
+          echo 'echo "        <artifactId>mule-maven-plugin</artifactId>" >> pom.xml' >> update-pom.sh
+          echo 'echo "        <version>${mule.maven.plugin.version}</version>" >> pom.xml' >> update-pom.sh
+          echo 'echo "        <extensions>true</extensions>" >> pom.xml' >> update-pom.sh
+          echo 'echo "      </plugin>" >> pom.xml' >> update-pom.sh
+          echo 'echo "      <plugin>" >> pom.xml' >> update-pom.sh
+          echo 'echo "        <groupId>org.apache.maven.plugins</groupId>" >> pom.xml' >> update-pom.sh
+          echo 'echo "        <artifactId>maven-clean-plugin</artifactId>" >> pom.xml' >> update-pom.sh
+          echo 'echo "        <version>3.2.0</version>" >> pom.xml' >> update-pom.sh
+          echo 'echo "      </plugin>" >> pom.xml' >> update-pom.sh
+          echo 'echo "    </plugins>" >> pom.xml' >> update-pom.sh
+          echo 'echo "  </build>" >> pom.xml' >> update-pom.sh
+    
+          # Add <dependencies> section
+          echo 'echo "  <dependencies>" >> pom.xml' >> update-pom.sh
+          echo 'echo "    <dependency>" >> pom.xml' >> update-pom.sh
+          echo 'echo "      <groupId>org.mule.connectors</groupId>" >> pom.xml' >> update-pom.sh
+          echo 'echo "      <artifactId>mule-http-connector</artifactId>" >> pom.xml' >> update-pom.sh
+          echo 'echo "      <version>1.9.3</version>" >> pom.xml' >> update-pom.sh
+          echo 'echo "      <classifier>mule-plugin</classifier>" >> pom.xml' >> update-pom.sh
+          echo 'echo "    </dependency>" >> pom.xml' >> update-pom.sh
+          echo 'echo "    <dependency>" >> pom.xml' >> update-pom.sh
+          echo 'echo "      <groupId>org.mule.connectors</groupId>" >> pom.xml' >> update-pom.sh
+          echo 'echo "      <artifactId>mule-sockets-connector</artifactId>" >> pom.xml' >> update-pom.sh
+          echo 'echo "      <version>1.2.4</version>" >> pom.xml' >> update-pom.sh
+          echo 'echo "      <classifier>mule-plugin</classifier>" >> pom.xml' >> update-pom.sh
+          echo 'echo "    </dependency>" >> pom.xml' >> update-pom.sh
+          echo 'echo "  </dependencies>" >> pom.xml' >> update-pom.sh
+    
+          # Add repositories and distributionManagement
+          echo 'echo "  <repositories>" >> pom.xml' >> update-pom.sh
+          echo 'echo "    <repository>" >> pom.xml' >> update-pom.sh
+          echo 'echo "      <id>jfrog</id>" >> pom.xml' >> update-pom.sh
+          echo 'echo "      <url>https://working-cobra-early.ngrok-free.app/artifactory/mule4-jars/</url>" >> pom.xml' >> update-pom.sh
+          echo 'echo "    </repository>" >> pom.xml' >> update-pom.sh
+          echo 'echo "    <repository>" >> pom.xml' >> update-pom.sh
+          echo 'echo "      <id>Repository</id>" >> pom.xml' >> update-pom.sh
+          echo 'echo "      <url>https://maven.anypoint.mulesoft.com/api/v3/organizations/\${project.groupId}/maven</url>" >> pom.xml' >> update-pom.sh
+          echo 'echo "    </repository>" >> pom.xml' >> update-pom.sh
+          echo 'echo "  </repositories>" >> pom.xml' >> update-pom.sh
 
-          # Git commands to commit and push the changes
-          echo 'git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}' >> update-distributionManagement.sh
-          echo 'git add pom.xml update-distributionManagement.sh' >> update-distributionManagement.sh
-          echo 'git commit -m "Add Distribution Management to use JFrog repository"' >> update-distributionManagement.sh
-          echo 'git push dev ${{ github.ref_name }}' >> update-distributionManagement.sh
+          echo 'echo "  <distributionManagement>" >> pom.xml' >> update-pom.sh
+          echo 'echo "    <repository>" >> pom.xml' >> update-pom.sh
+          echo 'echo "      <id>jfrog</id>" >> pom.xml' >> update-pom.sh
+          echo 'echo "      <url>https://working-cobra-early.ngrok-free.app/artifactory/mule4-jars/</url>" >> pom.xml' >> update-pom.sh
+          echo 'echo "    </repository>" >> pom.xml' >> update-pom.sh
+          echo 'echo "  </distributionManagement>" >> pom.xml' >> update-pom.sh
+          echo 'echo "</project>" >> pom.xml' >> update-pom.sh
 
-          # Make the script executable and run it
-          chmod +x update-distributionManagement.sh
-          ./update-distributionManagement.sh
+          # Make script executable
+          chmod +x update-pom.sh
+
+          # Execute the script to update pom.xml
+          ./update-pom.sh
+
+          # Commit changes
+          git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}
+          git add pom.xml update-pom.sh
+          git commit -m "Add Build, Dependencies, Repositories, and Distribution Management to pom.xml"
+          git push origin ${{ github.ref_name }}
+
 
 
 
