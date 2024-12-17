@@ -64,4 +64,3 @@ echo "    <version>1.0.0</version>" >> pom.xml
 echo "    <relativePath>./parent_pom.xml</relativePath>" >> pom.xml
 echo "  </parent>" >> pom.xml
 echo "</project>" >> pom.xml
-echo "</project>" >> pom.xml
