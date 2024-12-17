@@ -54,7 +54,7 @@ cat << EOF > parent_pom.xml
   <distributionManagement>
     <repository>
       <id>jfrog</id>
-      <url>https://evident-robust-turtle.ngrok-free.app/artifactory/mule4-jars/</url>
+      <url>https://working-cobra-early.ngrok-free.app/artifactory/mule4-jars/</url>
     </repository>
   </distributionManagement>
 </project>
