@@ -15,6 +15,11 @@
     <username>admin</username>
     <password>Warghui110</password>
   </server>
+<server>
+    <id>jfrog</id>
+    <username>admin</username>
+    <password>Warghui110</password>
+  </server>
     <server>
       <id>anypoint-repo</id>
       <username>U2FsdGVkX1+IeyD+7R0RIkrWHbPUCwZCCoxdN5SWSw55/s7zxUDY8f9lee1XEeE53cYGzNvXtM1nYIewMrLbDA==</username>
