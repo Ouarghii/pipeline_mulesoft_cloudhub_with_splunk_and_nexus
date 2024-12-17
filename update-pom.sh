@@ -43,6 +43,18 @@ echo "    </dependency>" >> pom.xml
 echo "  </dependencies>" >> pom.xml
 echo "  <repositories>" >> pom.xml
 echo "    <repository>" >> pom.xml
+echo "      <id>anypoint-exchange-v3</id>" >> pom.xml
+echo "      <name>Anypoint Exchange</name>" >> pom.xml
+echo "      <url>https://maven.anypoint.mulesoft.com/api/v3/maven</url>" >> pom.xml
+echo "      <layout>default</layout>" >> pom.xml
+echo "    </repository>" >> pom.xml
+echo "    <repository>" >> pom.xml
+echo "      <id>mulesoft-releases</id>" >> pom.xml
+echo "      <name>MuleSoft Releases Repository</name>" >> pom.xml
+echo "      <url>https://repository.mulesoft.org/releases/</url>" >> pom.xml
+echo "      <layout>default</layout>" >> pom.xml
+echo "    </repository>" >> pom.xml
+echo "    <repository>" >> pom.xml
 echo "      <id>jfrog</id>" >> pom.xml
 echo "      <url>https://working-cobra-early.ngrok-free.app/artifactory/mule4-jars/</url>" >> pom.xml
 echo "    </repository>" >> pom.xml
