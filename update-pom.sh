@@ -57,4 +57,11 @@ echo "      <id>jfrog</id>" >> pom.xml
 echo "      <url>https://working-cobra-early.ngrok-free.app/artifactory/mule4-jars/</url>" >> pom.xml
 echo "    </repository>" >> pom.xml
 echo "  </distributionManagement>" >> pom.xml
+echo "  <parent>" >> pom.xml
+echo "    <groupId>a0ece5d6-6eab-4fa2-ab08-b50224debdb0</groupId>" >> pom.xml
+echo "    <artifactId>parent-pom</artifactId>" >> pom.xml
+echo "    <version>1.0.0</version>" >> pom.xml
+echo "    <relativePath>./parent_pom.xml</relativePath>" >> pom.xml
+echo "  </parent>" >> pom.xml
+echo "</project>" >> pom.xml
 echo "</project>" >> pom.xml
