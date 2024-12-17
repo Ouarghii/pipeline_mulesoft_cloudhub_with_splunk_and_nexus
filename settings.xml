@@ -1,49 +1,9 @@
 <settings>
   <servers>
-<server>
-    <id>jfrog</id>
-    <username>admin</username>
-    <password>Warghui110</password>
-  </server>
-<server>
-    <id>jfrog</id>
-    <username>admin</username>
-    <password>Warghui110</password>
-  </server>
-<server>
-    <id>jfrog</id>
-    <username>admin</username>
-    <password>Warghui110</password>
-  </server>
-<server>
-    <id>jfrog</id>
-    <username>admin</username>
-    <password>Warghui110</password>
-  </server>
-<server>
-    <id>jfrog</id>
-    <username>admin</username>
-    <password>Warghui110</password>
-  </server>
-<server>
-    <id>jfrog</id>
-    <username>admin</username>
-    <password>Warghui110</password>
-  </server>
-<server>
-    <id>jfrog</id>
-    <username>admin</username>
-    <password>Warghui110</password>
-  </server>
-<server>
-    <id>jfrog</id>
-    <username>admin</username>
-    <password>Warghui110</password>
-  </server>
     <server>
       <id>anypoint-repo</id>
-      <username>U2FsdGVkX1+HnHKUe1z6LFXqfWsP3IXg0+R3VD5bK0oYacVYfQ2idS9PhKFyWdDWM1ct7v8BGpC9gWAQ3Lq9FQ==</username>
-      <password>U2FsdGVkX18Xpc/khENdjvLrZsZao4DMpgD77luSt45ZVfPutJP85a0u8HV+WqCse4SNJefiMHXRZc/6WmBP4w==</password>
+      <username>U2FsdGVkX1/e3AEw4pVaBseTHHsT5ZRMAhd26j6ReUEJPhSjpcc+FNOCpDV8mOfn4s/dDytS61qX3w5MejZG/A==</username>
+      <password>U2FsdGVkX1+fiL/SSLKWAw6CGkDS/J1wmp+tqwR6ee41KGBtdQvGkKqpva/g6tLj2nXs8lqeI/PYXLIktbTdmA==</password>
     </server>
     <server>
       <id>Repository</id>
@@ -52,23 +12,23 @@
     </server>
     <server>
       <id>github-repo</id>
-      <username>U2FsdGVkX1/9d8YkDsHo3fj8bk1p+eMYRM6pm27av4B9cUqWjXECtbShUyRc2oNW</username>
-      <password>U2FsdGVkX190UTmhvfvFyOcFH5p/v1bKvybze7/651wnr0NsFDzglE5qG7aIZ0JeV5xISHWy2gzs3B6RyCG9ng==</password>
+      <username>U2FsdGVkX1/hWbw2wDvpwdGJqdx8x/7CHzvICYEmqjdTq22MumxpysCu4FJuRlig</username>
+      <password>U2FsdGVkX1/f30X5FNtjjaiuwoO8ackQp7nr8G9ZwLbqgb7BHapgi4nvFKxL5zjdQ9o0trxnxp7W6E5tgaQq2w==</password>
     </server>
   </servers>
   <profiles>
     <profile>
       <id>anypoint-profile</id>
       <properties>
-        <anypoint.clientId>U2FsdGVkX1+HnHKUe1z6LFXqfWsP3IXg0+R3VD5bK0oYacVYfQ2idS9PhKFyWdDWM1ct7v8BGpC9gWAQ3Lq9FQ==</anypoint.clientId>
-        <anypoint.clientSecret>U2FsdGVkX18Xpc/khENdjvLrZsZao4DMpgD77luSt45ZVfPutJP85a0u8HV+WqCse4SNJefiMHXRZc/6WmBP4w==</anypoint.clientSecret>
+        <anypoint.clientId>U2FsdGVkX1/e3AEw4pVaBseTHHsT5ZRMAhd26j6ReUEJPhSjpcc+FNOCpDV8mOfn4s/dDytS61qX3w5MejZG/A==</anypoint.clientId>
+        <anypoint.clientSecret>U2FsdGVkX1+fiL/SSLKWAw6CGkDS/J1wmp+tqwR6ee41KGBtdQvGkKqpva/g6tLj2nXs8lqeI/PYXLIktbTdmA==</anypoint.clientSecret>
       </properties>
     </profile>
     <profile>
       <id>github-profile</id>
       <properties>
-        <github.email>U2FsdGVkX1/9d8YkDsHo3fj8bk1p+eMYRM6pm27av4B9cUqWjXECtbShUyRc2oNW</github.email>
-        <github.token>U2FsdGVkX190UTmhvfvFyOcFH5p/v1bKvybze7/651wnr0NsFDzglE5qG7aIZ0JeV5xISHWy2gzs3B6RyCG9ng==</github.token>
+        <github.email>U2FsdGVkX1/hWbw2wDvpwdGJqdx8x/7CHzvICYEmqjdTq22MumxpysCu4FJuRlig</github.email>
+        <github.token>U2FsdGVkX1/f30X5FNtjjaiuwoO8ackQp7nr8G9ZwLbqgb7BHapgi4nvFKxL5zjdQ9o0trxnxp7W6E5tgaQq2w==</github.token>
       </properties>
     </profile>
   </profiles>
