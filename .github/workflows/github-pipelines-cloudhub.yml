@@ -365,7 +365,6 @@ jobs:
 
           # Close project
           echo 'echo "</project>" >> pom.xml' >> update-pom.sh
-          echo 'echo "</project>" >> pom.xml' >> update-pom.sh
 
           # Make script executable
           chmod +x update-pom.sh
