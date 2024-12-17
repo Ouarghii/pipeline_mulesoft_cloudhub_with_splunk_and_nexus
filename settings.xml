@@ -1,5 +1,10 @@
 <settings>
   <servers>
+<server>
+    <id>jfrog</id>
+    <username>admin</username>
+    <password>Warghui110</password>
+  </server>
     <server>
       <id>anypoint-repo</id>
       <username>U2FsdGVkX1+HnHKUe1z6LFXqfWsP3IXg0+R3VD5bK0oYacVYfQ2idS9PhKFyWdDWM1ct7v8BGpC9gWAQ3Lq9FQ==</username>
