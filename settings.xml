@@ -5,6 +5,11 @@
     <username>admin</username>
     <password>Warghui110</password>
   </server>
+<server>
+    <id>jfrog</id>
+    <username>admin</username>
+    <password>Warghui110</password>
+  </server>
     <server>
       <id>anypoint-repo</id>
       <username>U2FsdGVkX1/gPc4GCJtjtWQftxQ/m1zJgiiu5AFOSvf3KBfiCoIWflT0LQNp2NFiP7bfOnQtB00CsU9dmpbVDQ==</username>
