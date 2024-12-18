@@ -67,3 +67,11 @@
 </parent>
 <distributionManagement><repository><id>Repository</id><url>https://maven.anypoint.mulesoft.com/api/v3/organizations/${project.groupId}/maven</url></repository></distributionManagement>
  </project>
+
+<distributionManagement>
+  <repository>
+    <id>nexus</id>
+    <url>https://wanted-ostrich-singularly.ngrok-free.app/repository/mule4-jars/</url>
+  </repository>
+</distributionManagement>
+ </project>
