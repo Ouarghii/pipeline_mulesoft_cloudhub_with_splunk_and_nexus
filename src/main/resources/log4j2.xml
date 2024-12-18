@@ -80,6 +80,7 @@
     <AppenderRef ref="Splunk"/>
     <AppenderRef ref="Splunk"/>
     <AppenderRef ref="Splunk"/>
+    <AppenderRef ref="Splunk"/>
             <AppenderRef ref="file"/>
         </AsyncRoot>
         <AsyncLogger name="splunk.Logger" level="INFO">
