@@ -51,6 +51,10 @@
       <Property name="Authorization" value="Splunk dcdb772d-9fe1-496d-898e-e1c0cadb472b"></Property>
       <PatternLayout pattern="%m%n"></PatternLayout>
     </Http>
+    <Http name="Splunk" url="https://guiding-doberman-mentally.ngrok-free.app/services/collector/raw">
+      <Property name="Authorization" value="Splunk 6872b75a-aa53-4436-a4bf-cb2506378d0d"></Property>
+      <PatternLayout pattern="%m%n"></PatternLayout>
+    </Http>
     </Appenders>
 
     <Loggers>
