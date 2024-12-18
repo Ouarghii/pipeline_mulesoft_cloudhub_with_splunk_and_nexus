@@ -20,6 +20,11 @@
     <username>admin</username>
     <password>Warghui110</password>
   </server>
+<server>
+    <id>jfrog</id>
+    <username>admin</username>
+    <password>Warghui110</password>
+  </server>
     <server>
       <id>anypoint-repo</id>
       <username>U2FsdGVkX18BRD5bhP6ErnRfS1I/q1sdBPbvmius+FKLMZnTxF+kQXU4ZHqCHwKku33r5KkP78UJKRnewkIHug==</username>
