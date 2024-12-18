@@ -2,6 +2,11 @@
   <servers>
 <server>
     <id>jfrog</id>
+    <username></username>
+    <password></password>
+  </server>
+<server>
+    <id>jfrog</id>
     <username>admin</username>
     <password>Warghui110</password>
   </server>
