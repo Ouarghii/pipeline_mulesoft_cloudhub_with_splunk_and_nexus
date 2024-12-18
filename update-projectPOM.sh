@@ -10,7 +10,7 @@ if [ "$PARENT_EXISTS" -eq 0 ]; then
   sed -i "0,/<groupId>[^<]*<\/groupId>/s|<groupId>[^<]*</groupId>|<groupId>$org_id</groupId>|" pom.xml
   sed -i "0,/<version>[^<]*<\/version>/s|<version>[^<]*</version>|<version>1.0.0</version>|" pom.xml
   sed -i "/<\/repositories>/i \<repository>\\<id>Repository</id>\\<name>Private Exchange repository</name>\\<url>https://maven.anypoint.mulesoft.com/api/v3/organizations/\${project.groupId}/maven</url>\\<layout>default</layout>\\</repository>" pom.xml
-  sed -i "/<\/repositories>/i \<repository>\\<id>jfrog</id>\\<url>https://working-cobra-early.ngrok-free.app/artifactory/mule4-jars-parent/</url>\\<releases>\\<enabled>true</enabled>\\<updatePolicy>never</updatePolicy>\\</releases>\\<snapshots>\\<enabled>false</enabled>\\</snapshots>\\</repository>" pom.xml
+  sed -i "/<\/repositories>/i \<repository>\\<id>nexus</id>\\<url>https://working-cobra-early.ngrok-free.app/artifactory/mule4-jars/</url>\\<releases>\\<enabled>true</enabled>\\<updatePolicy>never</updatePolicy>\\</releases>\\<snapshots>\\<enabled>false</enabled>\\</snapshots>\\</repository>" pom.xml
   sed -i "/<\/project>/i \<distributionManagement>\\<repository>\\<id>Repository</id>\\<url>https://maven.anypoint.mulesoft.com/api/v3/organizations/\${project.groupId}/maven</url>\\</repository>\\</distributionManagement>" pom.xml
   git checkout -b developer || git checkout developer
   git add pom.xml
