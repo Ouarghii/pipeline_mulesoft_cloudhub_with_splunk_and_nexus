@@ -11,6 +11,11 @@
     <password>a9590d76-8237-4025-9d1a-497a21ac2134</password>
   </server>
 <server>
+    <id>nexus</id>
+    <username>admin</username>
+    <password>a9590d76-8237-4025-9d1a-497a21ac2134</password>
+  </server>
+<server>
     <id>jfrog</id>
     <username></username>
     <password></password>
