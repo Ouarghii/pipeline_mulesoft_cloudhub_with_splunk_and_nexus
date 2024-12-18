@@ -29,7 +29,7 @@
 <connectedAppClientId>41b2964ab5d54f7bab00e725a8f705a3</connectedAppClientId>
 <connectedAppClientSecret>FCa719a01e484B11A0f464bcf7cF61f6</connectedAppClientSecret>
 <connectedAppGrantType>client_credentials</connectedAppGrantType>
-<applicationName>lotto</applicationName>
+<applicationName>late</applicationName>
 <businessGroup>ITMMA</businessGroup>
 <replicas>1</replicas>
 <vCores>0.1</vCores>
@@ -40,8 +40,8 @@
   </build>
   <repositories>
     <repository>
-      <id>jfrog</id>
-      <url>https://working-cobra-early.ngrok-free.app/artifactory/mule4-jars/</url>
+      <id>nexus</id>
+      <url>https://wanted-ostrich-singularly.ngrok-free.app/repository/mule4-parentpom/</url>
       <releases>
         <enabled>true</enabled>
         <updatePolicy>never</updatePolicy>
@@ -64,8 +64,8 @@
   </pluginRepositories>
   <distributionManagement>
     <repository>
-      <id>jfrog</id>
-      <url>https://working-cobra-early.ngrok-free.app/artifactory/mule4-jars/</url>
+      <id>nexus</id>
+      <url>https://wanted-ostrich-singularly.ngrok-free.app/repository/mule4-parentpom/</url>
     </repository>
   </distributionManagement>
 </project>

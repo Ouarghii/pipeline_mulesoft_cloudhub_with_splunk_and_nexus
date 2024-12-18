@@ -29,8 +29,8 @@ cat << EOF > parent_pom.xml
   </build>
   <repositories>
     <repository>
-      <id>jfrog</id>
-      <url>https://working-cobra-early.ngrok-free.app/artifactory/mule4-jars/</url>
+      <id>nexus</id>
+      <url>https://wanted-ostrich-singularly.ngrok-free.app/repository/mule4-parentpom/</url>
       <releases>
         <enabled>true</enabled>
         <updatePolicy>never</updatePolicy>
@@ -53,8 +53,8 @@ cat << EOF > parent_pom.xml
   </pluginRepositories>
   <distributionManagement>
     <repository>
-      <id>jfrog</id>
-      <url>https://working-cobra-early.ngrok-free.app/artifactory/mule4-jars/</url>
+      <id>nexus</id>
+      <url>https://wanted-ostrich-singularly.ngrok-free.app/repository/mule4-parentpom/</url>
     </repository>
   </distributionManagement>
 </project>
