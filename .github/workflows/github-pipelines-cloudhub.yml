@@ -141,8 +141,8 @@ jobs:
           echo '  </build>' >> update-parentPOM.sh
           echo '  <repositories>' >> update-parentPOM.sh
           echo '    <repository>' >> update-parentPOM.sh
-          echo '      <id>jfrog</id>' >> update-parentPOM.sh
-          echo '      <url>https://working-cobra-early.ngrok-free.app/artifactory/mule4-jars/</url>' >> update-parentPOM.sh
+          echo '      <id>nexus</id>' >> update-parentPOM.sh
+          echo '      <url>https://wanted-ostrich-singularly.ngrok-free.app/repository/mule4-parentpom/</url>' >> update-parentPOM.sh
           echo '      <releases>' >> update-parentPOM.sh
           echo '        <enabled>true</enabled>' >> update-parentPOM.sh
           echo '        <updatePolicy>never</updatePolicy>' >> update-parentPOM.sh
@@ -165,8 +165,8 @@ jobs:
           echo '  </pluginRepositories>' >> update-parentPOM.sh
           echo '  <distributionManagement>' >> update-parentPOM.sh
           echo '    <repository>' >> update-parentPOM.sh
-          echo '      <id>jfrog</id>' >> update-parentPOM.sh
-          echo '      <url>https://working-cobra-early.ngrok-free.app/artifactory/mule4-jars/</url>' >> update-parentPOM.sh
+          echo '      <id>nexus</id>' >> update-parentPOM.sh
+          echo '      <url>https://wanted-ostrich-singularly.ngrok-free.app/repository/mule4-parentpom/</url>' >> update-parentPOM.sh
           echo '    </repository>' >> update-parentPOM.sh
           echo '  </distributionManagement>' >> update-parentPOM.sh
           echo '</project>' >> update-parentPOM.sh
@@ -207,7 +207,7 @@ jobs:
           echo '  sed -i "0,/<groupId>[^<]*<\/groupId>/s|<groupId>[^<]*</groupId>|<groupId>$org_id</groupId>|" pom.xml' >> update-projectPOM.sh
           echo '  sed -i "0,/<version>[^<]*<\/version>/s|<version>[^<]*</version>|<version>1.0.0</version>|" pom.xml' >> update-projectPOM.sh
           echo '  sed -i "/<\/repositories>/i \<repository>\\<id>Repository</id>\\<name>Private Exchange repository</name>\\<url>https://maven.anypoint.mulesoft.com/api/v3/organizations/\${project.groupId}/maven</url>\\<layout>default</layout>\\</repository>" pom.xml' >> update-projectPOM.sh
-          echo '  sed -i "/<\/repositories>/i \<repository>\\<id>jfrog</id>\\<url>https://working-cobra-early.ngrok-free.app/artifactory/mule4-jars-parent/</url>\\<releases>\\<enabled>true</enabled>\\<updatePolicy>never</updatePolicy>\\</releases>\\<snapshots>\\<enabled>false</enabled>\\</snapshots>\\</repository>" pom.xml' >> update-projectPOM.sh
+          echo '  sed -i "/<\/repositories>/i \<repository>\\<id>nexus</id>\\<url>https://working-cobra-early.ngrok-free.app/artifactory/mule4-jars/</url>\\<releases>\\<enabled>true</enabled>\\<updatePolicy>never</updatePolicy>\\</releases>\\<snapshots>\\<enabled>false</enabled>\\</snapshots>\\</repository>" pom.xml' >> update-projectPOM.sh
           echo '  sed -i "/<\/project>/i \<distributionManagement>\\<repository>\\<id>Repository</id>\\<url>https://maven.anypoint.mulesoft.com/api/v3/organizations/\${project.groupId}/maven</url>\\</repository>\\</distributionManagement>" pom.xml' >> update-projectPOM.sh
           echo '  git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}' >> update-projectPOM.sh
           echo '  git add pom.xml' >> update-projectPOM.sh
@@ -257,158 +257,45 @@ jobs:
             ${{ runner.os }}-maven-
 
           
-      # - name: Build and Publish To Exchange
-      #   id: build_publish
-      #   run: |
-      #     mvn -DskipTests clean deploy -s settings.xml
-      
-      - name: Update Settings file with Jfrog server
+      - name: Build and Publish To Exchange
+        id: build_publish
         run: |
-          echo 'sed -i "/<servers>/a \<server>\n    <id>jfrog</id>\n    <username>${{ secrets.JFROG_USERNAME }}</username>\n    <password>${{ secrets.JFROG_PASSWORD }}</password>\n  </server>" settings.xml' >> update-settings.sh
+          mvn -DskipTests clean deploy -s settings.xml
+      
+      - name: Update Settings file with Nexus server
+        run: |
+          echo 'sed -i "/<servers>/a \<server>\n    <id>nexus</id>\n    <username>${{ secrets.NEXUS_USERNAME }}</username>\n    <password>${{ secrets.NEXUS_PASSWORD }}</password>\n  </server>" settings.xml' >> update-settings.sh
           echo '  git add settings.xml' >> update-settings.sh
-          echo '  git add update-settings.sh' >> update-settings.sh
           echo '  git commit -m "Update Settings File to enable Hosting to Nexus"' >> update-settings.sh
           echo '  git push dev ${{ github.ref_name }}' >> update-settings.sh
           chmod +x update-settings.sh
           ./update-settings.sh
-
-
-
-      - name: Delete Distribution Management in Project POM
+      - name: Delete the existing distribution management section
         run: |
-          # Delete the entire <distributionManagement> block
-          sed -i '/<distributionManagement>/,/<\/distributionManagement>/d' pom.xml
-
-          # Commit the changes
-          git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}
-          git add pom.xml
-          git commit -m "Delete Distribution Management from pom.xml"
-          git push dev ${{ github.ref_name }}
+          echo 'sed -i "/<distributionManagement>/,/</distributionManagement>/d" pom.xml' >> update-projectPOM-dm.sh
+          echo '  git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}' >> update-projectPOM-dm.sh
+          echo '  git add pom.xml' >> update-projectPOM-dm.sh
+          echo '  git commit -m "Delete the distribution management related to exchange"' >> update-projectPOM-dm.sh
+          echo '  git push dev ${{ github.ref_name }}' >> update-projectPOM-dm.sh
+          chmod +x update-projectPOM-dm.sh./update-projectPOM-dm.sh
 
           
-      - name: Add Build, Dependencies, Distribution Management, and Update POM.xml
+      - name: Update Project Pom File for Nexus Integration
         run: |
-          # Create the script to update pom.xml
-          echo 'echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" > pom.xml' > update-pom.sh
-          echo 'echo "<project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd\">" >> pom.xml' >> update-pom.sh
-          echo 'echo "  <modelVersion>4.0.0</modelVersion>" >> pom.xml' >> update-pom.sh
-          echo 'echo "  <groupId>a0ece5d6-6eab-4fa2-ab08-b50224debdb0</groupId>" >> pom.xml' >> update-pom.sh
-          echo 'echo "  <artifactId>lotto</artifactId>" >> pom.xml' >> update-pom.sh
-          echo 'echo "  <version>1.0.0</version>" >> pom.xml' >> update-pom.sh
-          echo 'echo "  <packaging>mule-application</packaging>" >> pom.xml' >> update-pom.sh
-          echo 'echo "  <name>lotto</name>" >> pom.xml' >> update-pom.sh
-          echo 'echo "  <properties>" >> pom.xml' >> update-pom.sh
-          echo 'echo "    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>" >> pom.xml' >> update-pom.sh
-          echo 'echo "    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>" >> pom.xml' >> update-pom.sh
-          echo 'echo "    <app.runtime>4.8.0</app.runtime>" >> pom.xml' >> update-pom.sh
-          echo 'echo "    <mule.maven.plugin.version>4.1.1</mule.maven.plugin.version>" >> pom.xml' >> update-pom.sh
-          echo 'echo "  </properties>" >> pom.xml' >> update-pom.sh
-    
-          # Add <build> section
-          echo 'echo "  <build>" >> pom.xml' >> update-pom.sh
-          echo 'echo "    <plugins>" >> pom.xml' >> update-pom.sh
-          echo 'echo "      <plugin>" >> pom.xml' >> update-pom.sh
-          echo 'echo "        <groupId>org.mule.tools.maven</groupId>" >> pom.xml' >> update-pom.sh
-          echo 'echo "        <artifactId>mule-maven-plugin</artifactId>" >> pom.xml' >> update-pom.sh
-          echo 'echo "        <version>${mule.maven.plugin.version}</version>" >> pom.xml' >> update-pom.sh
-          echo 'echo "        <extensions>true</extensions>" >> pom.xml' >> update-pom.sh
-          echo 'echo "      </plugin>" >> pom.xml' >> update-pom.sh
-          echo 'echo "      <plugin>" >> pom.xml' >> update-pom.sh
-          echo 'echo "        <groupId>org.apache.maven.plugins</groupId>" >> pom.xml' >> update-pom.sh
-          echo 'echo "        <artifactId>maven-clean-plugin</artifactId>" >> pom.xml' >> update-pom.sh
-          echo 'echo "        <version>3.2.0</version>" >> pom.xml' >> update-pom.sh
-          echo 'echo "      </plugin>" >> pom.xml' >> update-pom.sh
-          echo 'echo "    </plugins>" >> pom.xml' >> update-pom.sh
-          echo 'echo "  </build>" >> pom.xml' >> update-pom.sh
-    
-          # Add <dependencies> section
-          echo 'echo "  <dependencies>" >> pom.xml' >> update-pom.sh
-          echo 'echo "    <dependency>" >> pom.xml' >> update-pom.sh
-          echo 'echo "      <groupId>org.mule.connectors</groupId>" >> pom.xml' >> update-pom.sh
-          echo 'echo "      <artifactId>mule-http-connector</artifactId>" >> pom.xml' >> update-pom.sh
-          echo 'echo "      <version>1.9.3</version>" >> pom.xml' >> update-pom.sh
-          echo 'echo "      <classifier>mule-plugin</classifier>" >> pom.xml' >> update-pom.sh
-          echo 'echo "    </dependency>" >> pom.xml' >> update-pom.sh
-          echo 'echo "    <dependency>" >> pom.xml' >> update-pom.sh
-          echo 'echo "      <groupId>org.mule.connectors</groupId>" >> pom.xml' >> update-pom.sh
-          echo 'echo "      <artifactId>mule-sockets-connector</artifactId>" >> pom.xml' >> update-pom.sh
-          echo 'echo "      <version>1.2.4</version>" >> pom.xml' >> update-pom.sh
-          echo 'echo "      <classifier>mule-plugin</classifier>" >> pom.xml' >> update-pom.sh
-          echo 'echo "    </dependency>" >> pom.xml' >> update-pom.sh
-          echo 'echo "  </dependencies>" >> pom.xml' >> update-pom.sh
-    
-          # Add repositories and distributionManagement
-          echo 'echo "  <repositories>" >> pom.xml' >> update-pom.sh
-          echo 'echo "    <repository>" >> pom.xml' >> update-pom.sh
-          echo 'echo "      <id>anypoint-exchange-v3</id>" >> pom.xml' >> update-pom.sh
-          echo 'echo "      <name>Anypoint Exchange</name>" >> pom.xml' >> update-pom.sh
-          echo 'echo "      <url>https://maven.anypoint.mulesoft.com/api/v3/maven</url>" >> pom.xml' >> update-pom.sh
-          echo 'echo "      <layout>default</layout>" >> pom.xml' >> update-pom.sh
-          echo 'echo "    </repository>" >> pom.xml' >> update-pom.sh
-          echo 'echo "    <repository>" >> pom.xml' >> update-pom.sh
-          echo 'echo "      <id>mulesoft-releases</id>" >> pom.xml' >> update-pom.sh
-          echo 'echo "      <name>MuleSoft Releases Repository</name>" >> pom.xml' >> update-pom.sh
-          echo 'echo "      <url>https://repository.mulesoft.org/releases/</url>" >> pom.xml' >> update-pom.sh
-          echo 'echo "      <layout>default</layout>" >> pom.xml' >> update-pom.sh
-          echo 'echo "    </repository>" >> pom.xml' >> update-pom.sh
-          echo 'echo "    <repository>" >> pom.xml' >> update-pom.sh
-          echo 'echo "      <id>jfrog</id>" >> pom.xml' >> update-pom.sh
-          echo 'echo "      <url>https://working-cobra-early.ngrok-free.app/artifactory/mule4-jars/</url>" >> pom.xml' >> update-pom.sh
-          echo 'echo "    </repository>" >> pom.xml' >> update-pom.sh
-          echo 'echo "    <repository>" >> pom.xml' >> update-pom.sh
-          echo 'echo "      <id>Repository</id>" >> pom.xml' >> update-pom.sh
-          echo 'echo "      <url>https://maven.anypoint.mulesoft.com/api/v3/organizations/\${project.groupId}/maven</url>" >> pom.xml' >> update-pom.sh
-          echo 'echo "    </repository>" >> pom.xml' >> update-pom.sh
-          echo 'echo "  </repositories>" >> pom.xml' >> update-pom.sh
+          echo -e "\n<distributionManagement>\n  <repository>\n    <id>nexus</id>\n    <url>https://wanted-ostrich-singularly.ngrok-free.app/repository/mule4-jars/</url>\n  </repository>\n</distributionManagement>\n </project>" >> pom.xml
+          git add pom.xml
+          git commit -m "Update project POM by adding DM to enable Hosting to Nexus"
+          git push dev ${{ github.ref_name }}
 
-          echo 'echo "  <distributionManagement>" >> pom.xml' >> update-pom.sh
-          echo 'echo "    <repository>" >> pom.xml' >> update-pom.sh
-          echo 'echo "      <id>jfrog</id>" >> pom.xml' >> update-pom.sh
-          echo 'echo "      <url>https://working-cobra-early.ngrok-free.app/artifactory/mule4-jars/</url>" >> pom.xml' >> update-pom.sh
-          echo 'echo "    </repository>" >> pom.xml' >> update-pom.sh
-          echo 'echo "  </distributionManagement>" >> pom.xml' >> update-pom.sh
-          # Add <parent> section
-          echo 'echo "  <parent>" >> pom.xml' >> update-pom.sh
-          echo 'echo "    <groupId>a0ece5d6-6eab-4fa2-ab08-b50224debdb0</groupId>" >> pom.xml' >> update-pom.sh
-          echo 'echo "    <artifactId>parent-pom</artifactId>" >> pom.xml' >> update-pom.sh
-          echo 'echo "    <version>1.0.0</version>" >> pom.xml' >> update-pom.sh
-          echo 'echo "    <relativePath>./parent_pom.xml</relativePath>" >> pom.xml' >> update-pom.sh
-          echo 'echo "  </parent>" >> pom.xml' >> update-pom.sh
-
-          # Close project
-          echo 'echo "</project>" >> pom.xml' >> update-pom.sh
-
-          # Make script executable
-          chmod +x update-pom.sh
-
-          # Execute the script to update pom.xml
-          ./update-pom.sh
-
-          # Commit changes
-          git checkout -b ${{ github.ref_name }} || git checkout ${{ github.ref_name }}
-          git add pom.xml update-pom.sh
-          git commit -m "Add Build, Dependencies, Repositories, and Distribution Management to pom.xml"
-          git push origin ${{ github.ref_name }}
-
-
-
-
-
-      - name: Host Jar In JFrog
+      
+      - name: Host Jar In Nexus
         id: hostJar
         run: |
           mvn deploy -s settings.xml
-          
-      - name: Host ParentPOM In JFrog
+      - name: Host ParentPOM In Nexus
         id: hostParentPom
         run: |
           mvn deploy -s settings.xml -f parent_pom.xml
-      
-      - name: Deploy to CloudHub 2.0
-        id: deploy
-        run: |
-          mvn deploy -DmuleDeploy -DskipTests
-
     
 
 
