@@ -53,12 +53,25 @@
       <url>https://repository.mulesoft.org/releases/</url>
       <layout>default</layout>
     </repository>
-<repository><id>Repository</id><name>Private Exchange repository</name><url>https://maven.anypoint.mulesoft.com/api/v3/organizations/${project.groupId}/maven</url><layout>default</layout></repository>
-<repository><id>nexus</id><url>https://wanted-ostrich-singularly.ngrok-free.app/repository/mule4-jars/</url><releases><enabled>true</enabled><updatePolicy>never</updatePolicy></releases><snapshots><enabled>false</enabled></snapshots></repository>
+    <repository>
+      <id>nexus</id>
+      <url>https://wanted-ostrich-singularly.ngrok-free.app/repository/mule4-jars/</url>
+    </repository>
+    <repository>
+      <id>Repository</id>
+      <url>https://maven.anypoint.mulesoft.com/api/v3/organizations/${project.groupId}/maven</url>
+    </repository>
   </repositories>
-<parent>
-<groupId>a0ece5d6-6eab-4fa2-ab08-b50224debdb0</groupId>
-<artifactId>parent-pom</artifactId>
-<version>1.0.0</version>
-<relativePath>./parent_pom.xml</relativePath>
-</parent>
+  <distributionManagement>
+    <repository>
+      <id>nexus</id>
+      <url>https://wanted-ostrich-singularly.ngrok-free.app/repository/mule4-jars/</url>
+    </repository>
+  </distributionManagement>
+  <parent>
+    <groupId>a0ece5d6-6eab-4fa2-ab08-b50224debdb0</groupId>
+    <artifactId>parent-pom</artifactId>
+    <version>1.0.0</version>
+    <relativePath>./parent_pom.xml</relativePath>
+  </parent>
+</project>
