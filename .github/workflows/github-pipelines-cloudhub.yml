@@ -289,10 +289,10 @@ jobs:
           echo 'echo "<project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd\">" >> pom.xml' >> update-pom.sh
           echo 'echo "  <modelVersion>4.0.0</modelVersion>" >> pom.xml' >> update-pom.sh
           echo 'echo "  <groupId>a0ece5d6-6eab-4fa2-ab08-b50224debdb0</groupId>" >> pom.xml' >> update-pom.sh
-          echo 'echo "  <artifactId>testiny</artifactId>" >> pom.xml' >> update-pom.sh
+          echo 'echo "  <artifactId>testinyi</artifactId>" >> pom.xml' >> update-pom.sh
           echo 'echo "  <version>1.0.0</version>" >> pom.xml' >> update-pom.sh
           echo 'echo "  <packaging>mule-application</packaging>" >> pom.xml' >> update-pom.sh
-          echo 'echo "  <name>testiny</name>" >> pom.xml' >> update-pom.sh
+          echo 'echo "  <name>testinyi</name>" >> pom.xml' >> update-pom.sh
           echo 'echo "  <properties>" >> pom.xml' >> update-pom.sh
           echo 'echo "    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>" >> pom.xml' >> update-pom.sh
           echo 'echo "    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>" >> pom.xml' >> update-pom.sh
