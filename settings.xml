@@ -1,119 +1,9 @@
 <settings>
   <servers>
-<server>
-    <id>nexus</id>
-    <username>admin</username>
-    <password>a9590d76-8237-4025-9d1a-497a21ac2134</password>
-  </server>
-<server>
-    <id>nexus</id>
-    <username>admin</username>
-    <password>a9590d76-8237-4025-9d1a-497a21ac2134</password>
-  </server>
-<server>
-    <id>nexus</id>
-    <username>admin</username>
-    <password>a9590d76-8237-4025-9d1a-497a21ac2134</password>
-  </server>
-<server>
-    <id>nexus</id>
-    <username>admin</username>
-    <password>a9590d76-8237-4025-9d1a-497a21ac2134</password>
-  </server>
-<server>
-    <id>jfrog</id>
-    <username></username>
-    <password></password>
-  </server>
-<server>
-    <id>jfrog</id>
-    <username>admin</username>
-    <password>Warghui110</password>
-  </server>
-<server>
-    <id>jfrog</id>
-    <username>admin</username>
-    <password>Warghui110</password>
-  </server>
-<server>
-    <id>jfrog</id>
-    <username>admin</username>
-    <password>Warghui110</password>
-  </server>
-<server>
-    <id>jfrog</id>
-    <username>admin</username>
-    <password>Warghui110</password>
-  </server>
-<server>
-    <id>jfrog</id>
-    <username>admin</username>
-    <password>Warghui110</password>
-  </server>
-<server>
-    <id>jfrog</id>
-    <username>admin</username>
-    <password>Warghui110</password>
-  </server>
-<server>
-    <id>jfrog</id>
-    <username>admin</username>
-    <password>Warghui110</password>
-  </server>
-<server>
-    <id>jfrog</id>
-    <username>admin</username>
-    <password>Warghui110</password>
-  </server>
-<server>
-    <id>jfrog</id>
-    <username>admin</username>
-    <password>Warghui110</password>
-  </server>
-<server>
-    <id>jfrog</id>
-    <username>admin</username>
-    <password>Warghui110</password>
-  </server>
-<server>
-    <id>jfrog</id>
-    <username>admin</username>
-    <password>Warghui110</password>
-  </server>
-<server>
-    <id>jfrog</id>
-    <username>admin</username>
-    <password>Warghui110</password>
-  </server>
-<server>
-    <id>jfrog</id>
-    <username>admin</username>
-    <password>Warghui110</password>
-  </server>
-<server>
-    <id>jfrog</id>
-    <username>admin</username>
-    <password>Warghui110</password>
-  </server>
-<server>
-    <id>jfrog</id>
-    <username>admin</username>
-    <password>Warghui110</password>
-  </server>
-<server>
-    <id>jfrog</id>
-    <username>admin</username>
-    <password>Warghui110</password>
-  </server>
-<server>
-    <id>jfrog</id>
-    <username>admin</username>
-    <password>Warghui110</password>
-  </server>
     <server>
       <id>anypoint-repo</id>
-      <username>U2FsdGVkX18BRD5bhP6ErnRfS1I/q1sdBPbvmius+FKLMZnTxF+kQXU4ZHqCHwKku33r5KkP78UJKRnewkIHug==</username>
-      <password>U2FsdGVkX19I4gCpnbnWmcxzEyU9gyH2d4mQkv8HtbiO5pUZGvekrvXsb37hT6P2mx48Oy/TkwyX30soZyNngw==</password>
+      <username>U2FsdGVkX1+4mztRraUlIwIIxiOr5qEcJqW8NN9LMAopyrkH8UEZQP2BCf01YVYuynx5wbfTl2xOYDSl4pxEZw==</username>
+      <password>U2FsdGVkX1/1uv37n7RZs3m5tNbE5kecpaibR+GmSmWxih7ja9ordaL2mz82D7CI/rYS901sxdlZ0SqWDN+R4g==</password>
     </server>
     <server>
       <id>Repository</id>
@@ -122,23 +12,23 @@
     </server>
     <server>
       <id>github-repo</id>
-      <username>U2FsdGVkX1+yyVYoGXxC1f3M9ri0FYPeoiCNgwwmQxgxhMa0zbREYSljO+Am1Lt/</username>
-      <password>U2FsdGVkX1/V2njdKVbz17VTSVpAfOBMoRSF6yzXmFqhr4YuAcrE77mG+JDPYCgTlX9W4iTsPYLVd7wpot5O1Q==</password>
+      <username>U2FsdGVkX18DHOKJnuOj3/5nFp5R8IYNR4LJP0sd09OSsQE11m5bipaSfuFMwT5c</username>
+      <password>U2FsdGVkX18glkpF0N4p067U0hC3OcMQ0qF24YVWBGIgCeqw2ScKtLEkSQZI2wewpqEbLoqcTYsxJ25g/Fj4mw==</password>
     </server>
   </servers>
   <profiles>
     <profile>
       <id>anypoint-profile</id>
       <properties>
-        <anypoint.clientId>U2FsdGVkX18BRD5bhP6ErnRfS1I/q1sdBPbvmius+FKLMZnTxF+kQXU4ZHqCHwKku33r5KkP78UJKRnewkIHug==</anypoint.clientId>
-        <anypoint.clientSecret>U2FsdGVkX19I4gCpnbnWmcxzEyU9gyH2d4mQkv8HtbiO5pUZGvekrvXsb37hT6P2mx48Oy/TkwyX30soZyNngw==</anypoint.clientSecret>
+        <anypoint.clientId>U2FsdGVkX1+4mztRraUlIwIIxiOr5qEcJqW8NN9LMAopyrkH8UEZQP2BCf01YVYuynx5wbfTl2xOYDSl4pxEZw==</anypoint.clientId>
+        <anypoint.clientSecret>U2FsdGVkX1/1uv37n7RZs3m5tNbE5kecpaibR+GmSmWxih7ja9ordaL2mz82D7CI/rYS901sxdlZ0SqWDN+R4g==</anypoint.clientSecret>
       </properties>
     </profile>
     <profile>
       <id>github-profile</id>
       <properties>
-        <github.email>U2FsdGVkX1+yyVYoGXxC1f3M9ri0FYPeoiCNgwwmQxgxhMa0zbREYSljO+Am1Lt/</github.email>
-        <github.token>U2FsdGVkX1/V2njdKVbz17VTSVpAfOBMoRSF6yzXmFqhr4YuAcrE77mG+JDPYCgTlX9W4iTsPYLVd7wpot5O1Q==</github.token>
+        <github.email>U2FsdGVkX18DHOKJnuOj3/5nFp5R8IYNR4LJP0sd09OSsQE11m5bipaSfuFMwT5c</github.email>
+        <github.token>U2FsdGVkX18glkpF0N4p067U0hC3OcMQ0qF24YVWBGIgCeqw2ScKtLEkSQZI2wewpqEbLoqcTYsxJ25g/Fj4mw==</github.token>
       </properties>
     </profile>
   </profiles>
