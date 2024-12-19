@@ -6,11 +6,11 @@ PARENT_EXISTS=$(grep -c "<parent>" pom.xml)
 if [ "$PARENT_EXISTS" -eq 0 ]; then
   PARENT_INCLUSION="<parent>\n<groupId>${PARENT_GROUP_ID}</groupId>\n<artifactId>${PARENT_ARTIFACT_ID}</artifactId>\n<version>${PARENT_VERSION}</version>\n<relativePath>./parent_pom.xml</relativePath>\n</parent>"
   sed -i "/<\/project>/i $PARENT_INCLUSION" pom.xml
-  org_id=$(curl -X GET "https://anypoint.mulesoft.com/accounts/api/me" -H "Authorization: Bearer ef5d9ee2-4eea-4afd-9278-84e177c71f38" -H "Content-Type: application/json" | jq -r ".user.organization.id")
+  org_id=$(curl -X GET "https://anypoint.mulesoft.com/accounts/api/me" -H "Authorization: Bearer 54f2d054-eb7b-46c3-9dc0-d44515620350" -H "Content-Type: application/json" | jq -r ".user.organization.id")
   sed -i "0,/<groupId>[^<]*<\/groupId>/s|<groupId>[^<]*</groupId>|<groupId>$org_id</groupId>|" pom.xml
   sed -i "0,/<version>[^<]*<\/version>/s|<version>[^<]*</version>|<version>1.0.0</version>|" pom.xml
   sed -i "/<\/repositories>/i \<repository>\\<id>Repository</id>\\<name>Private Exchange repository</name>\\<url>https://maven.anypoint.mulesoft.com/api/v3/organizations/\${project.groupId}/maven</url>\\<layout>default</layout>\\</repository>" pom.xml
-  sed -i "/<\/repositories>/i \<repository>\\<id>nexus</id>\\<url>https://working-cobra-early.ngrok-free.app/artifactory/mule4-jars/</url>\\<releases>\\<enabled>true</enabled>\\<updatePolicy>never</updatePolicy>\\</releases>\\<snapshots>\\<enabled>false</enabled>\\</snapshots>\\</repository>" pom.xml
+  sed -i "/<\/repositories>/i \<repository>\\<id>nexus</id>\\<url>https://wanted-ostrich-singularly.ngrok-free.app/repository/mule4-jars/</url>\\<releases>\\<enabled>true</enabled>\\<updatePolicy>never</updatePolicy>\\</releases>\\<snapshots>\\<enabled>false</enabled>\\</snapshots>\\</repository>" pom.xml
   sed -i "/<\/project>/i \<distributionManagement>\\<repository>\\<id>Repository</id>\\<url>https://maven.anypoint.mulesoft.com/api/v3/organizations/\${project.groupId}/maven</url>\\</repository>\\</distributionManagement>" pom.xml
   git checkout -b developer || git checkout developer
   git add pom.xml
