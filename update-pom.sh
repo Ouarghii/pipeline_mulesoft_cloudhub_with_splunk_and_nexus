@@ -2,10 +2,10 @@ echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" > pom.xml
 echo "<project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd\">" >> pom.xml
 echo "  <modelVersion>4.0.0</modelVersion>" >> pom.xml
 echo "  <groupId>a0ece5d6-6eab-4fa2-ab08-b50224debdb0</groupId>" >> pom.xml
-echo "  <artifactId>lotto</artifactId>" >> pom.xml
+echo "  <artifactId>testin</artifactId>" >> pom.xml
 echo "  <version>1.0.0</version>" >> pom.xml
 echo "  <packaging>mule-application</packaging>" >> pom.xml
-echo "  <name>lotto</name>" >> pom.xml
+echo "  <name>testin</name>" >> pom.xml
 echo "  <properties>" >> pom.xml
 echo "    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>" >> pom.xml
 echo "    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>" >> pom.xml
@@ -55,8 +55,8 @@ echo "      <url>https://repository.mulesoft.org/releases/</url>" >> pom.xml
 echo "      <layout>default</layout>" >> pom.xml
 echo "    </repository>" >> pom.xml
 echo "    <repository>" >> pom.xml
-echo "      <id>jfrog</id>" >> pom.xml
-echo "      <url>https://working-cobra-early.ngrok-free.app/artifactory/mule4-jars/</url>" >> pom.xml
+echo "      <id>nexus</id>" >> pom.xml
+echo "      <url>https://wanted-ostrich-singularly.ngrok-free.app/repository/mule4-jars/</url>" >> pom.xml
 echo "    </repository>" >> pom.xml
 echo "    <repository>" >> pom.xml
 echo "      <id>Repository</id>" >> pom.xml
@@ -65,8 +65,8 @@ echo "    </repository>" >> pom.xml
 echo "  </repositories>" >> pom.xml
 echo "  <distributionManagement>" >> pom.xml
 echo "    <repository>" >> pom.xml
-echo "      <id>jfrog</id>" >> pom.xml
-echo "      <url>https://working-cobra-early.ngrok-free.app/artifactory/mule4-jars/</url>" >> pom.xml
+echo "      <id>nexus</id>" >> pom.xml
+echo "      <url>https://wanted-ostrich-singularly.ngrok-free.app/repository/mule4-jars/</url>" >> pom.xml
 echo "    </repository>" >> pom.xml
 echo "  </distributionManagement>" >> pom.xml
 echo "  <parent>" >> pom.xml
