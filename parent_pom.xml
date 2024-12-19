@@ -29,7 +29,7 @@
 <connectedAppClientId>41b2964ab5d54f7bab00e725a8f705a3</connectedAppClientId>
 <connectedAppClientSecret>FCa719a01e484B11A0f464bcf7cF61f6</connectedAppClientSecret>
 <connectedAppGrantType>client_credentials</connectedAppGrantType>
-<applicationName>testinyi</applicationName>
+<applicationName>testinyir</applicationName>
 <businessGroup>ITMMA</businessGroup>
 <replicas>1</replicas>
 <vCores>0.1</vCores>
