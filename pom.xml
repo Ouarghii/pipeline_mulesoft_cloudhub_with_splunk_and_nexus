@@ -2,10 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>a0ece5d6-6eab-4fa2-ab08-b50224debdb0</groupId>
-  <artifactId>late</artifactId>
+  <artifactId>latest</artifactId>
   <version>1.0.0</version>
   <packaging>mule-application</packaging>
-  <name>late</name>
+  <name>latest</name>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -54,27 +54,7 @@
       <layout>default</layout>
     </repository>
 
-<repository><id>Repository</id><name>Private Exchange repository</name><url>https://maven.anypoint.mulesoft.com/api/v3/organizations/${project.groupId}/maven</url><layout>default</layout></repository>
-<repository><id>nexus</id><url>https://working-cobra-early.ngrok-free.app/artifactory/mule4-jars/</url><releases><enabled>true</enabled><updatePolicy>never</updatePolicy></releases><snapshots><enabled>false</enabled></snapshots></repository>
+
 </repositories>
 
-
-
-
-
-<parent>
-<groupId>a0ece5d6-6eab-4fa2-ab08-b50224debdb0</groupId>
-<artifactId>parent-pom</artifactId>
-<version>1.0.0</version>
-<relativePath>./parent_pom.xml</relativePath>
-</parent>
-<distributionManagement><repository><id>Repository</id><url>https://maven.anypoint.mulesoft.com/api/v3/organizations/${project.groupId}/maven</url></repository></distributionManagement>
- </project>
-
-<distributionManagement>
-  <repository>
-    <id>nexus</id>
-    <url>https://wanted-ostrich-singularly.ngrok-free.app/repository/mule4-jars/</url>
-  </repository>
-</distributionManagement>
  </project>
